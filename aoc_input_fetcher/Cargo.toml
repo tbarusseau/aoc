@@ -7,7 +7,7 @@ edition = "2018"
 
 [dependencies]
 anyhow = { version = "1.0.44", default-features = false }
-attohttpc = { version = "0.17.0", features = ["rustls"], default-features = false }
+attohttpc = { version = "0.17.0", features = ["rustls", "tls-rustls"], default-features = false }
 dotenv = { version = "0.15.0", default-features = false }
 
 [dev-dependencies]

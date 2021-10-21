@@ -6,4 +6,8 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+anyhow = { version = "1.0.44", default-features = false }
 aoc_input_fetcher = { path = "../aoc_input_fetcher", version = "0.1.0" }
+chrono = { version = "0.4.19" }
+structopt = { version = "0.3.25", default-features = false }
+thiserror = { version = "1.0.30", default-features = false }
