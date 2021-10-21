@@ -28,7 +28,7 @@ impl InternalInputFetcher {
         }
     }
 
-    pub fn get_input(&self, year: i32, day: i32) -> anyhow::Result<String> {
+    pub fn get_input(&self, year: i32, day: u32) -> anyhow::Result<String> {
         let request_url = format!("{}/{}/day/{}/input", &self.api_base_url, year, day);
 
         let resp = attohttpc::get(&request_url)

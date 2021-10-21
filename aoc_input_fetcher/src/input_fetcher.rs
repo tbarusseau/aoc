@@ -17,7 +17,7 @@ impl InputFetcher {
         })
     }
 
-    fn fetch(&self, year: i32, day: i32, force: bool) -> anyhow::Result<()> {
+    pub fn fetch(&self, year: i32, day: u32, force: bool) -> anyhow::Result<()> {
         let path = self
             .solutions_path
             .join(&format!("{}", year))
@@ -44,7 +44,7 @@ impl InputFetcher {
     ) -> anyhow::Result<()> {
         use chrono::Datelike;
 
-        self.fetch(date.year(), date.day() as i32, force)
+        self.fetch(date.year(), date.day(), force)
     }
 
     pub fn fetch_today(&self, force: bool) -> anyhow::Result<()> {
