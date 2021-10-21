@@ -18,7 +18,8 @@ impl InputFetcher {
         }
     }
 
-    pub fn with_api_url(api_base_url: &str) -> InputFetcher {
+    #[cfg(test)]
+    fn with_api_url(api_base_url: &str) -> InputFetcher {
         dotenv().ok();
 
         InputFetcher {
@@ -27,7 +28,7 @@ impl InputFetcher {
         }
     }
 
-    fn get_input(&self, year: i32, day: i32) -> anyhow::Result<String> {
+    pub fn get_input(&self, year: i32, day: i32) -> anyhow::Result<String> {
         let request_url = format!("{}/{}/day/{}/input", &self.api_base_url, year, day);
 
         let resp = attohttpc::get(&request_url)

@@ -1,5 +1,5 @@
 [package]
-name = "aoc-input-fetcher"
+name = "aoc_input_fetcher"
 version = "0.1.0"
 edition = "2018"
 
