@@ -1,4 +1,12 @@
+use crate::solution_runner::run_solution;
+
 mod cli_app;
+
+mod solution_runner;
+mod solver;
+mod y2019;
+mod y2020;
+mod y2021;
 
 fn get_aoc_date() -> chrono::Date<chrono::FixedOffset> {
     use chrono::prelude::*;
@@ -20,10 +28,11 @@ fn main() -> anyhow::Result<()> {
 
             let date = get_aoc_date();
 
-            input_fetcher.fetch(
+            run_solution(
+                &opt,
+                &input_fetcher,
                 year.unwrap_or_else(|| date.year()),
                 day.unwrap_or_else(|| date.day()),
-                opt.force_fetch,
             )?;
         }
         cli_app::Command::All {} => todo!(),
