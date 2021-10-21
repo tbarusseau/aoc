@@ -9,13 +9,15 @@ pub struct SolverResults {
 
 impl Display for SolverResults {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        use colored::*;
+
+        let result = format!("{}", self.result).bold().blue();
+
         write!(
             f,
-            "
-Result: {}
-Duration: {}μs
-",
-            self.result,
+            "\nResult: {}
+Duration: {}μs\n",
+            result,
             self.duration.as_micros()
         )
     }

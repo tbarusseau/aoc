@@ -112,10 +112,12 @@ pub fn run_solution(
 
     let input = input_fetcher.fetch(year, day, opt.force_fetch)?;
 
+    use colored::*;
+
     let (s1, s2) = solver.solve(opt, input);
-    println!("Solving year {}, day {}", year, day);
-    println!("Part 1: {}", s1);
-    println!("Part 2: {}", s2);
+    println!("{}", format!("Solving year {}, day {}\n", year, day).bold());
+    println!("{} {}", "Part 1:".green(), s1);
+    println!("{} {}", "Part 2:".red(), s2);
 
     Ok(())
 }
@@ -137,10 +139,12 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
 
         let input = input_fetcher.fetch(2019, i, opt.force_fetch)?;
 
+        use colored::*;
+
         let (s1, s2) = solver.solve(opt, input);
-        println!("Solving year {}, day {}", year, i);
-        println!("Part 1: {}", s1);
-        println!("Part 2: {}", s2);
+        println!("{}", format!("Solving year {}, day {}\n", year, i).bold());
+        println!("{} {}", "Part 1:".green(), s1);
+        println!("{} {}", "Part 2:".red(), s2);
     }
 
     Ok(())
