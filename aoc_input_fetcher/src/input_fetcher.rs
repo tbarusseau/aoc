@@ -13,7 +13,6 @@ impl InputFetcher {
             input_fetcher: InternalInputFetcher::new(),
             solutions_path: current_dir()
                 .map_err(|e| anyhow::anyhow!(e))?
-                .join("solutions")
                 .join("inputs"),
         })
     }
@@ -45,7 +44,7 @@ impl InputFetcher {
     ) -> anyhow::Result<()> {
         use chrono::Datelike;
 
-        self.fetch(date.year() - 1, date.day() as i32, force)
+        self.fetch(date.year(), date.day() as i32, force)
     }
 
     pub fn fetch_today(&self, force: bool) -> anyhow::Result<()> {
