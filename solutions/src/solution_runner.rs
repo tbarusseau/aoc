@@ -7,8 +7,6 @@ use crate::{
     y2019::{self, day2::Day2},
 };
 
-// static ref y2019_solutions: [Box<dyn Solver>; 1] = [Box::new(y2019::day1::Day1)];
-
 lazy_static::lazy_static! {
     static ref SOLVERS: [Box<dyn Solver + Send + Sync>; 75] = [
         // 2019
