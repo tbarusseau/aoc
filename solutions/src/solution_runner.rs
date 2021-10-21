@@ -1,17 +1,12 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
 
-use crate::{
-    cli_app::Opt,
-    day_template::DayNotDone,
-    solver::Solver,
-    y2019::{self, day2::Day2},
-};
+use crate::{cli_app::Opt, day_template::DayNotDone, solver::Solver, y2019};
 
 lazy_static::lazy_static! {
     static ref SOLVERS: [Box<dyn Solver + Send + Sync>; 75] = [
         // 2019
         Box::new(y2019::day1::Day1),
-        Box::new(Day2),
+        Box::new(y2019::day2::Day2),
         Box::new(DayNotDone),
         Box::new(DayNotDone),
         Box::new(DayNotDone),
@@ -103,11 +98,11 @@ pub fn run_solution(
         y => panic!("Year not available: {}", y),
     };
 
-    if day > 25 {
-        panic!("Day must be between 0 and 25");
+    if day == 0 || day > 25 {
+        panic!("Day must be between 1 and 25");
     }
 
-    let solver = &SOLVERS[start_index + day as usize];
+    let solver = &SOLVERS[start_index + day as usize - 1];
 
     if !solver.done() {
         println!("No solution for year {}, day {}. Exiting.", year, day);
@@ -117,7 +112,7 @@ pub fn run_solution(
 
     let input = input_fetcher.fetch(year, day, opt.force_fetch)?;
 
-    let (s1, s2) = solver.solve(input);
+    let (s1, s2) = solver.solve(opt, input);
     println!("Solving year {}, day {}", year, day);
     println!("Part 1: {}", s1);
     println!("Part 2: {}", s2);
@@ -142,7 +137,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
 
         let input = input_fetcher.fetch(2019, i, opt.force_fetch)?;
 
-        let (s1, s2) = solver.solve(input);
+        let (s1, s2) = solver.solve(opt, input);
         println!("Solving year {}, day {}", year, i);
         println!("Part 1: {}", s1);
         println!("Part 2: {}", s2);

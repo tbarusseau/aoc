@@ -2,6 +2,8 @@
 pub struct Opt {
     #[structopt(long)]
     pub force_fetch: bool,
+    #[structopt(long)]
+    pub no_benchmark: bool,
     #[structopt(subcommand)]
     pub cmd: Command,
 }
