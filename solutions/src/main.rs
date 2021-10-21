@@ -1,7 +1,10 @@
 use crate::solution_runner::run_solution;
+use chrono::Datelike;
+use solution_runner::run_all_solutions;
 
 mod cli_app;
 
+mod day_template;
 mod solution_runner;
 mod solver;
 mod y2019;
@@ -19,15 +22,11 @@ fn get_aoc_date() -> chrono::Date<chrono::FixedOffset> {
 
 fn main() -> anyhow::Result<()> {
     let opt = <cli_app::Opt as structopt::StructOpt>::from_args();
-
     let input_fetcher = aoc_input_fetcher::input_fetcher::InputFetcher::try_new()?;
+    let date = get_aoc_date();
 
     match opt.cmd {
         cli_app::Command::Single { year, day } => {
-            use chrono::Datelike;
-
-            let date = get_aoc_date();
-
             run_solution(
                 &opt,
                 &input_fetcher,
@@ -35,7 +34,9 @@ fn main() -> anyhow::Result<()> {
                 day.unwrap_or_else(|| date.day()),
             )?;
         }
-        cli_app::Command::All {} => todo!(),
+        cli_app::Command::All { year } => {
+            run_all_solutions(&opt, &input_fetcher, year.unwrap_or_else(|| date.year()))?;
+        }
     }
 
     Ok(())

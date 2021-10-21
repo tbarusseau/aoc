@@ -2,6 +2,10 @@ use crate::solver::Solver;
 
 pub struct Day1;
 
+fn process_input(input: String) -> Vec<i64> {
+    input.lines().flat_map(|l| str::parse(l)).collect()
+}
+
 fn get_total(i: i64) -> i64 {
     if i > 0 {
         i + get_total(i / 3 - 2)
@@ -11,21 +15,17 @@ fn get_total(i: i64) -> i64 {
 }
 
 impl Solver for Day1 {
-    type ProcessedInput = Vec<i64>;
-
-    fn solve_part1(&self, input: Self::ProcessedInput) -> Box<dyn std::fmt::Display> {
+    fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
+        let input = process_input(input);
         let r = input.iter().fold(0, |acc, n| acc + n / 3 - 2);
 
         Box::new(r)
     }
 
-    fn solve_part2(&self, input: Self::ProcessedInput) -> Box<dyn std::fmt::Display> {
+    fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
+        let input = process_input(input);
         let r = input.iter().fold(0, |acc, n| acc + get_total(n / 3 - 2));
 
         Box::new(r)
-    }
-
-    fn process_input(&self, input: String) -> Self::ProcessedInput {
-        input.lines().flat_map(|l| str::parse(l)).collect()
     }
 }

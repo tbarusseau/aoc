@@ -17,5 +17,8 @@ pub enum Command {
         day: Option<u32>,
     },
     /// Run all available days.
-    All {},
+    All {
+        #[structopt(short, long)]
+        year: Option<i32>,
+    },
 }

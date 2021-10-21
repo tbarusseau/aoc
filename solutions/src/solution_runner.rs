@@ -1,6 +1,91 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
 
-use crate::{cli_app::Opt, solver::Solver};
+use crate::{cli_app::Opt, day_template::DayNotDone, solver::Solver, y2019};
+
+// static ref y2019_solutions: [Box<dyn Solver>; 1] = [Box::new(y2019::day1::Day1)];
+
+lazy_static::lazy_static! {
+    static ref SOLVERS: [Box<dyn Solver + Send + Sync>; 75] = [
+        // 2019
+        Box::new(y2019::day1::Day1),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        // 2020
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        // 2021
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+        Box::new(DayNotDone),
+    ];
+}
 
 pub fn run_solution(
     opt: &Opt,
@@ -18,9 +103,36 @@ pub fn run_solution(
 
     let input = input_fetcher.fetch(year, day, opt.force_fetch)?;
 
+    let (s1, s2) = solver.solve(input);
     println!("Solving year {}, day {}", year, day);
-    println!("Part 1: {}", solver.solve(false, input.clone()));
-    println!("Part 2: {}", solver.solve(true, input));
+    println!("Part 1: {}", s1);
+    println!("Part 2: {}", s2);
+
+    Ok(())
+}
+
+pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> anyhow::Result<()> {
+    let start_index = match year {
+        2019 => 0,
+        2020 => 25,
+        2021 => 50,
+        y => panic!("Year not available: {}", y),
+    };
+
+    for i in 1..=25 {
+        let solver = &SOLVERS[i as usize - 1 + start_index];
+
+        if !solver.done() {
+            continue;
+        }
+
+        let input = input_fetcher.fetch(2019, i, opt.force_fetch)?;
+
+        let (s1, s2) = solver.solve(input);
+        println!("Solving year {}, day {}", year, i);
+        println!("Part 1: {}", s1);
+        println!("Part 2: {}", s2);
+    }
 
     Ok(())
 }
