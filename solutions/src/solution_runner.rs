@@ -1,89 +1,7 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
 
-use crate::{cli_app::Opt, day_template::DayNotDone, solver::Solver, y2019};
-
-lazy_static::lazy_static! {
-    static ref SOLVERS: [Box<dyn Solver + Send + Sync>; 75] = [
-        // 2019
-        Box::new(y2019::day1::Day1),
-        Box::new(y2019::day2::Day2),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        // 2020
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        // 2021
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-        Box::new(DayNotDone),
-    ];
-}
+use crate::cli_app::Opt;
+use crate::solver::Solver;
 
 pub fn run_solution(
     opt: &Opt,
@@ -91,6 +9,9 @@ pub fn run_solution(
     year: i32,
     day: u32,
 ) -> anyhow::Result<()> {
+    let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
+    crate::solvers_gen!(solvers, 2019, 2020, 2021);
+
     let start_index = match year {
         2019 => 0,
         2020 => 25,
@@ -102,7 +23,7 @@ pub fn run_solution(
         panic!("Day must be between 1 and 25");
     }
 
-    let solver = &SOLVERS[start_index + day as usize - 1];
+    let solver = &solvers[start_index + day as usize - 1];
 
     if !solver.done() {
         println!("No solution for year {}, day {}. Exiting.", year, day);
@@ -123,6 +44,9 @@ pub fn run_solution(
 }
 
 pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> anyhow::Result<()> {
+    let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
+    crate::solvers_gen!(solvers, 2019, 2020, 2021);
+
     let start_index = match year {
         2019 => 0,
         2020 => 25,
@@ -131,7 +55,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
     };
 
     for i in 1..=25 {
-        let solver = &SOLVERS[i as usize - 1 + start_index];
+        let solver = &solvers[i as usize - 1 + start_index];
 
         if !solver.done() {
             continue;

@@ -11,6 +11,8 @@ mod y2019;
 mod y2020;
 mod y2021;
 
+mod macros;
+
 fn get_aoc_date() -> chrono::Date<chrono::FixedOffset> {
     use chrono::prelude::*;
 
@@ -21,8 +23,6 @@ fn get_aoc_date() -> chrono::Date<chrono::FixedOffset> {
 }
 
 fn main() -> anyhow::Result<()> {
-    // Set up env_logger
-
     let opt = <cli_app::Opt as structopt::StructOpt>::from_args();
     let input_fetcher = aoc_input_fetcher::input_fetcher::InputFetcher::try_new()?;
     let date = get_aoc_date();
