@@ -1,0 +1,10 @@
+[package]
+name = "aoc_utils"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+syn = "1.0.82"
+
+[lib]
+proc-macro = true
