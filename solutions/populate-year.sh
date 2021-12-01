@@ -20,7 +20,7 @@ for I in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25; do
 
     if [[ ! -f "${DEST_FILE}" || ${FORCE} -eq 1 ]]; then
         cp src/day_template.rs "${DEST_FILE}"
-        sed -i "s/DayNotDone/Day${I}/g" "${DEST_FILE}"
+        sed -i "s/NotDone/${I}/g" "${DEST_FILE}"
     else
         echo "Skipping file: ${DEST_FILE}"
     fi

@@ -2,24 +2,39 @@ use crate::solver::Solver;
 
 pub struct Day4;
 
+crate::impl_day!("4", false);
+
 fn process_input(input: String) -> String {
     input
 }
 
-impl Solver for Day4 {
-    fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
-        let _input = process_input(input);
+#[allow(unused)]
+fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
+    let input = process_input(input);
 
-        Box::new("Part 1 not done yet".to_string())
+    Box::new("Part 1 not done")
+}
+
+#[allow(unused)]
+fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
+    let input = process_input(input);
+
+    Box::new("Part 2 not done")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const INPUT: &str = r#""#;
+
+    #[test]
+    fn test_part1() {
+        assert_eq!(0.to_string(), *solve_part1(INPUT.to_string()).to_string());
     }
 
-    fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
-        let _input = process_input(input);
-
-        Box::new("Part 2 not done yet".to_string())
-    }
-
-    fn done(&self) -> bool {
-        false
+    #[test]
+    fn test_part2() {
+        assert_eq!(0.to_string(), *solve_part2(INPUT.to_string()).to_string());
     }
 }

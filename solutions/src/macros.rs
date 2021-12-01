@@ -27,3 +27,26 @@ macro_rules! solvers_gen {
         )*
     };
 }
+
+#[macro_export]
+macro_rules! impl_day {
+    ($day: expr, $done: expr) => {
+        use paste::paste;
+
+        paste! {
+            impl Solver for [<Day $day>] {
+                fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
+                    solve_part1(input)
+                }
+
+                fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
+                    solve_part2(input)
+                }
+
+                fn done(&self) -> bool {
+                    $done
+                }
+            }
+        }
+    };
+}

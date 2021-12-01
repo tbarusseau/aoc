@@ -2,6 +2,8 @@ use crate::solver::Solver;
 
 pub struct Day1;
 
+crate::impl_day!("1", true);
+
 fn process_input(input: String) -> Vec<i32> {
     input.lines().flat_map(str::parse).collect()
 }
@@ -38,20 +40,6 @@ fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
     }
 
     Box::new(increased)
-}
-
-impl Solver for Day1 {
-    fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
-        solve_part1(input)
-    }
-
-    fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
-        solve_part2(input)
-    }
-
-    fn done(&self) -> bool {
-        true
-    }
 }
 
 #[cfg(test)]
