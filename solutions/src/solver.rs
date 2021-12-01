@@ -16,9 +16,8 @@ impl Display for SolverResults {
         write!(
             f,
             "\nResult: {}
-Duration: {}μs\n",
-            result,
-            self.duration.as_micros()
+Duration: {:?}\n",
+            result, self.duration
         )
     }
 }
