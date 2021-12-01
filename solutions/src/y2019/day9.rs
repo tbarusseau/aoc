@@ -14,14 +14,14 @@ impl std::fmt::Display for DayResult {
     }
 }
 
-fn process_input(input: String) -> Vec<i64> {
+fn process_input(input: &str) -> Vec<i64> {
     input
         .split(',')
         .map(|i| i.parse::<i64>().unwrap())
         .collect()
 }
 
-fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let c = crate::y2019::intcode_computer::IntcodeComputer::from(&input, vec![1]);
@@ -30,7 +30,7 @@ fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
     Box::new(res)
 }
 
-fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let c = crate::y2019::intcode_computer::IntcodeComputer::from(&input, vec![2]);

@@ -35,11 +35,11 @@ macro_rules! impl_day {
 
         paste! {
             impl Solver for [<Day $day>] {
-                fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
+                fn solve_part1(&self, input: &str) -> Box<dyn std::fmt::Display> {
                     solve_part1(input)
                 }
 
-                fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
+                fn solve_part2(&self, input: &str) -> Box<dyn std::fmt::Display> {
                     solve_part2(input)
                 }
 

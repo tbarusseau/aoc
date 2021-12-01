@@ -4,11 +4,11 @@ pub struct Day1;
 
 crate::impl_day!("1", true);
 
-fn process_input(input: String) -> Vec<i32> {
+fn process_input(input: &str) -> Vec<i32> {
     input.lines().flat_map(str::parse).collect()
 }
 
-fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut increased = 0;
@@ -23,7 +23,7 @@ fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
     Box::new(increased)
 }
 
-fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut increased = 0;
@@ -59,11 +59,11 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(7.to_string(), *solve_part1(INPUT.to_string()).to_string());
+        assert_eq!(7.to_string(), *solve_part1(INPUT).to_string());
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(5.to_string(), *solve_part2(INPUT.to_string()).to_string());
+        assert_eq!(5.to_string(), *solve_part2(INPUT).to_string());
     }
 }

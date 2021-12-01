@@ -213,7 +213,7 @@ impl System {
     }
 }
 
-fn solve_part1(_input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part1(_input: &str) -> Box<dyn std::fmt::Display> {
     let mut system = System::from(vec![
         Moon::new(-3, 10, -1),
         Moon::new(-12, -10, -5),
@@ -230,7 +230,7 @@ fn solve_part1(_input: String) -> Box<dyn std::fmt::Display> {
     Box::new(res)
 }
 
-fn solve_part2(_input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part2(_input: &str) -> Box<dyn std::fmt::Display> {
     let mut system = System::from(vec![
         Moon::new(-3, 10, -1),
         Moon::new(-12, -10, -5),

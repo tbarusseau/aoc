@@ -176,11 +176,11 @@ impl Robot {
     }
 }
 
-fn process_input(input: String) -> Vec<i64> {
+fn process_input(input: &str) -> Vec<i64> {
     input.split(',').flat_map(str::parse).collect()
 }
 
-fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut r = Robot::from(input, 0);
@@ -190,7 +190,7 @@ fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
     Box::new(res)
 }
 
-fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut r = Robot::from(input.to_vec(), 1);

@@ -129,16 +129,14 @@ impl Board {
     }
 }
 
-#[allow(unused)]
-fn solve_part1(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let mut b = Board::from(&input);
     b.trace_wires();
 
     Box::new(b.get_distance_to_closest_intersection())
 }
 
-#[allow(unused)]
-fn solve_part2(input: String) -> Box<dyn std::fmt::Display> {
+fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let mut b = Board::from(&input);
     b.trace_wires();
 

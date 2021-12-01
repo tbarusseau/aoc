@@ -2,12 +2,12 @@ use crate::{solver::Solver, y2019::intcode_computer::IntcodeComputer};
 
 pub struct Day2;
 
-fn process_input(input: String) -> Vec<i64> {
+fn process_input(input: &str) -> Vec<i64> {
     input.split(',').flat_map(|i| i.parse::<i64>()).collect()
 }
 
 impl Solver for Day2 {
-    fn solve_part1(&self, input: String) -> Box<dyn std::fmt::Display> {
+    fn solve_part1(&self, input: &str) -> Box<dyn std::fmt::Display> {
         let input = process_input(input);
 
         let mut c = IntcodeComputer::from(&input, vec![]);
@@ -19,7 +19,7 @@ impl Solver for Day2 {
         Box::new(c.index(0))
     }
 
-    fn solve_part2(&self, input: String) -> Box<dyn std::fmt::Display> {
+    fn solve_part2(&self, input: &str) -> Box<dyn std::fmt::Display> {
         let input = process_input(input);
 
         let mut c = IntcodeComputer::from(&input, vec![]);

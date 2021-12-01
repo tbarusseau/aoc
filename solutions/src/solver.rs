@@ -23,19 +23,19 @@ Duration: {:?}\n",
 }
 
 pub trait Solver {
-    fn solve_part1(&self, input: String) -> Box<dyn Display>;
-    fn solve_part2(&self, input: String) -> Box<dyn Display>;
+    fn solve_part1(&self, input: &str) -> Box<dyn Display>;
+    fn solve_part2(&self, input: &str) -> Box<dyn Display>;
 
     fn solve(&self, _opt: &Opt, input: String) -> (SolverResults, SolverResults) {
         let now = std::time::Instant::now();
         let r1 = SolverResults {
-            result: self.solve_part1(input.clone()),
+            result: self.solve_part1(&input),
             duration: now.elapsed(),
         };
 
         let now = std::time::Instant::now();
         let r2 = SolverResults {
-            result: self.solve_part2(input),
+            result: self.solve_part2(&input),
             duration: now.elapsed(),
         };
 
