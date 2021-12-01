@@ -3,10 +3,7 @@ use crate::{solver::Solver, y2019::intcode_computer::IntcodeComputer};
 pub struct Day2;
 
 fn process_input(input: String) -> Vec<i64> {
-    input
-        .split(',')
-        .map(|i| i.parse::<i64>().unwrap())
-        .collect()
+    input.split(',').flat_map(|i| i.parse::<i64>()).collect()
 }
 
 impl Solver for Day2 {
@@ -47,9 +44,5 @@ impl Solver for Day2 {
 
         let result = result.unwrap();
         Box::new(result)
-    }
-
-    fn done(&self) -> bool {
-        false
     }
 }

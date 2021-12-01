@@ -19,8 +19,6 @@ impl Solver for Day1 {
         let input = process_input(input);
         let r = input.iter().fold(0, |acc, n| acc + n / 3 - 2);
 
-        log::info!("Hello");
-
         Box::new(r)
     }
 
