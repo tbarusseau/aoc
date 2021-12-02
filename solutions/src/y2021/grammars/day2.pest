@@ -1,7 +1,4 @@
-direction = _{ forward | down | up }
-    forward = { "forward" }
-    down    = { "down" }
-    up      = { "up" }
+direction = { "forward" | "down" | "up" }
 
 separator = _{ WHITE_SPACE }
 newline = _{ NEWLINE }
@@ -9,4 +6,4 @@ value = { ASCII_DIGIT+ }
 
 instruction = { direction ~ separator ~ value ~ newline }
 
-instructions_set = { (instruction)+ }
+instructions_set = { (instruction)+ ~ EOI }

@@ -1,5 +1,6 @@
-use pest::{iterators::Pair, Parser};
-use pest_derive::Parser;
+use pest_consume::{match_nodes, Error, Parser};
+type Result<T> = std::result::Result<T, Error<Rule>>;
+type Node<'i> = pest_consume::Node<'i, Rule, ()>;
 
 use crate::solver::Solver;
 
@@ -7,65 +8,77 @@ pub struct Day2;
 
 crate::impl_day!("2", true);
 
-enum Instruction {
-    Forward(i32),
-    Down(i32),
-    Up(i32),
+enum Direction {
+    Forward,
+    Down,
+    Up,
 }
 
-impl From<Pair<'_, Rule>> for Instruction {
-    fn from(instruction: Pair<Rule>) -> Self {
-        if instruction.as_rule() != Rule::instruction {
-            panic!();
-        }
-
-        let mut direction_value = instruction.into_inner();
-
-        let direction = direction_value.next().unwrap().as_str();
-        let value = direction_value.next().unwrap().as_str().parse().unwrap();
-
-        match direction {
-            "forward" => Instruction::Forward(value),
-            "down" => Instruction::Down(value),
-            "up" => Instruction::Up(value),
-            _ => unreachable!(),
-        }
-    }
+struct Instruction {
+    direction: Direction,
+    value: i32,
 }
 
 #[derive(Parser)]
 #[grammar = "y2021/grammars/day2.pest"]
 struct InstructionsParser;
 
-fn process_input(input: &str) -> Vec<Instruction> {
-    let mut instructions = vec![];
+#[pest_consume::parser]
+impl InstructionsParser {
+    fn EOI(_input: Node) -> Result<()> {
+        Ok(())
+    }
 
-    let instructions_set = InstructionsParser::parse(Rule::instructions_set, input)
-        .expect("Invalid input")
-        .next()
-        .unwrap();
+    fn direction(input: Node) -> Result<Direction> {
+        use Direction::*;
 
-    for instruction in instructions_set.into_inner() {
-        match instruction.as_rule() {
-            Rule::instruction => {
-                instructions.push(instruction.into());
-            }
-            _ => unreachable!(),
+        match input.as_str() {
+            "forward" => Ok(Forward),
+            "down" => Ok(Down),
+            "up" => Ok(Up),
+            _ => panic!(),
         }
     }
 
-    instructions
+    fn value(input: Node) -> Result<i32> {
+        input.as_str().parse::<i32>().map_err(|e| input.error(e))
+    }
+
+    fn instruction(input: Node) -> Result<Instruction> {
+        Ok(match_nodes!(input.into_children();
+            [direction(d), value(v)] => Instruction { direction: d, value: v },
+        ))
+    }
+
+    fn instructions_set(input: Node) -> Result<Vec<Instruction>> {
+        Ok(match_nodes!(input.into_children();
+            [instruction(i).., EOI(_)] => i.collect(),
+        ))
+    }
+}
+
+fn parse_input(input: &str) -> Result<Vec<Instruction>> {
+    let inputs = InstructionsParser::parse(Rule::instructions_set, input).unwrap();
+    let input = inputs.single().unwrap();
+
+    InstructionsParser::instructions_set(input)
+}
+
+fn process_input(input: &str) -> Vec<Instruction> {
+    parse_input(input).unwrap()
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut pos = (0, 0);
-    input.iter().for_each(|instruction| match instruction {
-        Instruction::Forward(v) => pos.0 += v,
-        Instruction::Down(v) => pos.1 += v,
-        Instruction::Up(v) => pos.1 -= v,
-    });
+    input
+        .iter()
+        .for_each(|instruction| match instruction.direction {
+            Direction::Forward => pos.0 += instruction.value,
+            Direction::Down => pos.1 += instruction.value,
+            Direction::Up => pos.1 -= instruction.value,
+        });
 
     Box::new(pos.0 * pos.1)
 }
@@ -75,14 +88,16 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 
     let mut aim = 0;
     let mut pos = (0, 0);
-    input.iter().for_each(|instruction| match instruction {
-        Instruction::Forward(v) => {
-            pos.0 += v;
-            pos.1 += aim * v;
-        }
-        Instruction::Down(v) => aim += v,
-        Instruction::Up(v) => aim -= v,
-    });
+    input
+        .iter()
+        .for_each(|instruction| match instruction.direction {
+            Direction::Forward => {
+                pos.0 += instruction.value;
+                pos.1 += aim * instruction.value;
+            }
+            Direction::Down => aim += instruction.value,
+            Direction::Up => aim -= instruction.value,
+        });
 
     Box::new(pos.0 * pos.1)
 }
