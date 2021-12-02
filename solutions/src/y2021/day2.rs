@@ -1,3 +1,6 @@
+use pest::{iterators::Pair, Parser};
+use pest_derive::Parser;
+
 use crate::solver::Solver;
 
 pub struct Day2;
@@ -10,24 +13,48 @@ enum Instruction {
     Up(i32),
 }
 
+impl From<Pair<'_, Rule>> for Instruction {
+    fn from(instruction: Pair<Rule>) -> Self {
+        if instruction.as_rule() != Rule::instruction {
+            panic!();
+        }
+
+        let mut direction_value = instruction.into_inner();
+
+        let direction = direction_value.next().unwrap().as_str();
+        let value = direction_value.next().unwrap().as_str().parse().unwrap();
+
+        match direction {
+            "forward" => Instruction::Forward(value),
+            "down" => Instruction::Down(value),
+            "up" => Instruction::Up(value),
+            _ => unreachable!(),
+        }
+    }
+}
+
+#[derive(Parser)]
+#[grammar = "y2021/grammars/day2.pest"]
+struct InstructionsParser;
+
 fn process_input(input: &str) -> Vec<Instruction> {
-    use Instruction::*;
+    let mut instructions = vec![];
 
-    input
-        .lines()
-        .flat_map(|line| {
-            let mut split = line.split(' ');
-            let instruction = split.next().unwrap();
-            let value = split.next().unwrap().parse().unwrap();
+    let instructions_set = InstructionsParser::parse(Rule::instructions_set, input)
+        .expect("Invalid input")
+        .next()
+        .unwrap();
 
-            match instruction {
-                "forward" => Some(Forward(value)),
-                "down" => Some(Down(value)),
-                "up" => Some(Up(value)),
-                _ => None,
+    for instruction in instructions_set.into_inner() {
+        match instruction.as_rule() {
+            Rule::instruction => {
+                instructions.push(instruction.into());
             }
-        })
-        .collect()
+            _ => unreachable!(),
+        }
+    }
+
+    instructions
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
