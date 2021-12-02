@@ -12,14 +12,16 @@ fn process_input(input: &str) -> &str {
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    Box::new("Part 1 not done")
+    let res = "Part 1 not done";
+    Box::new(res)
 }
 
 #[allow(unused)]
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    Box::new("Part 2 not done")
+    let res = "Part 2 not done";
+    Box::new(res)
 }
 
 #[cfg(test)]

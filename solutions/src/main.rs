@@ -7,6 +7,8 @@ mod cli_app;
 mod day_template;
 mod solution_runner;
 mod solver;
+
+mod y2015;
 mod y2019;
 mod y2020;
 mod y2021;
