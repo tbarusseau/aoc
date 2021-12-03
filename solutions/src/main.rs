@@ -1,3 +1,6 @@
+#![feature(int_log)]
+#![feature(drain_filter)]
+
 use crate::solution_runner::run_solution;
 use chrono::Datelike;
 use solution_runner::run_all_solutions;
