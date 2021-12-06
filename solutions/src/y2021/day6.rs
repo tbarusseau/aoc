@@ -1,71 +1,58 @@
-use std::collections::HashMap;
-
 use crate::solver::Solver;
 
 pub struct Day6;
 
 crate::impl_day!("6", true);
 
-struct Fishes(HashMap<usize, u64>);
+struct Fishes([u64; 9]);
 
 fn process_input(input: &str) -> Fishes {
-    let mut h = HashMap::new();
+    let mut f = [0; 9];
 
     input.trim().split(',').for_each(|e| {
         let n = e.parse::<usize>().unwrap();
-        *h.entry(n).or_insert(0) += 1;
+        f[n] += 1;
     });
 
-    Fishes(h)
+    Fishes(f)
+}
+
+fn tick<'a>(fishes: &'a mut [u64; 9], swap: &'a mut [u64; 9]) {
+    *swap = [0; 9];
+
+    for (index, &count) in fishes.iter().enumerate() {
+        if index == 0 {
+            swap[6] += count;
+            swap[8] += count;
+        } else {
+            swap[index - 1] += count;
+        }
+    }
+
+    *fishes = *swap;
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut input = process_input(input);
-    let mut day = 0;
+    let mut fishes = process_input(input);
+    let mut new_fishes = [0; 9];
 
-    while day < 80 {
-        let mut new_fishes = HashMap::new();
-
-        input.0.iter().for_each(|(index, count)| {
-            if *index == 0 {
-                *new_fishes.entry(6).or_insert(0) += *count;
-                *new_fishes.entry(8).or_insert(0) += *count;
-            } else {
-                *new_fishes.entry(index - 1).or_insert(0) += *count;
-            }
-        });
-
-        input.0 = new_fishes;
-
-        day += 1;
+    for _ in 0..80 {
+        tick(&mut fishes.0, &mut new_fishes);
     }
 
-    let res = input.0.iter().fold(0, |acc, e| acc + e.1);
+    let res: u64 = fishes.0.iter().sum();
     Box::new(res)
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut input = process_input(input);
-    let mut day = 0;
+    let mut fishes = process_input(input);
+    let mut new_fishes = [0; 9];
 
-    while day < 256 {
-        let mut new_fishes = HashMap::new();
-
-        input.0.iter().for_each(|(index, count)| {
-            if *index == 0 {
-                *new_fishes.entry(6).or_insert(0) += *count;
-                *new_fishes.entry(8).or_insert(0) += *count;
-            } else {
-                *new_fishes.entry(index - 1).or_insert(0) += *count;
-            }
-        });
-
-        input.0 = new_fishes;
-
-        day += 1;
+    for _ in 0..256 {
+        tick(&mut fishes.0, &mut new_fishes);
     }
 
-    let res = input.0.iter().fold(0, |acc, e| acc + e.1);
+    let res: u64 = fishes.0.iter().sum();
     Box::new(res)
 }
 
