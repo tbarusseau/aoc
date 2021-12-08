@@ -130,14 +130,14 @@ impl Board {
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut b = Board::from(&input);
+    let mut b = Board::from(input);
     b.trace_wires();
 
     Box::new(b.get_distance_to_closest_intersection())
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut b = Board::from(&input);
+    let mut b = Board::from(input);
     b.trace_wires();
 
     let res = b

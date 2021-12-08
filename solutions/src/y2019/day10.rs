@@ -251,14 +251,14 @@ impl AsteroidsField {
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut a = AsteroidsField::from(&input);
+    let mut a = AsteroidsField::from(input);
     let res = *a.get_maximum_visibility().unwrap();
 
     Box::new(res)
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut a = AsteroidsField::from(&input);
+    let mut a = AsteroidsField::from(input);
     let res = a
         .destroy_asteroids_in_megacannon_order()
         .get(199)
@@ -352,8 +352,7 @@ mod tests {
         assert_eq!(
             802,
             a.destroy_asteroids_in_megacannon_order()
-                .iter()
-                .nth(199)
+                .get(199)
                 .map(|a| a.x * 100 + a.y)
                 .unwrap()
         );

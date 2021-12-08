@@ -12,7 +12,7 @@ fn process_input(input: &str) -> Vec<i32> {
 
 #[allow(unused)]
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
-    let input = process_input(&input);
+    let input = process_input(input);
     let mut res = None;
 
     for v in input.iter().permutations(2) {
@@ -26,7 +26,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
 #[allow(unused)]
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let input = process_input(&input);
+    let input = process_input(input);
     let mut res = None;
 
     for v in input.iter().permutations(3) {

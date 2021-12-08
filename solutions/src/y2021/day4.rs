@@ -18,10 +18,10 @@ impl std::fmt::Display for Board {
 
         for i in 0..self.0.rows() {
             self.0.iter_row(i).for_each(|(a, b)| {
-                if *b == true {
+                if *b {
                     out.push_str(&format!("{} ", a.to_string().blue()));
                 } else {
-                    out.push_str(&format!("{} ", a.to_string()));
+                    out.push_str(&format!("{} ", a));
                 }
             });
 
@@ -39,7 +39,14 @@ fn process_input(input: &str) -> (DrawOrder, Vec<Board>) {
     let mut row_index = 0;
     let mut boards = vec![];
 
-    let draw_order = DrawOrder(lines.next().unwrap().split(',').flat_map(str::parse).collect());
+    let draw_order = DrawOrder(
+        lines
+            .next()
+            .unwrap()
+            .split(',')
+            .flat_map(str::parse)
+            .collect(),
+    );
     lines.next();
 
     for line in lines {
@@ -82,19 +89,19 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
         for board in boards.iter() {
             for i in 0..5 {
-                if board.0.iter_row(i).all(|(_, b)| { *b })
-                    || board.0.iter_col(i).all(|(_, b) | { *b })
-                    {
-                        winning_board = Some(board.0.clone());
-                        break 'outer;
-                    }
+                if board.0.iter_row(i).all(|(_, b)| *b) || board.0.iter_col(i).all(|(_, b)| *b) {
+                    winning_board = Some(board.0.clone());
+                    break 'outer;
+                }
             }
         }
     }
 
-    let sum_unmarked_numbers = winning_board.unwrap()
-        .iter()
-        .fold(0, |acc, (n, b)| if *b == true { acc } else { acc + n });
+    let sum_unmarked_numbers =
+        winning_board
+            .unwrap()
+            .iter()
+            .fold(0, |acc, (n, b)| if *b { acc } else { acc + n });
 
     let res = sum_unmarked_numbers * last_draw;
     Box::new(res)
@@ -120,25 +127,25 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 
         for (index, board) in boards.iter().enumerate() {
             for i in 0..5 {
-                if board.0.iter_row(i).all(|(_, b)| { *b })
-                    || board.0.iter_col(i).all(|(_, b) | { *b })
-                    {
-                        if !winning_boards.contains(&index) {
-                            winning_boards.push(index);
-                        }
-
-                        if winning_boards.len() == boards.len() {
-                            last_winning_board = Some(board.0.clone());
-                            break 'outer;
-                        }
+                if board.0.iter_row(i).all(|(_, b)| *b) || board.0.iter_col(i).all(|(_, b)| *b) {
+                    if !winning_boards.contains(&index) {
+                        winning_boards.push(index);
                     }
+
+                    if winning_boards.len() == boards.len() {
+                        last_winning_board = Some(board.0.clone());
+                        break 'outer;
+                    }
+                }
             }
         }
     }
 
-    let sum_unmarked_numbers = last_winning_board.unwrap()
-        .iter()
-        .fold(0, |acc, (n, b)| if *b == true { acc } else { acc + n });
+    let sum_unmarked_numbers =
+        last_winning_board
+            .unwrap()
+            .iter()
+            .fold(0, |acc, (n, b)| if *b { acc } else { acc + n });
 
     let res = sum_unmarked_numbers * last_draw;
     Box::new(res)
