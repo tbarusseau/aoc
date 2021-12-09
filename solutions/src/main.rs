@@ -10,6 +10,7 @@ mod cli_app;
 mod day_template;
 mod solution_runner;
 mod solver;
+mod utils;
 
 mod y2015;
 mod y2019;
