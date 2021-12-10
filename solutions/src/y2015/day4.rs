@@ -9,7 +9,7 @@ fn process_input(input: &str) -> &str {
 }
 
 fn hash(secret_key: &str, n: i32) -> String {
-    format!("{:x}", md5::compute(format!("{secret_key}{n}")))
+    format!("{:x}", md5::compute(format!("{}{}", secret_key, n)))
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {

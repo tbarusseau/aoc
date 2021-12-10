@@ -30,7 +30,7 @@ fn get_gamma(input: &str) -> i32 {
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let gamma = get_gamma(input);
-    let mask = 2_i32.pow(format!("{gamma:b}").len() as u32) - 1;
+    let mask = 2_i32.pow(format!("{:b}", gamma).len() as u32) - 1;
 
     let epsilon = gamma ^ mask;
 

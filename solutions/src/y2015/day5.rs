@@ -13,7 +13,7 @@ fn process_input(input: &str) -> &str {
 }
 
 fn is_nice(input: &str) -> bool {
-    let input = format!("{input} ");
+    let input = format!("{} ", input);
     let blacklist = ["ab", "cd", "pq", "xy"];
 
     for b in blacklist {
@@ -51,7 +51,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 fn is_nice2(input: &str) -> bool {
     use std::collections::hash_map::Entry;
 
-    let input = format!("{input} ");
+    let input = format!("{} ", input);
 
     let mut two_letters_condition = false;
     let mut last_appeared: HashMap<(char, char), usize> = HashMap::new();

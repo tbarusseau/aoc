@@ -1,9 +1,16 @@
 #![allow(unused)]
 
+pub mod iterators;
+pub mod neighbours;
+
 use std::{
     fmt::Display,
     iter::StepBy,
     slice::{Iter, IterMut},
+};
+
+use self::{
+    iterators::grid_into_neighbours_iterator::GridIntoNeighboursIterator, neighbours::Neighbours,
 };
 
 #[derive(Clone)]
@@ -103,6 +110,34 @@ impl<T> Grid<T> {
         self.data.get(y * self.width + x)
     }
 
+    pub fn get_ortho_neighbours(&self, x: usize, y: usize) -> Option<Neighbours<&T>> {
+        if x >= self.width || y >= self.height {
+            return None;
+        }
+
+        let up = y.checked_sub(1).map(|n| self.get(x, n)).flatten();
+        let right = self.get(x + 1, y);
+        let down = self.get(x, y + 1);
+        let left = x.checked_sub(1).map(|n| self.get(n, y)).flatten();
+
+        Some(Neighbours {
+            up,
+            right,
+            down,
+            left,
+        })
+    }
+
+    pub fn get_with_ortho_neighbours(&self, x: usize, y: usize) -> Option<(&T, Neighbours<&T>)> {
+        if x >= self.width || y >= self.height {
+            return None;
+        }
+
+        self.data
+            .get(y * self.width + x)
+            .map(|n| (n, self.get_ortho_neighbours(x, y).unwrap()))
+    }
+
     pub fn iter(&self) -> Iter<T> {
         self.data.iter()
     }
@@ -183,103 +218,6 @@ where
         }
 
         write!(f, "{}\n{}", "-".repeat(line_len), s)
-    }
-}
-
-pub struct GridIntoNeighboursIterator<'a, T> {
-    grid: &'a Grid<T>,
-    index: usize,
-}
-
-impl<'a, T> Iterator for GridIntoNeighboursIterator<'a, T> {
-    type Item = (&'a T, Neighbours<&'a T>);
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let x = self.index % self.grid.width;
-        let y = self.index / self.grid.width;
-
-        let result = self.grid.get(x, y)?;
-
-        let up = y.checked_sub(1).map(|n| self.grid.get(x, n)).flatten();
-        let right = self.grid.get(x + 1, y);
-        let down = self.grid.get(x, y + 1);
-        let left = x.checked_sub(1).map(|n| self.grid.get(n, y)).flatten();
-
-        self.index += 1;
-
-        Some((
-            result,
-            Neighbours {
-                up,
-                right,
-                down,
-                left,
-            },
-        ))
-    }
-}
-
-#[derive(Debug, PartialEq, Clone)]
-pub struct Neighbours<T> {
-    pub up: Option<T>,
-    pub right: Option<T>,
-    pub down: Option<T>,
-    pub left: Option<T>,
-}
-
-impl<T> Neighbours<&T> {
-    pub fn iter(&self) -> NeighboursIntoIterator<&T> {
-        NeighboursIntoIterator {
-            index: 0,
-            neighbours: self,
-        }
-    }
-}
-
-pub struct NeighboursIntoIterator<'a, T> {
-    neighbours: &'a Neighbours<T>,
-    index: usize,
-}
-
-impl<'a, T> Iterator for NeighboursIntoIterator<'a, T> {
-    type Item = &'a T;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        while self.index < 4 {
-            match self.index {
-                0 => {
-                    if self.neighbours.up.is_some() {
-                        self.index += 1;
-                        return self.neighbours.up.as_ref();
-                    }
-                }
-                1 => {
-                    if self.neighbours.right.is_some() {
-                        self.index += 1;
-                        return self.neighbours.right.as_ref();
-                    }
-                }
-                2 => {
-                    if self.neighbours.down.is_some() {
-                        self.index += 1;
-                        return self.neighbours.down.as_ref();
-                    }
-                }
-                3 => {
-                    if self.neighbours.left.is_some() {
-                        self.index += 1;
-                        return self.neighbours.left.as_ref();
-                    }
-                }
-                _ => {
-                    return None;
-                }
-            }
-
-            self.index += 1;
-        }
-
-        None
     }
 }
 
