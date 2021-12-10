@@ -28,8 +28,6 @@ fn get_low_points(grid: &Grid<u32>) -> Vec<u32> {
         low_points.push(*v);
     }
 
-    // println!("{:?}", low_points);
-
     low_points
 }
 
