@@ -2,6 +2,7 @@
 
 pub mod iterators;
 pub mod neighbours;
+pub mod cell;
 
 use std::{
     fmt::Display,
@@ -10,7 +11,7 @@ use std::{
 };
 
 use self::{
-    iterators::grid_into_neighbours_iterator::GridIntoNeighboursIterator, neighbours::Neighbours,
+    iterators::grid_into_neighbours_iterator::GridIntoNeighboursIterator, neighbours::Neighbours, cell::Cell,
 };
 
 #[derive(Clone)]
@@ -101,6 +102,10 @@ impl<T> Grid<T> {
     pub fn get_flat(&self, index: usize) -> Option<&T> {
         self.data.get(index)
     }
+
+    // pub fn get_flat(&self, index: usize) -> Option<Cell<T>> {
+    //     self.data.get(index).map(|v| Cell::new(self, index, v))
+    // }
 
     pub fn get(&self, x: usize, y: usize) -> Option<&T> {
         if x >= self.width || y >= self.height {
