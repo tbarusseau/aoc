@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use pathfinding::prelude::dijkstra;
 
 use crate::solver::Solver;
@@ -10,7 +12,7 @@ crate::impl_day!("15", true);
 struct Pos(i32, i32);
 
 impl Pos {
-    fn successors(&self, v: &[(Pos, usize)], width: i32, height: i32) -> Vec<(Pos, usize)> {
+    fn successors(&self, h: &HashMap<Pos, usize>) -> Vec<(Pos, usize)> {
         let &Pos(x, y) = self;
 
         let mut s = Vec::new();
@@ -21,14 +23,10 @@ impl Pos {
                 let xf = x + xi;
                 let yf = y + yi;
 
-                if xf < 0 || xf >= width || yf < 0 || yf >= height {
-                    return;
-                }
+                let target = Pos(xf, yf);
 
-                let target = (yf * width + xf) as usize;
-
-                if let Some((p, w)) = v.get(target) {
-                    s.push((p.clone(), *w));
+                if let Some(w) = h.get(&target) {
+                    s.push((target, *w));
                 }
             });
 
@@ -36,7 +34,7 @@ impl Pos {
     }
 }
 
-fn process_input(input: &str) -> Vec<(Pos, usize)> {
+fn process_input(input: &str) -> HashMap<Pos, usize> {
     let input = input.trim();
 
     input
@@ -59,12 +57,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let v = process_input(input);
 
     let (goal, _) = v.iter().max_by_key(|e| e.0.clone()).unwrap();
-    let (_, result) = dijkstra(
-        &Pos(0, 0),
-        |p| p.successors(&v, goal.0 + 1, goal.1 + 1),
-        |p| *p == *goal,
-    )
-    .unwrap();
+    let (_, result) = dijkstra(&Pos(0, 0), |p| p.successors(&v), |p| *p == *goal).unwrap();
 
     Box::new(result)
 }
@@ -75,7 +68,8 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let (goal, _) = orig.iter().max_by_key(|e| e.0.clone()).unwrap();
 
     // Enlarge the cave!
-    let &Pos(offset_x, offset_y) = goal;
+    let offset_x = goal.0 + 1;
+    let offset_y = goal.1 + 1;
 
     for y in 0..5 {
         for x in 0..5 {
@@ -83,39 +77,25 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
                 continue;
             }
 
-            // println!("[{x}, {y}]");
-
             for (p, w) in orig.iter() {
                 let &Pos(xl, yl) = p;
 
-                let new_pos = Pos(xl + x * (offset_x + 1), yl + y * (offset_y + 1));
+                let new_pos = Pos(xl + x * offset_x, yl + y * offset_y);
                 let mut new_weight = (*w as i32 + x + y - 1) % 9 + 1;
-
-                println!(
-                    "[{x}, {y}] new_pos: {:?}, new_weight: {}",
-                    new_pos, new_weight
-                );
 
                 if new_weight > 9 {
                     new_weight = 1;
                 }
 
-                v.push((new_pos, new_weight as usize));
+                v.insert(new_pos, new_weight as usize);
             }
         }
     }
 
-    // println!("New map: {:?}", v);
-
     let (goal, _) = v.iter().max_by_key(|e| e.0.clone()).unwrap();
 
     // Process like before
-    let (_, result) = dijkstra(
-        &Pos(0, 0),
-        |p| p.successors(&v, goal.0 + 1, goal.1 + 1),
-        |p| *p == *goal,
-    )
-    .unwrap();
+    let (_, result) = dijkstra(&Pos(0, 0), |p| p.successors(&v), |p| *p == *goal).unwrap();
 
     Box::new(result)
 }
