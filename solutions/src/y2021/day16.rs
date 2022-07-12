@@ -4,8 +4,9 @@ use crate::solver::Solver;
 
 pub struct Day16;
 
-crate::impl_day!("16", true);
+crate::impl_day!("16", false);
 
+#[allow(unused)]
 fn process_input(input: &str) -> (String, String) {
     let encoded = input.to_owned();
     let mut decoded = String::new();
@@ -39,6 +40,7 @@ fn process_input(input: &str) -> (String, String) {
     (encoded, decoded)
 }
 
+#[allow(unused)]
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let (encoded, decoded) = process_input(input);
 
