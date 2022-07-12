@@ -99,7 +99,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         v[y as usize].replace_range((x as usize)..(x as usize + 1), "X");
     });
 
-    Box::new(format!("\n{}", v.join("\n")))
+    Box::new(format!("\n{}", v.join("\n").replace("X", "█")))
 }
 
 #[cfg(test)]
