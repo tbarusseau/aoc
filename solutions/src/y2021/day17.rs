@@ -76,6 +76,7 @@ fn step_to_target_area(
     None
 }
 
+#[allow(unused)]
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let target_area = process_input(input);
 
