@@ -1,5 +1,3 @@
-use std::collections::{HashMap, HashSet};
-
 use crate::solver::Solver;
 
 pub struct Day6;
@@ -64,7 +62,7 @@ fn process_input(input: &str) -> Vec<Instruction> {
         .collect()
 }
 
-fn step(op: &Instruction, lights: &mut HashSet<(i32, i32)>) {
+fn step(op: &Instruction, lights: &mut [i32]) {
     let Instruction {
         operation,
         start: (xs, ys),
@@ -73,18 +71,12 @@ fn step(op: &Instruction, lights: &mut HashSet<(i32, i32)>) {
 
     for y in *ys..=*ye {
         for x in *xs..=*xe {
-            let pos = (x, y);
+            let index = (y * 1000 + x) as usize;
 
             match operation {
-                Operation::TurnOff => lights.remove(&pos),
-                Operation::TurnOn => lights.insert(pos),
-                Operation::Toggle => {
-                    if lights.get(&pos).is_some() {
-                        lights.remove(&pos)
-                    } else {
-                        lights.insert(pos)
-                    }
-                }
+                Operation::TurnOff => lights[index] = 0,
+                Operation::TurnOn => lights[index] = 1,
+                Operation::Toggle => lights[index] = 1 - lights[index],
             };
         }
     }
@@ -92,17 +84,17 @@ fn step(op: &Instruction, lights: &mut HashSet<(i32, i32)>) {
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
-    let mut lights: HashSet<(i32, i32)> = HashSet::new();
+    let mut lights = vec![0; 1000 * 1000];
 
     for op in input {
         step(&op, &mut lights);
     }
 
-    let res = lights.iter().count();
+    let res: i32 = lights.iter().sum();
     Box::new(res)
 }
 
-fn step2(op: &Instruction, lights: &mut HashMap<(i32, i32), i32>) {
+fn step2(op: &Instruction, lights: &mut [i32]) {
     let Instruction {
         operation,
         start: (xs, ys),
@@ -111,21 +103,16 @@ fn step2(op: &Instruction, lights: &mut HashMap<(i32, i32), i32>) {
 
     for y in *ys..=*ye {
         for x in *xs..=*xe {
-            let pos = (x, y);
+            let index = (y * 1000 + x) as usize;
 
             match operation {
-                Operation::TurnOn => lights.entry(pos).and_modify(|v| *v += 1).or_insert(1),
-                Operation::TurnOff => lights
-                    .entry(pos)
-                    .and_modify(|v| {
-                        if *v - 1 < 0 {
-                            *v = 0;
-                        } else {
-                            *v -= 1;
-                        }
-                    })
-                    .or_insert(0),
-                Operation::Toggle => lights.entry(pos).and_modify(|v| *v += 2).or_insert(2),
+                Operation::TurnOn => lights[index] += 1,
+                Operation::TurnOff => {
+                    if lights[index] > 0 {
+                        lights[index] -= 1;
+                    }
+                }
+                Operation::Toggle => lights[index] += 2,
             };
         }
     }
@@ -133,13 +120,13 @@ fn step2(op: &Instruction, lights: &mut HashMap<(i32, i32), i32>) {
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
-    let mut lights: HashMap<(i32, i32), i32> = HashMap::new();
+    let mut lights = vec![0; 1000 * 1000];
 
     for op in input {
         step2(&op, &mut lights);
     }
 
-    let res = lights.values().sum::<i32>();
+    let res: i32 = lights.iter().sum();
     Box::new(res)
 }
 
