@@ -11,8 +11,7 @@ fn process_input(input: &str) -> Vec<Vec<u32>> {
         .lines()
         .map(|l| {
             l.chars()
-                .map(|c| c.to_digit(10))
-                .flatten()
+                .filter_map(|c| c.to_digit(10))
                 .collect::<Vec<u32>>()
         })
         .collect::<Vec<Vec<u32>>>()
@@ -41,13 +40,13 @@ fn modify_neighbours(input: &mut [Vec<u32>], pos: (isize, isize), f: fn(&mut u32
     }
 }
 
-fn step(input: &mut Vec<Vec<u32>>) -> usize {
+fn step(input: &mut [Vec<u32>]) -> usize {
     let mut flashes = 0;
 
     // Increment all energy levels
-    for y in 0..10 {
-        for x in 0..10 {
-            input[y][x] += 1;
+    for row in input.iter_mut().take(10) {
+        for v in row.iter_mut().take(10) {
+            *v += 1;
         }
     }
 
@@ -89,7 +88,7 @@ fn step(input: &mut Vec<Vec<u32>>) -> usize {
         input[y][x] = 0;
     }
 
-    return flashes;
+    flashes
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {

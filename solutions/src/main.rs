@@ -17,6 +17,7 @@ mod y2022;
 
 mod macros;
 
+#[allow(deprecated)]
 fn get_aoc_date() -> chrono::Date<chrono::FixedOffset> {
     use chrono::prelude::*;
 

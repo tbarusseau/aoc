@@ -45,7 +45,7 @@ impl From<&str> for Node {
 fn process_input(input: &str) -> UnGraphMap<&str, ()> {
     let mut edges = vec![];
     for line in input.trim().lines() {
-        let v = line.split("-").collect::<Vec<&str>>();
+        let v = line.split('-').collect::<Vec<&str>>();
         let e1 = v[0];
         let e2 = v[1];
 
@@ -86,7 +86,7 @@ fn count(graph: &UnGraphMap<&str, ()>, small_caves: usize, seen: Vec<&str>, node
             let mut v = seen.clone();
             v.push(node);
 
-            return count(graph, part, v, e);
+            count(graph, part, v, e)
         })
         .sum()
 }

@@ -57,6 +57,7 @@ impl InstructionsParser {
     }
 }
 
+#[allow(clippy::result_large_err)]
 fn parse_input(input: &str) -> Result<Vec<Instruction>> {
     let inputs = InstructionsParser::parse(Rule::instructions_set, input).unwrap();
     let input = inputs.single().unwrap();

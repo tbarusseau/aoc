@@ -14,10 +14,10 @@ impl<'a, T> Iterator for GridIntoNeighboursIterator<'a, T> {
 
         let result = self.grid.get(x, y)?;
 
-        let up = y.checked_sub(1).map(|n| self.grid.get(x, n)).flatten();
+        let up = y.checked_sub(1).and_then(|n| self.grid.get(x, n));
         let right = self.grid.get(x + 1, y);
         let down = self.grid.get(x, y + 1);
-        let left = x.checked_sub(1).map(|n| self.grid.get(n, y)).flatten();
+        let left = x.checked_sub(1).and_then(|n| self.grid.get(n, y));
 
         self.index += 1;
 

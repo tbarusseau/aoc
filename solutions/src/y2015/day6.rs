@@ -37,12 +37,12 @@ fn process_input(input: &str) -> Vec<Instruction> {
             let mut start_str = split
                 .next()
                 .unwrap()
-                .split(" ")
+                .split(' ')
                 .into_iter()
                 .last()
                 .unwrap()
-                .split(",");
-            let mut end_str = split.next().unwrap().split(",");
+                .split(',');
+            let mut end_str = split.next().unwrap().split(',');
 
             let start = (
                 start_str.next().unwrap().parse().unwrap(),

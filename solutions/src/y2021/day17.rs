@@ -56,12 +56,10 @@ fn step_to_target_area(
             break;
         }
 
-        if !only_check_horizontal {
-            if pos.1 < target_area.3 {
-                // Went below the target area, will never reach
-                // println!("Breaking: went below the target area.");
-                break;
-            }
+        if !only_check_horizontal && pos.1 < target_area.3 {
+            // Went below the target area, will never reach
+            // println!("Breaking: went below the target area.");
+            break;
         }
 
         if target_area.0 <= pos.0
@@ -86,7 +84,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let mut valid_starting_x = vec![];
 
     for x in 0.. {
-        if let Some(_) = step_to_target_area(target_area, (x, 0), true) {
+        if step_to_target_area(target_area, (x, 0), true).is_some() {
             reached_area = true;
             valid_starting_x.push(x);
         } else if reached_area {
@@ -98,7 +96,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     for x in valid_starting_x {
         for y in 0.. {
-            if let Some(_) = step_to_target_area(target_area, (x, y), false) {
+            if step_to_target_area(target_area, (x, y), false).is_some() {
                 starting_velocities.push((x, y));
             }
         }

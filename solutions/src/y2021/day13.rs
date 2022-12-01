@@ -12,7 +12,7 @@ fn process_input(input: &str) -> (HashSet<(isize, isize)>, Instructions) {
     let mut set = HashSet::new();
     let mut lines = input.trim().lines();
 
-    while let Some(line) = lines.next() {
+    for line in lines.by_ref() {
         if line.is_empty() {
             break;
         }
@@ -49,12 +49,10 @@ fn fold(set: HashSet<(isize, isize)>, index: isize, horizontal: bool) -> HashSet
                 } else {
                     (x, y)
                 }
+            } else if y > index {
+                (x, 2 * index - y)
             } else {
-                if y > index {
-                    (x, 2 * index - y)
-                } else {
-                    (x, y)
-                }
+                (x, y)
             }
         })
         .collect()
@@ -66,15 +64,15 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     let set = fold(set, index, horizontal);
 
-    let res = set.iter().count();
+    let res = set.len();
     Box::new(res)
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let (mut set, instructions) = process_input(input);
-    let mut ins = instructions.0.iter();
+    let ins = instructions.0.iter();
 
-    while let Some(ins) = ins.next() {
+    for ins in ins {
         let &(index, horizontal) = ins;
 
         set = fold(set, index, horizontal);
@@ -99,7 +97,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         v[y as usize].replace_range((x as usize)..(x as usize + 1), "X");
     });
 
-    Box::new(format!("\n{}", v.join("\n").replace("X", "█")))
+    Box::new(format!("\n{}", v.join("\n").replace('X', "█")))
 }
 
 #[cfg(test)]

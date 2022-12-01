@@ -117,7 +117,7 @@ impl System {
         //   repetition happens, it will be with the x/y/z repetitions we've already seen and stored.
         // - If that's the case, then the "history" will repeat itself at the only step where all of these are possible:
         //   LowestCommonMultiple(x, y, z) == LowestCommonMultiple(x, LowestCommonMultiple(y, z))
-        if self.rep_x == None {
+        if self.rep_x.is_none() {
             match self.seen_x.contains(&(
                 self.moons[0].position.0,
                 self.moons[0].velocity.0,
@@ -142,7 +142,7 @@ impl System {
             }
         }
 
-        if self.rep_y == None {
+        if self.rep_y.is_none() {
             match self.seen_y.contains(&(
                 self.moons[0].position.1,
                 self.moons[0].velocity.1,
@@ -167,7 +167,7 @@ impl System {
             }
         }
 
-        if self.rep_z == None {
+        if self.rep_z.is_none() {
             match self.seen_z.contains(&(
                 self.moons[0].position.2,
                 self.moons[0].velocity.2,

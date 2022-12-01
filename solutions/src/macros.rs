@@ -21,7 +21,7 @@ macro_rules! solvers_gen {
         $(
             seq! { N in 1..=25 {
                 paste! {
-                        $solvers.push(Box::new(crate::[<y $year>]::[<day N>]::[<Day N>]));
+                        $solvers.push(Box::new($crate::[<y $year>]::[<day N>]::[<Day N>]));
                 }
             }}
         )*

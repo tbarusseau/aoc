@@ -6,18 +6,11 @@ pub struct Day1;
 
 crate::impl_day!("1", true);
 
-fn process_input(input: &str) -> &str {
-    input
-}
-
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     Box::new(
         input
             .split("\n\n")
-            .map(|s| {
-                s.lines()
-                    .fold(0, |acc, l| acc + u32::from_str_radix(l, 10).unwrap())
-            })
+            .map(|s| s.lines().fold(0, |acc, l| acc + l.parse::<u32>().unwrap()))
             .max()
             .unwrap(),
     )
@@ -28,10 +21,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     Box::new(
         input
             .split("\n\n")
-            .map(|s| {
-                s.lines()
-                    .fold(0, |acc, l| acc + u32::from_str_radix(l, 10).unwrap())
-            })
+            .map(|s| s.lines().fold(0, |acc, l| acc + l.parse::<u32>().unwrap()))
             .sorted()
             .rev()
             .take(3)

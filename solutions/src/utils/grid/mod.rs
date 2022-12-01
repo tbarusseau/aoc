@@ -120,10 +120,10 @@ impl<T> Grid<T> {
             return None;
         }
 
-        let up = y.checked_sub(1).map(|n| self.get(x, n)).flatten();
+        let up = y.checked_sub(1).and_then(|n| self.get(x, n));
         let right = self.get(x + 1, y);
         let down = self.get(x, y + 1);
-        let left = x.checked_sub(1).map(|n| self.get(n, y)).flatten();
+        let left = x.checked_sub(1).and_then(|n| self.get(n, y));
 
         Some(Neighbours {
             up,

@@ -116,7 +116,7 @@ impl AsteroidsField {
                                         let sy = y < 0;
 
                                         let (mut x, mut y) =
-                                            normalize(x.abs() as u32, y.abs() as u32);
+                                            normalize(x.unsigned_abs(), y.unsigned_abs());
                                         if sx {
                                             x *= -1;
                                         }
