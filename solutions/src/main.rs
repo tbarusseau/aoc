@@ -13,6 +13,7 @@ mod y2015;
 mod y2019;
 mod y2020;
 mod y2021;
+mod y2022;
 
 mod macros;
 

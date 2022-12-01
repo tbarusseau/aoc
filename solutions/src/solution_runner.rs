@@ -10,13 +10,14 @@ pub fn run_solution(
     day: u32,
 ) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
-    crate::solvers_gen!(solvers, 2015, 2019, 2020, 2021);
+    crate::solvers_gen!(solvers, 2015, 2019, 2020, 2021, 2022);
 
     let start_index = match year {
         2015 => 0,
         2019 => 25,
         2020 => 50,
         2021 => 75,
+        2022 => 100,
         y => panic!("Year not available: {}", y),
     };
 
@@ -52,6 +53,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
         2019 => 0,
         2020 => 25,
         2021 => 50,
+        2022 => 75,
         y => panic!("Year not available: {}", y),
     };
 
