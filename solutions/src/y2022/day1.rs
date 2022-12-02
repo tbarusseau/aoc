@@ -16,7 +16,6 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     )
 }
 
-#[allow(unused)]
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     Box::new(
         input
