@@ -1,6 +1,8 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
+use chrono::Datelike;
 
 use crate::cli_app::Opt;
+use crate::get_aoc_date;
 use crate::solver::Solver;
 
 pub fn run_solution(
@@ -47,7 +49,7 @@ pub fn run_solution(
 
 pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
-    crate::solvers_gen!(solvers, 2019, 2020, 2021);
+    crate::solvers_gen!(solvers, 2019, 2020, 2021, 2022);
 
     let start_index = match year {
         2019 => 0,
@@ -57,6 +59,8 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
         y => panic!("Year not available: {}", y),
     };
 
+    let date = get_aoc_date();
+
     for i in 1..=25 {
         let solver = &solvers[i as usize - 1 + start_index];
 
@@ -64,7 +68,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
             continue;
         }
 
-        let input = input_fetcher.fetch(2019, i, opt.force_fetch)?;
+        let input = input_fetcher.fetch(date.year(), i, opt.force_fetch)?;
 
         use colored::*;
 
