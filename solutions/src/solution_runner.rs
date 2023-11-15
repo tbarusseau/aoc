@@ -1,8 +1,6 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
-use chrono::Datelike;
 
 use crate::cli_app::Opt;
-use crate::get_aoc_date;
 use crate::solver::Solver;
 
 pub fn run_solution(
@@ -59,8 +57,6 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
         y => panic!("Year not available: {}", y),
     };
 
-    let date = get_aoc_date();
-
     for i in 1..=25 {
         let solver = &solvers[i as usize - 1 + start_index];
 
@@ -68,7 +64,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
             continue;
         }
 
-        let input = input_fetcher.fetch(date.year(), i, opt.force_fetch)?;
+        let input = input_fetcher.fetch(year, i, opt.force_fetch)?;
 
         use colored::*;
 
@@ -76,6 +72,10 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
         println!("{}", format!("Solving year {}, day {}\n", year, i).bold());
         println!("{} {}", "Part 1:".green(), s1);
         println!("{} {}", "Part 2:".red(), s2);
+
+        if i != 25 {
+            println!("{}", "-------------------------".bold());
+        }
     }
 
     Ok(())
