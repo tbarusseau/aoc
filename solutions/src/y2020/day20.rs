@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::{collections::HashMap, fmt::Display};
 
 use itertools::Itertools;

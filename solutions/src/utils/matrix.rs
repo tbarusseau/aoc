@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 #[derive(Debug, PartialEq)]
 pub struct Matrix<T>(pub Vec<Vec<T>>);
 
