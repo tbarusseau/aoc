@@ -1,4 +1,4 @@
-use crate::solver::Solver;
+use crate::{solver::Solver, utils::manhattan::manhattan_distance};
 
 pub struct Day3;
 
@@ -62,10 +62,6 @@ struct Board {
     wires: Vec<Wire>,
     intersections: HashMap<(isize, isize), Cell>,
     current_wire_total_steps: usize,
-}
-
-fn manhattan_distance(a: (isize, isize), b: (isize, isize)) -> usize {
-    (b.0 - a.0).unsigned_abs() + (b.1 - a.1).unsigned_abs()
 }
 
 impl Board {
@@ -154,6 +150,8 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 
 #[cfg(test)]
 mod tests {
+    use crate::utils::manhattan::manhattan_distance;
+
     use super::*;
 
     #[test]

@@ -1,42 +1,69 @@
+use regex::Regex;
+
 use crate::solver::Solver;
 
 pub struct Day3;
 
-crate::impl_day!("3", false);
+crate::impl_day!("3", true);
 
-fn process_input(input: &str) -> &str {
+fn process_input(input: &str) -> Vec<(i32, i32, i32)> {
+    let re = Regex::new(r"\s*(\d+)\s*(\d+)\s*(\d+)").unwrap();
+
     input
+        .trim()
+        .lines()
+        .flat_map(|l| re.captures(l))
+        .map(|c| {
+            let s1 = c
+                .get(1)
+                .map(|m| i32::from_str_radix(m.as_str(), 10))
+                .unwrap()
+                .unwrap();
+            let s2 = c
+                .get(2)
+                .map(|m| i32::from_str_radix(m.as_str(), 10))
+                .unwrap()
+                .unwrap();
+            let s3 = c
+                .get(3)
+                .map(|m| i32::from_str_radix(m.as_str(), 10))
+                .unwrap()
+                .unwrap();
+
+            (s1, s2, s3)
+        })
+        .collect()
 }
 
-#[allow(unused)]
+fn is_valid_triangle(edges: &(i32, i32, i32)) -> bool {
+    edges.0 + edges.1 > edges.2 && edges.1 + edges.2 > edges.0 && edges.0 + edges.2 > edges.1
+}
+
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
-    let input = process_input(input);
+    let triangles = process_input(input);
 
-    let res = "Part 1 not done";
+    let res = triangles.iter().filter(|t| is_valid_triangle(t)).count();
     Box::new(res)
 }
 
-#[allow(unused)]
+fn process_input_p2(input: &str) -> Vec<(i32, i32, i32)> {
+    let h_triangles = process_input(input);
+
+    h_triangles
+        .chunks(3)
+        .flat_map(|chunk| {
+            let [l1, l2, l3] = chunk else {
+                panic!("invalid chunk size")
+            };
+
+            [(l1.0, l2.0, l3.0), (l1.1, l2.1, l3.1), (l1.2, l2.2, l3.2)]
+        })
+        .collect()
+}
+
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let input = process_input(input);
+    let triangles = process_input_p2(input);
 
-    let res = "Part 2 not done";
+    let res = triangles.iter().filter(|t| is_valid_triangle(t)).count();
     Box::new(res)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    const INPUT: &str = r#""#;
-
-    #[test]
-    fn test_part1() {
-        assert_eq!(0.to_string(), *solve_part1(INPUT).to_string());
-    }
-
-    #[test]
-    fn test_part2() {
-        assert_eq!(0.to_string(), *solve_part2(INPUT).to_string());
-    }
 }

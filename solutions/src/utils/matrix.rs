@@ -1,5 +1,7 @@
 #![allow(unused)]
 
+use super::direction::Direction;
+
 #[derive(Debug, PartialEq)]
 pub struct Matrix<T>(pub Vec<Vec<T>>);
 
@@ -83,23 +85,6 @@ where
         };
 
         left == right
-    }
-}
-
-#[derive(Debug)]
-pub enum Direction {
-    Up,
-    Right,
-    Left,
-    Down,
-}
-
-impl Direction {
-    pub fn iterator() -> std::slice::Iter<'static, Direction> {
-        use Direction::*;
-
-        static DIRECTIONS: [Direction; 4] = [Up, Right, Left, Down];
-        DIRECTIONS.iter()
     }
 }
 
