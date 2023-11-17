@@ -10,6 +10,7 @@ mod solver;
 mod utils;
 
 mod y2015;
+mod y2016;
 mod y2019;
 mod y2020;
 mod y2021;
