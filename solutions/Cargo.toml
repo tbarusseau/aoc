@@ -11,6 +11,7 @@ aoc_input_fetcher = { path = "../aoc_input_fetcher", version = "0.1.0" }
 chrono = { version = "0.4.19" }
 colored = "2.0.0"
 grid = "0.6.0"
+hex = "0.4.3"
 itertools = "0.10.1"
 lazy_static = { version = "1.4.0", default-features = false }
 log = "0.4.14"
