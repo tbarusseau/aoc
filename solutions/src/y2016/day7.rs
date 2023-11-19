@@ -4,13 +4,45 @@ pub struct Day7;
 
 crate::impl_day!("7", false);
 
-fn process_input(input: &str) -> &str {
-    input
+#[derive(Debug)]
+enum IpSequence {
+    Regular(String),
+    Hypernet(String),
 }
 
-#[allow(unused)]
+fn process_input(input: &str) -> Vec<Vec<IpSequence>> {
+    input
+        .trim()
+        .lines()
+        .map(|l| {
+            let mut v = vec![];
+            let mut s = String::new();
+
+            for ch in l.chars() {
+                match ch {
+                    '[' => {
+                        v.push(IpSequence::Regular(s.clone()));
+                        s.clear();
+                    }
+                    ']' => {
+                        v.push(IpSequence::Hypernet(s.clone()));
+                        s.clear();
+                    }
+                    'a'..='z' => s.push(ch),
+                    _ => panic!(),
+                }
+            }
+
+            v.push(IpSequence::Regular(s));
+
+            v
+        })
+        .collect()
+}
+
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
+    println!("{:?}", input);
 
     let res = "Part 1 not done";
     Box::new(res)
