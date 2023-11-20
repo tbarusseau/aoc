@@ -1,10 +1,46 @@
+use std::convert::TryFrom;
+
+use lazy_static::lazy_static;
+use regex::Regex;
+
 use crate::solver::Solver;
 
 pub struct Day8;
 
-crate::impl_day!("8", false);
+crate::impl_day!("8", true);
 
-fn process_input(input: &str) -> &str {
+enum Instruction {
+    Rect(usize, usize),
+    RotateRow(usize, usize),
+    RotateColumn(usize, usize),
+}
+
+lazy_static! {
+    static ref RE_RECT: Regex = Regex::new(r"^rect (\d+)x(\d+)$").unwrap();
+    static ref RE_ROTATE_ROW: Regex = Regex::new(r"^rotate column x=(\d+) by (\d+)$").unwrap();
+    static ref RE_ROTATE_COLUMN: Regex = Regex::new(r"^rotate row y=(\d+) by (\d+)$").unwrap();
+}
+
+impl TryFrom<&str> for Instruction {
+    type Error = ();
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        if RE_RECT.is_match(value) {
+            let captures = RE_RECT.captures(value).ok_or_else(|| ())?;
+
+            let x = usize::from_str_radix(captures.get(1).ok_or_else(|| ())?.as_str(), 10)?;
+            let y = usize::from_str_radix(captures.get(2).ok_or_else(|| ())?.as_str(), 10)?;
+
+            Ok(Instruction::Rect(x, y))
+        } else if RE_ROTATE_ROW.is_match(value) {
+        } else if RE_ROTATE_COLUMN.is_match(value) {
+        } else {
+            Err(())
+        }
+    }
+}
+
+fn process_input(input: &str) -> Vec<Instruction> {
     input
 }
 
