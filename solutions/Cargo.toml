@@ -25,5 +25,6 @@ pest_derive = "2.1.0"
 petgraph = "0.6.2"
 regex = "1.5.4"
 seq-macro = "0.2.2"
+sscanf = "0.4.1"
 structopt = { version = "0.3.25", default-features = false }
 thiserror = { version = "1.0.30", default-features = false }
