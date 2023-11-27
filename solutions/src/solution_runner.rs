@@ -8,6 +8,7 @@ pub fn run_solution(
     input_fetcher: &InputFetcher,
     year: i32,
     day: u32,
+    single_part: Option<u32>,
 ) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
     crate::solvers_gen!(solvers, 2015, 2019, 2020, 2021, 2022, 2016);
@@ -38,7 +39,27 @@ pub fn run_solution(
 
     use colored::*;
 
-    let (s1, s2) = solver.solve(opt, input);
+    if let Some(part) = single_part {
+        if part != 1 && part != 2 {
+            return Err(anyhow::anyhow!("single-part parameter must be 1 or 2"));
+        }
+
+        let r = if part == 1 {
+            solver.solve_p1(&input)
+        } else {
+            solver.solve_p2(&input)
+        };
+
+        println!(
+            "{}",
+            format!("Solving year {}, day {}, part {}\n", year, day, part).bold()
+        );
+        println!("{} {}", &format!("Part {}:", part).green(), r);
+
+        return Ok(());
+    }
+
+    let (s1, s2) = solver.solve(&input);
     println!("{}", format!("Solving year {}, day {}\n", year, day).bold());
     println!("{} {}", "Part 1:".green(), s1);
     println!("{} {}", "Part 2:".red(), s2);
@@ -51,12 +72,12 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
     crate::solvers_gen!(solvers, 2019, 2020, 2021, 2022, 2015, 2016);
 
     let start_index = match year {
+        2015 => 100,
+        2016 => 125,
         2019 => 0,
         2020 => 25,
         2021 => 50,
         2022 => 75,
-        2015 => 100,
-        2016 => 125,
         y => panic!("Year not available: {}", y),
     };
 
@@ -71,7 +92,7 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
 
         use colored::*;
 
-        let (s1, s2) = solver.solve(opt, input);
+        let (s1, s2) = solver.solve(&input);
         println!("{}", format!("Solving year {}, day {}\n", year, i).bold());
         println!("{} {}", "Part 1:".green(), s1);
         println!("{} {}", "Part 2:".red(), s2);

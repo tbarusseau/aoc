@@ -34,12 +34,17 @@ fn main() -> anyhow::Result<()> {
     let date = get_aoc_date();
 
     match opt.cmd {
-        cli_app::Command::Single { year, day } => {
+        cli_app::Command::Single {
+            year,
+            day,
+            single_part,
+        } => {
             run_solution(
                 &opt,
                 &input_fetcher,
                 year.unwrap_or_else(|| date.year()),
                 day.unwrap_or_else(|| date.day()),
+                single_part,
             )?;
         }
         cli_app::Command::All { year } => {
