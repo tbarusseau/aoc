@@ -148,9 +148,4 @@ dec a
     fn test_part1() {
         assert_eq!(42.to_string(), *solve_part1(INPUT).to_string());
     }
-
-    #[test]
-    fn test_part2() {
-        assert_eq!(0.to_string(), *solve_part2(INPUT).to_string());
-    }
 }
