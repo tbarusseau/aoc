@@ -3,6 +3,14 @@ use aoc_input_fetcher::input_fetcher::InputFetcher;
 use crate::cli_app::Opt;
 use crate::solver::Solver;
 
+fn get_start_index(year: i32) -> usize {
+    let mut available_years = 2015..=2023;
+    available_years
+        .find(|v| *v == year)
+        .map(|v| ((v - 2015) * 25) as usize)
+        .expect(&format!("Year not available: {}", year))
+}
+
 pub fn run_solution(
     opt: &Opt,
     input_fetcher: &InputFetcher,
@@ -11,23 +19,13 @@ pub fn run_solution(
     single_part: Option<u32>,
 ) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
-    crate::solvers_gen!(solvers, 2015, 2019, 2020, 2021, 2022, 2016);
-
-    let start_index = match year {
-        2015 => 0,
-        2016 => 125,
-        2019 => 25,
-        2020 => 50,
-        2021 => 75,
-        2022 => 100,
-        y => panic!("Year not available: {}", y),
-    };
+    crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023);
 
     if day == 0 || day > 25 {
         panic!("Day must be between 1 and 25");
     }
 
-    let solver = &solvers[start_index + day as usize - 1];
+    let solver = &solvers[get_start_index(year) + day as usize - 1];
 
     if !solver.done() {
         println!("No solution for year {}, day {}. Exiting.", year, day);
@@ -69,20 +67,10 @@ pub fn run_solution(
 
 pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
-    crate::solvers_gen!(solvers, 2019, 2020, 2021, 2022, 2015, 2016);
-
-    let start_index = match year {
-        2015 => 100,
-        2016 => 125,
-        2019 => 0,
-        2020 => 25,
-        2021 => 50,
-        2022 => 75,
-        y => panic!("Year not available: {}", y),
-    };
+    crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023);
 
     for i in 1..=25 {
-        let solver = &solvers[i as usize - 1 + start_index];
+        let solver = &solvers[i as usize - 1 + get_start_index(year)];
 
         if !solver.done() {
             continue;

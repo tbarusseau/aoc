@@ -9,7 +9,7 @@ use crate::solver::Solver;
 
 pub struct Day10;
 
-crate::impl_day!("10", true);
+crate::impl_day!("10", false);
 
 enum Instruction {
     Value(i32, i32),
