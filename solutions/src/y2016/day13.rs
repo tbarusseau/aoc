@@ -4,8 +4,6 @@ use colored::Colorize;
 use itertools::Itertools;
 use pathfinding::directed::dijkstra::dijkstra;
 
-use crate::solver::Solver;
-
 pub struct Day13;
 
 crate::impl_day!("13", true);

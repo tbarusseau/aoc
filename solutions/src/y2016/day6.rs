@@ -1,11 +1,8 @@
 use std::str::Lines;
 
-use crate::{
-    solver::Solver,
-    utils::{
-        char_utils::{index_from_char, index_to_char},
-        iterator_index::GetIndexOfMax,
-    },
+use crate::utils::{
+    char_utils::{index_from_char, index_to_char},
+    iterator_index::GetIndexOfMax,
 };
 
 pub struct Day6;

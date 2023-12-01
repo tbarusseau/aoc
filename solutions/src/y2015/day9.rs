@@ -1,5 +1,3 @@
-use crate::solver::Solver;
-
 pub struct Day9;
 
 crate::impl_day!("9", false);

@@ -1,6 +1,6 @@
 use std::{collections::HashMap, convert::TryFrom};
 
-use crate::{solver::Solver, utils::add_to_usize::add_to_usize};
+use crate::utils::add_to_usize::add_to_usize;
 
 pub struct Day12;
 

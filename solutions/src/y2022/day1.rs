@@ -1,7 +1,5 @@
 use itertools::Itertools;
 
-use crate::solver::Solver;
-
 pub struct Day1;
 
 crate::impl_day!("1", true);

@@ -1,9 +1,6 @@
 use std::collections::HashSet;
 
-use crate::{
-    solver::Solver,
-    utils::{direction::Direction, manhattan::manhattan_distance},
-};
+use crate::utils::{direction::Direction, manhattan::manhattan_distance};
 
 pub struct Day1;
 

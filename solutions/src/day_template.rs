@@ -1,5 +1,3 @@
-use crate::solver::Solver;
-
 pub struct DayNotDone;
 
 crate::impl_day!("NotDone", false);

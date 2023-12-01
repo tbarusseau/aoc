@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::{solver::Solver, utils::grid::Grid};
+use crate::utils::grid::Grid;
 
 pub struct Day9;
 

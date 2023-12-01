@@ -2,8 +2,6 @@ use colored::Colorize;
 use grid::Grid;
 use regex::Regex;
 
-use crate::solver::Solver;
-
 pub struct Day5;
 
 crate::impl_day!("5", true);

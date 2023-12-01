@@ -1,4 +1,3 @@
-use crate::solver::Solver;
 use petgraph::graphmap::UnGraphMap;
 
 pub struct Day12;

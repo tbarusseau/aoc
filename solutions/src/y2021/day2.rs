@@ -2,8 +2,6 @@ use pest_consume::{match_nodes, Error, Parser};
 type Result<T> = std::result::Result<T, Error<Rule>>;
 type Node<'i> = pest_consume::Node<'i, Rule, ()>;
 
-use crate::solver::Solver;
-
 pub struct Day2;
 
 crate::impl_day!("2", true);

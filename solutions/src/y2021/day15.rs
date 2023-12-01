@@ -2,8 +2,6 @@ use std::collections::HashMap;
 
 use pathfinding::prelude::dijkstra;
 
-use crate::solver::Solver;
-
 pub struct Day15;
 
 crate::impl_day!("15", true);

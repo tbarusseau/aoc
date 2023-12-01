@@ -3,8 +3,6 @@ use std::collections::HashMap;
 use itertools::Itertools;
 use md5::Digest;
 
-use crate::solver::Solver;
-
 pub struct Day14;
 
 crate::impl_day!("14", true);

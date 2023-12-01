@@ -5,7 +5,7 @@ use std::{collections::HashMap, fmt::Display};
 use itertools::Itertools;
 use regex::Regex;
 
-use crate::{solver::Solver, utils::matrix::Matrix};
+use crate::utils::matrix::Matrix;
 
 pub struct Day20;
 

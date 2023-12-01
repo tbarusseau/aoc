@@ -2,8 +2,6 @@ use std::collections::HashMap;
 
 use itertools::Itertools;
 
-use crate::solver::Solver;
-
 pub struct Day5;
 
 crate::impl_day!("5", true);

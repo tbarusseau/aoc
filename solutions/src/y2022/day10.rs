@@ -1,8 +1,6 @@
 use itertools::Itertools;
 use num::abs;
 
-use crate::solver::Solver;
-
 pub struct Day10;
 
 crate::impl_day!("10", true);

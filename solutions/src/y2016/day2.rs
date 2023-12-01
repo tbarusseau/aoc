@@ -2,7 +2,7 @@ use std::convert::TryFrom;
 
 use itertools::Itertools;
 
-use crate::{solver::Solver, utils::direction::Direction};
+use crate::utils::direction::Direction;
 
 pub struct Day2;
 

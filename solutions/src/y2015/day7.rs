@@ -3,8 +3,6 @@ use std::collections::HashMap;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::solver::Solver;
-
 pub struct Day7;
 
 crate::impl_day!("7", true);

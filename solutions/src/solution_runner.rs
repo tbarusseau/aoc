@@ -1,7 +1,6 @@
 use aoc_input_fetcher::input_fetcher::InputFetcher;
 
-use crate::cli_app::Opt;
-use crate::solver::Solver;
+use crate::{cli_app::Opt, solver::Solver};
 
 fn get_start_index(year: i32) -> usize {
     let mut available_years = 2015..=2023;

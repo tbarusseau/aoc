@@ -1,7 +1,5 @@
 use std::collections::HashSet;
 
-use crate::solver::Solver;
-
 pub struct Day13;
 
 crate::impl_day!("13", true);

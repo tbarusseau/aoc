@@ -1,4 +1,4 @@
-use crate::{solver::Solver, utils::manhattan::manhattan_distance};
+use crate::utils::manhattan::manhattan_distance;
 
 pub struct Day3;
 

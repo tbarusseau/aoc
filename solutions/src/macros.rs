@@ -31,6 +31,7 @@ macro_rules! solvers_gen {
 #[macro_export]
 macro_rules! impl_day {
     ($day: expr, $done: expr) => {
+        use crate::solver::Solver;
         use paste::paste;
 
         paste! {
@@ -50,3 +51,27 @@ macro_rules! impl_day {
         }
     };
 }
+
+// #[macro_export]
+// macro_rules! impl_day_v2 {
+//     ($day: expr, $done: expr) => {
+//         use crate::solver::SolverWithResult;
+//         use paste::paste;
+
+//         paste! {
+//             impl SolverWithResult for [<Day $day>] {
+//                 fn solve_part1(&self, input: &str) -> anyhow::Result<Box<dyn std::fmt::Display>> {
+//                     solve_part1(input)
+//                 }
+
+//                 fn solve_part2(&self, input: &str) -> anyhow::Result<Box<dyn std::fmt::Display>> {
+//                     solve_part2(input)
+//                 }
+
+//                 fn done(&self) -> bool {
+//                     $done
+//                 }
+//             }
+//         }
+//     };
+// }

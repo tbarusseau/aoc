@@ -2,8 +2,6 @@ use std::{convert::TryFrom, fmt::Display};
 
 use itertools::Itertools;
 
-use crate::solver::Solver;
-
 pub struct Day8;
 
 crate::impl_day!("8", true);

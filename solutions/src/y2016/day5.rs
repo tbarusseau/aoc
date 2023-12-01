@@ -1,7 +1,5 @@
 use md5::Digest;
 
-use crate::solver::Solver;
-
 pub struct Day5;
 
 crate::impl_day!("5", true);

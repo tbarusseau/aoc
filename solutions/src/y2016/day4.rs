@@ -4,8 +4,6 @@ use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::solver::Solver;
-
 pub struct Day4;
 
 crate::impl_day!("4", true);

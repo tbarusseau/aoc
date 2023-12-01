@@ -3,8 +3,6 @@ use std::collections::VecDeque;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::solver::Solver;
-
 pub struct Day5;
 
 crate::impl_day!("5", true);
