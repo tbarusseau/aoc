@@ -33,9 +33,8 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
                 .iter()
                 .get_index_of_max()
                 .expect("no max index in column");
-            let most_frequent_char = index_to_char(max_index as u8, false);
 
-            most_frequent_char
+            index_to_char(max_index as u8, false)
         })
         .collect::<String>();
 
@@ -65,9 +64,8 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
                 .map(|(a, b)| (b, a))
                 .min()
                 .expect("no min index in column");
-            let least_frequent_char = index_to_char(min_index.1 as u8, false);
 
-            least_frequent_char
+            index_to_char(min_index.1 as u8, false)
         })
         .collect::<String>();
 

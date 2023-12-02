@@ -31,18 +31,16 @@ fn move_towards_target(target: (isize, isize), knot: (isize, isize)) -> (isize, 
         (0, if target.1 > knot.1 { 1 } else { -1 })
     } else if target.1 == knot.1 {
         (if target.0 > knot.0 { 1 } else { -1 }, 0)
+    } else if target.0 > knot.0 && target.1 > knot.1 {
+        (1, 1)
+    } else if target.0 > knot.0 && target.1 < knot.1 {
+        (1, -1)
+    } else if target.0 < knot.0 && target.1 > knot.1 {
+        (-1, 1)
+    } else if target.0 < knot.0 && target.1 < knot.1 {
+        (-1, -1)
     } else {
-        if target.0 > knot.0 && target.1 > knot.1 {
-            (1, 1)
-        } else if target.0 > knot.0 && target.1 < knot.1 {
-            (1, -1)
-        } else if target.0 < knot.0 && target.1 > knot.1 {
-            (-1, 1)
-        } else if target.0 < knot.0 && target.1 < knot.1 {
-            (-1, -1)
-        } else {
-            unreachable!()
-        }
+        unreachable!()
     }
 }
 
@@ -56,7 +54,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     for line in input.lines() {
         let mut split = line.split(' ');
         let dir = split.next().unwrap();
-        let count = isize::from_str_radix(split.next().unwrap(), 10).unwrap();
+        let count = split.next().unwrap().parse().unwrap();
         let dirvec = dir_to_vec(dir);
 
         for _ in 1..=count {
@@ -101,7 +99,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     for line in input.lines() {
         let mut split = line.split(' ');
         let dir = split.next().unwrap();
-        let count = isize::from_str_radix(split.next().unwrap(), 10).unwrap();
+        let count = split.next().unwrap().parse().unwrap();
         let dirvec = dir_to_vec(dir);
 
         for _ in 0..count {

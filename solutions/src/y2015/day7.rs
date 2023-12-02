@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, convert::TryFrom};
 
+use anyhow::anyhow;
 use lazy_static::lazy_static;
 use regex::Regex;
 
@@ -8,7 +9,7 @@ pub struct Day7;
 crate::impl_day!("7", true);
 
 fn process_input(input: &str) -> Vec<Instruction> {
-    input.lines().map(Instruction::from).collect()
+    input.lines().flat_map(Instruction::try_from).collect()
 }
 
 type State = HashMap<String, Option<i32>>;
@@ -38,65 +39,128 @@ lazy_static! {
 #[derive(Debug)]
 struct Instruction(Operation, String);
 
-impl From<&str> for Instruction {
-    fn from(value: &str) -> Self {
+impl TryFrom<&str> for Instruction {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
         use Operation::*;
 
         if let Some(captures) = RE_ASSIGNMENT.captures(value) {
-            let value = captures
-                .get(1)
-                .and_then(|s| i32::from_str_radix(s.into(), 10).ok());
+            let value = captures.get(1).and_then(|s| s.as_str().parse().ok());
 
-            let target = captures.get(2).unwrap().as_str();
+            let target = captures
+                .get(2)
+                .ok_or_else(|| anyhow!("invalid assignment target"))?
+                .as_str();
 
             if let Some(v) = value {
-                Instruction(Assignment(v), target.to_owned())
+                Ok(Self(Assignment(v), target.to_owned()))
             } else {
-                let register = captures.get(1).unwrap().as_str().to_owned();
-                Instruction(RegisterAssignment(register), target.to_owned())
+                let register = captures
+                    .get(1)
+                    .ok_or_else(|| anyhow!("invalid assignment register"))?
+                    .as_str()
+                    .to_owned();
+                Ok(Self(RegisterAssignment(register), target.to_owned()))
             }
         } else if let Some(captures) = RE_AND.captures(value) {
-            let a = captures.get(1).unwrap().as_str().to_owned();
-            let b = captures.get(2).unwrap().as_str().to_owned();
-            let target = captures.get(3).unwrap().as_str().to_owned();
+            let a = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid AND first operand"))?
+                .as_str()
+                .to_owned();
+            let b = captures
+                .get(2)
+                .ok_or_else(|| anyhow!("invalid AND second operand"))?
+                .as_str()
+                .to_owned();
+            let target = captures
+                .get(3)
+                .ok_or_else(|| anyhow!("invalid AND target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(And(a, b), target)
+            Ok(Self(And(a, b), target))
         } else if let Some(captures) = RE_OR.captures(value) {
-            let a = captures.get(1).unwrap().as_str().to_owned();
-            let b = captures.get(2).unwrap().as_str().to_owned();
-            let target = captures.get(3).unwrap().as_str().to_owned();
+            let a = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid OR first operand"))?
+                .as_str()
+                .to_owned();
+            let b = captures
+                .get(2)
+                .ok_or_else(|| anyhow!("invalid OR second operand"))?
+                .as_str()
+                .to_owned();
+            let target = captures
+                .get(3)
+                .ok_or_else(|| anyhow!("invalid OR target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(Or(a, b), target)
+            Ok(Self(Or(a, b), target))
         } else if let Some(captures) = RE_LSHIFT.captures(value) {
-            let register = captures.get(1).unwrap().as_str().to_owned();
+            let register = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid LSHIFT register"))?
+                .as_str()
+                .to_owned();
             let shift_value = captures
                 .get(2)
-                .and_then(|s| i32::from_str_radix(s.into(), 10).ok())
-                .unwrap();
-            let target = captures.get(3).unwrap().as_str().to_owned();
+                .and_then(|s| s.as_str().parse().ok())
+                .ok_or_else(|| anyhow!("invalid LSHIFT value"))?;
+            let target = captures
+                .get(3)
+                .ok_or_else(|| anyhow!("invalid LSHIFT target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(LShift(register, shift_value), target)
+            Ok(Self(LShift(register, shift_value), target))
         } else if let Some(captures) = RE_RSHIFT.captures(value) {
-            let register = captures.get(1).unwrap().as_str().to_owned();
+            let register = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid RSHIFT register"))?
+                .as_str()
+                .to_owned();
             let shift_value = captures
                 .get(2)
-                .and_then(|s| i32::from_str_radix(s.into(), 10).ok())
-                .unwrap();
-            let target = captures.get(3).unwrap().as_str().to_owned();
+                .and_then(|s| s.as_str().parse().ok())
+                .ok_or_else(|| anyhow!("invalid RSHIFT value"))?;
+            let target = captures
+                .get(3)
+                .ok_or_else(|| anyhow!("invalid RSHIFT target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(RShift(register, shift_value), target)
+            Ok(Self(RShift(register, shift_value), target))
         } else if let Some(captures) = RE_NOT.captures(value) {
-            let register = captures.get(1).unwrap().as_str().to_owned();
-            let target = captures.get(2).unwrap().as_str().to_owned();
+            let register = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid NOT register"))?
+                .as_str()
+                .to_owned();
+            let target = captures
+                .get(2)
+                .ok_or_else(|| anyhow!("invalid NOT target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(Not(register), target)
+            Ok(Self(Not(register), target))
         } else if let Some(captures) = RE_COPY.captures(value) {
-            let register = captures.get(1).unwrap().as_str().to_owned();
-            let target = captures.get(2).unwrap().as_str().to_owned();
+            let register = captures
+                .get(1)
+                .ok_or_else(|| anyhow!("invalid COPY register"))?
+                .as_str()
+                .to_owned();
+            let target = captures
+                .get(2)
+                .ok_or_else(|| anyhow!("invalid COPY target"))?
+                .as_str()
+                .to_owned();
 
-            Instruction(BitwiseWithOne(register), target)
+            Ok(Self(BitwiseWithOne(register), target))
         } else {
-            panic!("Unsupported value: {}", value);
+            Err(anyhow!("unsupported value: {}", value))
         }
     }
 }
@@ -108,8 +172,8 @@ impl Instruction {
                 state.entry(self.1.to_owned()).and_modify(|e| *e = Some(*v));
             }
             Operation::And(a, b) => {
-                let a = state.get(a).unwrap().clone();
-                let b = state.get(b).unwrap().clone();
+                let a = *state.get(a).unwrap();
+                let b = *state.get(b).unwrap();
 
                 if let (Some(va), Some(vb)) = (a, b) {
                     state
@@ -118,8 +182,8 @@ impl Instruction {
                 }
             }
             Operation::Or(a, b) => {
-                let a = state.get(a).unwrap().clone();
-                let b = state.get(b).unwrap().clone();
+                let a = *state.get(a).unwrap();
+                let b = *state.get(b).unwrap();
 
                 if let (Some(va), Some(vb)) = (a, b) {
                     state
@@ -128,7 +192,7 @@ impl Instruction {
                 }
             }
             Operation::LShift(a, v) => {
-                let a = state.get(a).unwrap().clone();
+                let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
                     state
@@ -137,7 +201,7 @@ impl Instruction {
                 }
             }
             Operation::RShift(a, v) => {
-                let a = state.get(a).unwrap().clone();
+                let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
                     state
@@ -146,7 +210,7 @@ impl Instruction {
                 }
             }
             Operation::Not(a) => {
-                let a = state.get(a).unwrap().clone();
+                let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
                     state
@@ -155,7 +219,7 @@ impl Instruction {
                 }
             }
             Operation::BitwiseWithOne(a) => {
-                let a = state.get(a).unwrap().clone();
+                let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
                     state
@@ -164,7 +228,7 @@ impl Instruction {
                 }
             }
             Operation::RegisterAssignment(a) => {
-                let a = state.get(a).unwrap().clone();
+                let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
                     state.entry(self.1.to_owned()).and_modify(|e| *e = Some(va));

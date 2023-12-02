@@ -1,8 +1,8 @@
 #![allow(unused)]
 
+pub mod cell;
 pub mod iterators;
 pub mod neighbours;
-pub mod cell;
 
 use std::{
     fmt::Display,
@@ -11,7 +11,8 @@ use std::{
 };
 
 use self::{
-    iterators::grid_into_neighbours_iterator::GridIntoNeighboursIterator, neighbours::Neighbours, cell::Cell,
+    cell::Cell, iterators::grid_into_neighbours_iterator::GridIntoNeighboursIterator,
+    neighbours::Neighbours,
 };
 
 #[derive(Clone)]
@@ -31,26 +32,26 @@ where
 }
 
 impl<T> Grid<T> {
-    pub fn new() -> Grid<T> {
-        Grid {
+    pub fn new() -> Self {
+        Self {
             data: vec![],
             width: 0,
             height: 0,
         }
     }
 
-    pub fn init(width: usize, height: usize, initial_value: T) -> Grid<T>
+    pub fn init(width: usize, height: usize, initial_value: T) -> Self
     where
         T: Clone,
     {
-        Grid {
+        Self {
             data: vec![initial_value; width * height],
             width,
             height,
         }
     }
 
-    pub fn from_data(width: usize, data: Vec<T>) -> Grid<T> {
+    pub fn from_data(width: usize, data: Vec<T>) -> Self {
         let l = data.len();
 
         if l % width != 0 {
@@ -62,7 +63,7 @@ impl<T> Grid<T> {
 
         let height = l / width;
 
-        Grid {
+        Self {
             data,
             width,
             height,

@@ -11,7 +11,7 @@ pub enum Direction {
 }
 
 impl Direction {
-    pub fn iterator() -> std::slice::Iter<'static, Direction> {
+    pub fn iterator() -> std::slice::Iter<'static, Self> {
         use Direction::*;
 
         static DIRECTIONS: [Direction; 4] = [Up, Right, Left, Down];
@@ -20,28 +20,28 @@ impl Direction {
 
     pub fn turn_right(&mut self) {
         match self {
-            Direction::Up => *self = Direction::Right,
-            Direction::Right => *self = Direction::Down,
-            Direction::Down => *self = Direction::Left,
-            Direction::Left => *self = Direction::Up,
+            Self::Up => *self = Self::Right,
+            Self::Right => *self = Self::Down,
+            Self::Down => *self = Self::Left,
+            Self::Left => *self = Self::Up,
         }
     }
 
     pub fn turn_left(&mut self) {
         match self {
-            Direction::Up => *self = Direction::Left,
-            Direction::Left => *self = Direction::Down,
-            Direction::Down => *self = Direction::Right,
-            Direction::Right => *self = Direction::Up,
+            Self::Up => *self = Self::Left,
+            Self::Left => *self = Self::Down,
+            Self::Down => *self = Self::Right,
+            Self::Right => *self = Self::Up,
         }
     }
 
     pub fn get_delta(&self) -> (i32, i32) {
         match self {
-            Direction::Up => (0, 1),
-            Direction::Right => (1, 0),
-            Direction::Left => (-1, 0),
-            Direction::Down => (0, -1),
+            Self::Up => (0, 1),
+            Self::Right => (1, 0),
+            Self::Left => (-1, 0),
+            Self::Down => (0, -1),
         }
     }
 }
@@ -51,10 +51,10 @@ impl TryFrom<char> for Direction {
 
     fn try_from(value: char) -> Result<Self, Self::Error> {
         match value {
-            'U' | 'u' => Ok(Direction::Up),
-            'D' | 'd' => Ok(Direction::Down),
-            'R' | 'r' => Ok(Direction::Right),
-            'L' | 'l' => Ok(Direction::Left),
+            'U' | 'u' => Ok(Self::Up),
+            'D' | 'd' => Ok(Self::Down),
+            'R' | 'r' => Ok(Self::Right),
+            'L' | 'l' => Ok(Self::Left),
             _ => Err(()),
         }
     }

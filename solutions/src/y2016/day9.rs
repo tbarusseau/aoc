@@ -21,8 +21,9 @@ fn decompress(s: &str) -> usize {
                 out += pos;
                 current_slice = &current_slice[pos..];
 
-                match current_slice.find(')') {
-                    Some(pos) => {
+                current_slice.find(')').map_or_else(
+                    || unreachable!(),
+                    |pos| {
                         // Extract the marker slice, i.e. the ({COUNT}x{REPETITIONS})
                         let marker = &current_slice[1..pos];
 
@@ -41,9 +42,8 @@ fn decompress(s: &str) -> usize {
                         out += repetitions * repetition_len;
 
                         current_slice = &current_slice[count..];
-                    }
-                    _ => unreachable!(),
-                }
+                    },
+                )
             }
             None => {
                 // We reached the end of the input

@@ -8,13 +8,10 @@ fn find_side_digit<'a>(
     left: bool,
     find_fn: fn(&'a str, &'a str) -> Option<usize>,
 ) -> usize {
-    let map = digits.iter().enumerate().flat_map(|(i, d)| {
-        if let Some(index) = find_fn(line, *d) {
-            Some((index, i % 9 + 1))
-        } else {
-            None
-        }
-    });
+    let map = digits
+        .iter()
+        .enumerate()
+        .flat_map(|(i, d)| find_fn(line, d).map(|v| (v, i % 9 + 1)));
 
     let extreme = if left {
         map.min_by(|(i1, _), (i2, _)| i1.cmp(i2))

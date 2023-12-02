@@ -14,10 +14,9 @@ enum IpSequence {
 
 fn to_ip(input: &str) -> Vec<IpSequence> {
     input
-        .replace("[", " ")
-        .replace("]", " ")
+        .replace(['[', ']'], " ")
         .trim()
-        .split(" ")
+        .split(' ')
         .enumerate()
         .map(|(i, s)| {
             if i % 2 == 0 {
@@ -50,7 +49,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         .iter()
         .map(|sequence| {
             let regulars = sequence
-                .into_iter()
+                .iter()
                 .filter_map(|v| match v {
                     IpSequence::Regular(r) => Some(r),
                     _ => None,
@@ -58,7 +57,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
                 .collect_vec();
 
             let hypernets = sequence
-                .into_iter()
+                .iter()
                 .filter_map(|v| match v {
                     IpSequence::Hypernet(h) => Some(h),
                     _ => None,
@@ -78,7 +77,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
 fn supports_ssl(sequence: &[IpSequence]) -> bool {
     let regulars = sequence
-        .into_iter()
+        .iter()
         .filter_map(|v| match v {
             IpSequence::Regular(r) => Some(r),
             _ => None,
@@ -86,7 +85,7 @@ fn supports_ssl(sequence: &[IpSequence]) -> bool {
         .collect_vec();
 
     let hypernets = sequence
-        .into_iter()
+        .iter()
         .filter_map(|v| match v {
             IpSequence::Hypernet(h) => Some(h),
             _ => None,

@@ -7,7 +7,7 @@ fn get_start_index(year: i32) -> usize {
     available_years
         .find(|v| *v == year)
         .map(|v| ((v - 2015) * 25) as usize)
-        .expect(&format!("Year not available: {}", year))
+        .unwrap_or_else(|| panic!("Year not available: {}", year))
 }
 
 pub fn run_solution(

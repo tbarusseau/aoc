@@ -4,7 +4,7 @@ crate::impl_day!("7", true);
 
 #[derive(Debug)]
 struct Directory {
-    pub dirs: Vec<Box<Directory>>,
+    pub dirs: Vec<Directory>,
     pub files: Vec<File>,
 }
 
@@ -45,17 +45,15 @@ where
                     };
 
                     parse_lines_rec(&mut subdir, &mut *lines);
-                    parent_dir.dirs.push(Box::new(subdir));
+                    parent_dir.dirs.push(subdir);
                 }
             }
-        } else if line.starts_with("$ ls") {
-            /* Nothing to do */
-        } else if line.starts_with("dir ") {
+        } else if line.starts_with("$ ls") || line.starts_with("dir ") {
             /* Nothing to do */
         } else {
             // File entry
             let mut split = line.split(' ');
-            let size = usize::from_str_radix(split.nth(0).unwrap(), 10).unwrap();
+            let size = split.next().unwrap().parse().unwrap();
 
             let new_file = File { size };
 
@@ -75,7 +73,7 @@ fn get_dir_size_rec(dir: &Directory) -> usize {
     let mut result = 0;
 
     for subdir in dir.dirs.iter() {
-        result += get_dir_size_rec(&subdir);
+        result += get_dir_size_rec(subdir);
     }
 
     for file in dir.files.iter() {
@@ -103,7 +101,7 @@ fn find_smallest_dir_rec(root_dir: &Directory, unused_space: usize) -> usize {
     let mut smallest_valid = usize::MAX;
 
     for dir in root_dir.dirs.iter() {
-        let size = get_dir_size_rec(&dir);
+        let size = get_dir_size_rec(dir);
         if unused_space + size > REQUIRED_UNUSED_SPACE {
             smallest_valid = smallest_valid.min(size);
         }

@@ -18,7 +18,7 @@ impl From<&str> for Operation {
         } else if value.starts_with("addx") {
             let v = value.split(' ').nth(1).unwrap();
 
-            Operation::Addx(i32::from_str_radix(v, 10).unwrap())
+            Operation::Addx(v.parse().unwrap())
         } else {
             panic!("Unknown operation: {}", value);
         }

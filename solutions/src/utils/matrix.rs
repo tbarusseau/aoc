@@ -2,18 +2,18 @@
 
 use super::direction::Direction;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub struct Matrix<T>(pub Vec<Vec<T>>);
 
 impl<T> From<Vec<Vec<T>>> for Matrix<T> {
     fn from(value: Vec<Vec<T>>) -> Self {
-        Matrix(value)
+        Self(value)
     }
 }
 
-impl<T> Into<Vec<Vec<T>>> for Matrix<T> {
-    fn into(self) -> Vec<Vec<T>> {
-        self.0
+impl<T> From<Matrix<T>> for Vec<Vec<T>> {
+    fn from(val: Matrix<T>) -> Self {
+        val.0
     }
 }
 
@@ -22,7 +22,7 @@ where
     T: Copy + std::cmp::PartialEq,
 {
     pub fn rotate_right(&mut self) {
-        if self.0.len() == 0 || self.0.len() == 1 {
+        if self.0.is_empty() || self.0.len() == 1 {
             return;
         }
 
@@ -35,7 +35,7 @@ where
     }
 
     pub fn transpose(&mut self) {
-        if self.0.len() == 0 || self.0.len() == 1 {
+        if self.0.is_empty() || self.0.len() == 1 {
             return;
         }
 

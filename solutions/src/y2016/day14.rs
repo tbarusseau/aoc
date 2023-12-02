@@ -21,8 +21,8 @@ fn is_valid_p1(
 
     if let Some((s, c)) = is_threeplet(&digest, threeplets) {
         has_valid_stream(input, index, c, fiveplets, false)
-            .and_then(|v| Some((s, v)))
-            .or_else(|| None)
+            .map(|v| (s, v))
+            .or(None)
     } else {
         None
     }
@@ -60,7 +60,7 @@ fn has_valid_stream(
             digest = get_stretched_hash(&digest);
         };
 
-        let hex = hex::encode(&<[u8; 16]>::from(digest));
+        let hex = hex::encode(<[u8; 16]>::from(digest));
 
         if let Some(v) = fiveplets.get(&digest) {
             if v.contains(&needle) {
@@ -73,7 +73,7 @@ fn has_valid_stream(
                 fiveplets
                     .entry(digest)
                     .and_modify(|v| v.push(a))
-                    .or_insert(vec![a]);
+                    .or_insert_with(|| vec![a]);
 
                 if a == needle {
                     return Some(hex);
@@ -140,8 +140,8 @@ fn is_valid_p2(
 
     if let Some((s, c)) = is_threeplet(&aged_digest, threeplets) {
         has_valid_stream(input, index, c, fiveplets, true)
-            .and_then(|v| Some((s, v)))
-            .or_else(|| None)
+            .map(|v| (s, v))
+            .or(None)
     } else {
         None
     }

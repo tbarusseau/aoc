@@ -9,7 +9,7 @@ pub struct Day13;
 crate::impl_day!("13", true);
 
 fn process_input(input: &str) -> i32 {
-    i32::from_str_radix(input.trim(), 10).unwrap()
+    input.trim().parse().unwrap()
 }
 
 fn is_wall(x: i32, y: i32, number: i32) -> bool {
@@ -50,7 +50,7 @@ fn solve_p1_with_target(input: &str, target: (i32, i32)) -> Box<dyn std::fmt::Di
     let result = dijkstra(
         &(1, 1),
         |p| {
-            compute_valid_successors(&p, favorite_number)
+            compute_valid_successors(p, favorite_number)
                 .into_iter()
                 .map(|v| (v, 1))
                 .collect_vec()
@@ -79,13 +79,7 @@ fn recursively_visit_valid_neighbours(
 
     let valid_neighbours = compute_valid_successors(current_pos, favorite_number)
         .into_iter()
-        .filter(|p| {
-            if let Some(v) = visited_pos.get(p) {
-                depth < *v
-            } else {
-                true
-            }
-        })
+        .filter(|p| visited_pos.get(p).map_or(true, |v| depth < *v))
         .collect_vec();
 
     // println!(
@@ -98,7 +92,7 @@ fn recursively_visit_valid_neighbours(
         valid_neighbours.iter().for_each(|p| {
             recursively_visit_valid_neighbours(
                 visited_pos,
-                &p,
+                p,
                 favorite_number,
                 depth + 1,
                 max_depth,
@@ -117,18 +111,16 @@ fn print_maze(favorite_number: i32, side_length: i32, visited_pos: &HashSet<(i32
         for x in 0..=upper_digit {
             if is_wall(x, y, favorite_number) {
                 print!("{}", "#".dimmed());
+            } else if x == 1 && y == 1 {
+                print!("{}", "x".bold())
+            } else if visited_pos.contains(&(x, y)) {
+                print!("{}", "o".bold().green())
             } else {
-                if x == 1 && y == 1 {
-                    print!("{}", "x".bold())
-                } else if visited_pos.contains(&(x, y)) {
-                    print!("{}", "o".bold().green())
-                } else {
-                    print!("{}", ".".dimmed());
-                }
+                print!("{}", ".".dimmed());
             }
         }
 
-        println!("");
+        println!();
     }
 }
 
@@ -150,7 +142,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 
     // print_maze(favorite_number, MAX_DEPTH, &visited_pos);
 
-    Box::new(visited_pos.iter().count())
+    Box::new(visited_pos.len())
 }
 
 #[cfg(test)]

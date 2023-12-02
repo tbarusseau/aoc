@@ -66,10 +66,10 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         }
 
         let s1c = s1.clone();
-        let mut inter = s1c.intersection(&s2);
+        let inter = s1c.intersection(&s2);
         s1.clear();
 
-        while let Some(n) = inter.next() {
+        for n in inter {
             s1.insert(*n);
         }
 

@@ -18,17 +18,17 @@ impl TryFrom<&str> for Instruction {
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let parsed = sscanf::sscanf!(value, "rect {usize}x{usize}");
         if let Ok((x, y)) = parsed {
-            return Ok(Instruction::Rect(x, y));
+            return Ok(Self::Rect(x, y));
         }
 
         let parsed = sscanf::sscanf!(value, "rotate row y={usize} by {usize}");
         if let Ok((x, y)) = parsed {
-            return Ok(Instruction::RotateRow(x, y));
+            return Ok(Self::RotateRow(x, y));
         }
 
         let parsed = sscanf::sscanf!(value, "rotate column x={usize} by {usize}");
         if let Ok((x, y)) = parsed {
-            return Ok(Instruction::RotateColumn(x, y));
+            return Ok(Self::RotateColumn(x, y));
         }
 
         Err(())
@@ -63,8 +63,8 @@ impl Screen {
 
                 v.rotate_right(*y);
 
-                for j in 0..6 {
-                    self.0[j][*x] = v[j];
+                for (j, item) in v.iter().enumerate().take(6) {
+                    self.0[j][*x] = *item;
                 }
             }
         }
@@ -73,12 +73,12 @@ impl Screen {
 
 impl Display for Screen {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "\n")?;
+        writeln!(f)?;
 
         for line in self.0.iter() {
-            write!(
+            writeln!(
                 f,
-                "{}\n",
+                "{}",
                 line.iter()
                     .map(|&v| if v { '█' } else { ' ' })
                     .collect::<String>()

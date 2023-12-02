@@ -23,10 +23,10 @@ impl TryFrom<&str> for Instruction {
         use Instruction::*;
 
         if let Ok((a, b)) = sscanf::sscanf!(value, "cpy {String} {char}") {
-            if let Ok(v) = i32::from_str_radix(&a, 10) {
+            if let Ok(v) = a.parse() {
                 Ok(CopyValue(v, b))
             } else {
-                let c = a.chars().next().ok_or_else(|| ())?;
+                let c = a.chars().next().ok_or(())?;
 
                 Ok(CopyRegister(c, b))
             }
@@ -35,10 +35,10 @@ impl TryFrom<&str> for Instruction {
         } else if let Ok(a) = sscanf::sscanf!(value, "dec {char}") {
             Ok(Dec(a))
         } else if let Ok((a, b)) = sscanf::sscanf!(value, "jnz {String} {i32}") {
-            if let Ok(v) = i32::from_str_radix(&a, 10) {
+            if let Ok(v) = a.parse() {
                 Ok(JnzValue(v, b))
             } else {
-                let c = a.chars().next().ok_or_else(|| ())?;
+                let c = a.chars().next().ok_or(())?;
 
                 Ok(JnzRegister(c, b))
             }
@@ -76,7 +76,7 @@ fn process_instructions(instructions: &[Instruction], registers: &mut HashMap<ch
                 registers.entry(*b).and_modify(|e| *e = *a);
             }
             Instruction::CopyRegister(a, b) => {
-                let v = registers.get(a).expect("unknown register").clone();
+                let v = *registers.get(a).expect("unknown register");
                 registers.entry(*b).and_modify(|e| *e = v);
             }
             Instruction::Inc(a) => {

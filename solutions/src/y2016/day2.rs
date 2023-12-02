@@ -77,7 +77,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         for dir in line {
             let delta = dir.get_delta();
 
-            let mut new_pos = pos.clone();
+            let mut new_pos = pos;
 
             new_pos.0 += delta.0;
             new_pos.1 += delta.1;

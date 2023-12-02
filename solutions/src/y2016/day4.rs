@@ -23,27 +23,21 @@ impl TryFrom<&str> for Room {
     type Error = String;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        let captures = ROOM_RE
-            .captures(value)
-            .ok_or_else(|| "doesn't match regex")?;
+        let captures = ROOM_RE.captures(value).ok_or("doesn't match regex")?;
 
-        let name = captures
-            .get(1)
-            .ok_or_else(|| "no valid name")?
-            .as_str()
-            .to_owned();
+        let name = captures.get(1).ok_or("no valid name")?.as_str().to_owned();
         let id = captures
             .get(2)
-            .map(|id| i32::from_str_radix(id.as_str(), 10))
-            .ok_or_else(|| "id is not a number")?
+            .map(|id| id.as_str().parse())
+            .ok_or("id is not a number")?
             .map_err(|_| "no valid id")?;
         let checksum = captures
             .get(3)
-            .ok_or_else(|| "no valid checksum")?
+            .ok_or("no valid checksum")?
             .as_str()
             .to_owned();
 
-        Ok(Room { name, id, checksum })
+        Ok(Self { name, id, checksum })
     }
 }
 
@@ -68,12 +62,9 @@ impl Room {
                 let c2 = b.0;
                 let v2 = b.1;
 
-                if v1 > v2 {
-                    Ordering::Less
-                } else if v2 > v1 {
-                    Ordering::Greater
-                } else {
-                    c1.cmp(c2)
+                match v1.cmp(v2) {
+                    Ordering::Equal => c1.cmp(c2),
+                    v => v,
                 }
             })
             .take(5)
@@ -93,7 +84,7 @@ impl Room {
                 continue;
             }
 
-            decyphered_name.push(((((c as u8 - 'a' as u8) + rot as u8) % 26) + ('a' as u8)) as char)
+            decyphered_name.push(((((c as u8 - b'a') + rot as u8) % 26) + b'a') as char)
         }
 
         decyphered_name
@@ -116,8 +107,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let res = rooms
         .iter()
         .map(|r| (r.decypher_name(), r.id))
-        .filter(|n| n.0 == "northpole object storage")
-        .next()
+        .find(|n| n.0 == "northpole object storage")
         .expect("Not found")
         .1;
 

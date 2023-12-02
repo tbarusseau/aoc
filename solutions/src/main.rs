@@ -1,3 +1,6 @@
+#![allow(clippy::single_call_fn)]
+#![allow(clippy::missing_const_for_fn)]
+
 use crate::solution_runner::run_solution;
 use chrono::Datelike;
 use solution_runner::run_all_solutions;

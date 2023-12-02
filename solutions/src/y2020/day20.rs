@@ -18,7 +18,7 @@ struct Tile {
 
 impl Display for Tile {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "Tile {}:\n", self.id)?;
+        writeln!(f, "Tile {}:", self.id)?;
 
         for l in self.tile.0.iter() {
             for b in l.iter() {
@@ -29,7 +29,7 @@ impl Display for Tile {
                 }
             }
 
-            write!(f, "\n")?;
+            writeln!(f)?;
         }
 
         Ok(())
@@ -47,12 +47,12 @@ fn process_input(input: &str) -> Vec<Tile> {
             let rest: Vec<&str> = lines.collect();
 
             let id_str = re
-                .captures(&first_line)
+                .captures(first_line)
                 .expect("doesn't match regex")
                 .get(1)
                 .expect("no capture group at index 1")
                 .as_str();
-            let id = i32::from_str_radix(id_str, 10).expect("tile id is not a valid i32");
+            let id = id_str.parse().expect("tile id is not a valid i32");
 
             let tile: Matrix<bool> = rest
                 .into_iter()

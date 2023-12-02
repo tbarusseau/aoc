@@ -60,6 +60,7 @@ fn step_to_target_area(
             break;
         }
 
+        #[allow(clippy::suspicious_operation_groupings)]
         if target_area.0 <= pos.0
             && pos.0 <= target_area.1
             && ((target_area.2 <= pos.1 && pos.1 <= target_area.3) || only_check_horizontal)

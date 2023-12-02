@@ -12,21 +12,9 @@ fn process_input(input: &str) -> Vec<(i32, i32, i32)> {
         .lines()
         .flat_map(|l| re.captures(l))
         .map(|c| {
-            let s1 = c
-                .get(1)
-                .map(|m| i32::from_str_radix(m.as_str(), 10))
-                .unwrap()
-                .unwrap();
-            let s2 = c
-                .get(2)
-                .map(|m| i32::from_str_radix(m.as_str(), 10))
-                .unwrap()
-                .unwrap();
-            let s3 = c
-                .get(3)
-                .map(|m| i32::from_str_radix(m.as_str(), 10))
-                .unwrap()
-                .unwrap();
+            let s1 = c.get(1).map(|m| m.as_str().parse()).unwrap().unwrap();
+            let s2 = c.get(2).map(|m| m.as_str().parse()).unwrap().unwrap();
+            let s3 = c.get(3).map(|m| m.as_str().parse()).unwrap().unwrap();
 
             (s1, s2, s3)
         })

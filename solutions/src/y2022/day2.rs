@@ -7,7 +7,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         input
             .lines()
             .map(|l| {
-                let mut split = l.split(" ");
+                let mut split = l.split(' ');
                 let l = split.next().unwrap();
                 let r = split.next().unwrap();
 
@@ -58,7 +58,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         input
             .lines()
             .map(|l| {
-                let mut split = l.split(" ");
+                let mut split = l.split(' ');
                 let l = split.next().unwrap();
                 let r = split.next().unwrap();
 

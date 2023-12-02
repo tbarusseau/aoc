@@ -1,7 +1,7 @@
 pub fn try_index_from_char(c: char) -> Option<u8> {
     match c {
-        'a'..='z' => Some(((c as u8) - ('a' as u8)) as u8),
-        'A'..='Z' => Some(((c as u8) - ('A' as u8)) as u8),
+        'a'..='z' => Some((c as u8) - b'a'),
+        'A'..='Z' => Some((c as u8) - b'A'),
         _ => None,
     }
 }
@@ -12,8 +12,8 @@ pub fn index_from_char(c: char) -> u8 {
 
 pub fn try_index_to_char(index: u8, uppercase: bool) -> Option<char> {
     let offset = match uppercase {
-        true => 'A' as u8,
-        false => 'a' as u8,
+        true => b'A',
+        false => b'a',
     };
 
     match index {

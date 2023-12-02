@@ -7,12 +7,7 @@ const DIRECTIONS: &[(isize, isize)] = &[(-1, 0), (1, 0), (0, 1), (0, -1)];
 fn process_input(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
-        .map(|l| {
-            l.chars()
-                .map(|c| c.to_digit(10))
-                .flatten()
-                .collect::<Vec<u32>>()
-        })
+        .map(|l| l.chars().flat_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
         .collect::<Vec<Vec<u32>>>()
 }
 
@@ -63,7 +58,7 @@ fn is_shorter_rec(
         return false;
     }
 
-    return is_shorter_rec(forest, tree, (next_x as usize, next_y as usize), dir, size);
+    is_shorter_rec(forest, tree, (next_x as usize, next_y as usize), dir, size)
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {

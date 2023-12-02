@@ -123,10 +123,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     let gives = instructions
         .iter()
-        .filter_map(|v| match v {
-            Instruction::Give(_, _, _, _, _) => Some(v),
-            _ => None,
-        })
+        .filter(|v| matches!(v, Instruction::Give(_, _, _, _, _)))
         .collect_vec();
 
     for val in values {
@@ -154,7 +151,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     for give in gives {
         if let Instruction::Give(bot_index, _, _, _, _) = give {
             println!("Getting bot index {}", bot_index);
-            let microchip = microchips.get_mut(&bot_index).unwrap();
+            let microchip = microchips.get_mut(bot_index).unwrap();
             let low = microchip.give_low();
             let high = microchip.give_high();
 

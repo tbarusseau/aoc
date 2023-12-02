@@ -11,10 +11,10 @@ lazy_static! {
 
 fn parse(l: &str) -> (i32, i32, i32, i32) {
     let caps = RE.captures(l).unwrap();
-    let s1 = i32::from_str_radix(caps.get(1).unwrap().as_str(), 10).unwrap();
-    let e1 = i32::from_str_radix(caps.get(2).unwrap().as_str(), 10).unwrap();
-    let s2 = i32::from_str_radix(caps.get(3).unwrap().as_str(), 10).unwrap();
-    let e2 = i32::from_str_radix(caps.get(4).unwrap().as_str(), 10).unwrap();
+    let s1 = caps.get(1).unwrap().as_str().parse().unwrap();
+    let e1 = caps.get(2).unwrap().as_str().parse().unwrap();
+    let s2 = caps.get(3).unwrap().as_str().parse().unwrap();
+    let e2 = caps.get(4).unwrap().as_str().parse().unwrap();
 
     (s1, e1, s2, e2)
 }

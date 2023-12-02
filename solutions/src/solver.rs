@@ -26,22 +26,18 @@ pub trait Solver {
 
     fn solve_p1(&self, input: &str) -> SolverResults {
         let now = std::time::Instant::now();
-        let r1 = SolverResults {
-            result: self.solve_part1(&input),
+        SolverResults {
+            result: self.solve_part1(input),
             duration: now.elapsed(),
-        };
-
-        r1
+        }
     }
 
     fn solve_p2(&self, input: &str) -> SolverResults {
         let now = std::time::Instant::now();
-        let r2 = SolverResults {
-            result: self.solve_part2(&input),
+        SolverResults {
+            result: self.solve_part2(input),
             duration: now.elapsed(),
-        };
-
-        r2
+        }
     }
 
     fn solve(&self, input: &str) -> (SolverResults, SolverResults) {

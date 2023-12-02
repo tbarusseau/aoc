@@ -31,8 +31,8 @@ macro_rules! solvers_gen {
 #[macro_export]
 macro_rules! impl_day {
     ($day: expr, $done: expr) => {
-        use crate::solver::Solver;
         use paste::paste;
+        use $crate::solver::Solver;
 
         paste! {
             impl Solver for [<Day $day>] {

@@ -28,11 +28,11 @@ fn parse_input(input: &str) -> Vec<VecDeque<char>> {
             break;
         }
 
-        for i in 0..len {
+        for (i, value) in v.iter_mut().enumerate().take(len) {
             let ch_index = 4 * i + 1;
             if let Some(ch) = line.chars().nth(ch_index) {
                 if ch != ' ' {
-                    v[i].push_back(ch);
+                    value.push_back(ch);
                 }
             }
         }
@@ -43,9 +43,9 @@ fn parse_input(input: &str) -> Vec<VecDeque<char>> {
 
 fn parse_order(line: &str) -> (usize, usize, usize) {
     let caps = RE.captures(line).unwrap();
-    let count = usize::from_str_radix(caps.get(1).unwrap().as_str(), 10).unwrap();
-    let from = usize::from_str_radix(caps.get(2).unwrap().as_str(), 10).unwrap() - 1;
-    let to = usize::from_str_radix(caps.get(3).unwrap().as_str(), 10).unwrap() - 1;
+    let count = caps.get(1).unwrap().as_str().parse().unwrap();
+    let from = caps.get(2).unwrap().as_str().parse::<usize>().unwrap() - 1;
+    let to = caps.get(3).unwrap().as_str().parse::<usize>().unwrap() - 1;
 
     (count, from, to)
 }

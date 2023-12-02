@@ -14,7 +14,7 @@ fn get_valid_digit(hash: &[u8; 16]) -> Option<char> {
     let s = hex::encode(hash);
 
     if s.starts_with("00000") {
-        Some(s.chars().nth(5)).expect("no char at index 7")
+        s.chars().nth(5)
     } else {
         None
     }

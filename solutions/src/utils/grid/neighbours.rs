@@ -1,6 +1,6 @@
 use super::iterators::neighbours_into_iterator::NeighboursIntoIterator;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub struct Neighbours<T> {
     pub up: Option<T>,
     pub right: Option<T>,

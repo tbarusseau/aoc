@@ -20,7 +20,7 @@ where
     for inst in instructions {
         let mut chars = inst.chars();
         let turn_right = chars.next().expect("invalid turn input") == 'R';
-        let steps = i32::from_str_radix(chars.as_str(), 10).expect("invalid steps input");
+        let steps = chars.as_str().parse::<i32>().expect("invalid steps input");
 
         if turn_right {
             direction.turn_right();
