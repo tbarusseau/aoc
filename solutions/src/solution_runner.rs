@@ -4,8 +4,10 @@ use crate::{cli_app::Opt, solver::Solver};
 
 fn get_start_index(year: i32) -> usize {
     let mut available_years = 2015..=2023;
-    available_years
-        .find(|v| *v == year).map_or_else(|| panic!("Year not available: {}", year), |v| ((v - 2015) * 25) as usize)
+    available_years.find(|v| *v == year).map_or_else(
+        || panic!("Year not available: {}", year),
+        |v| ((v - 2015) * 25) as usize,
+    )
 }
 
 pub fn run_solution(
@@ -61,6 +63,8 @@ pub fn run_solution(
 }
 
 pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> anyhow::Result<()> {
+    use colored::Colorize;
+
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
     crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023);
 
@@ -72,8 +76,6 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
         }
 
         let input = input_fetcher.fetch(year, i, opt.force_fetch)?;
-
-        use colored::Colorize;
 
         let (s1, s2) = solver.solve(&input);
         println!("{}", format!("Solving year {year}, day {i}\n").bold());

@@ -35,9 +35,9 @@ struct Robot {
 }
 
 impl Robot {
-    pub fn from(input: Vec<i64>, brain_input: i64) -> Self {
+    pub fn from(input: &[i64], brain_input: i64) -> Self {
         Self {
-            brain: IntcodeComputer::from(&input, vec![brain_input]),
+            brain: IntcodeComputer::from(input, vec![brain_input]),
             pos: Pos { x: 0, y: 0 },
             dir: Direction::U,
             grid: HashMap::new(),
@@ -48,7 +48,9 @@ impl Robot {
         let mut r = Vec::new();
 
         loop {
-            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
+            use crate::y2019::intcode_computer::State::{
+                GaveOutput, Halted, Runnable, WaitingForInput,
+            };
 
             match self.brain.process() {
                 Runnable => panic!("Unexpected process result"),
@@ -108,13 +110,10 @@ impl Robot {
                 }
                 WaitingForInput => {
                     // Check color of current cell to provide input
-                    let input = match self.grid.get(&self.pos) {
-                        None => 0, // Black
-                        Some(e) => match e.color {
-                            Color::Black => 0,
-                            Color::White => 1,
-                        },
-                    };
+                    let input = self.grid.get(&self.pos).map_or(0, |e| match e.color {
+                        Color::Black => 0,
+                        Color::White => 1,
+                    });
 
                     self.brain.provide_input(vec![input]);
                 }
@@ -162,7 +161,7 @@ impl Robot {
                     None => out.push(' '),
                     Some(p) => match p.color {
                         Color::White => out.push('█'),
-                        _ => out.push(' '),
+                        Color::Black => out.push(' '),
                     },
                 }
             }
@@ -181,7 +180,7 @@ fn process_input(input: &str) -> Vec<i64> {
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    let mut r = Robot::from(input, 0);
+    let mut r = Robot::from(&input, 0);
     r.paint_hull();
     let res = r.grid.iter().filter(|&(_, v)| v.paint_layers > 0).count();
 
@@ -191,7 +190,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    let mut r = Robot::from(input, 1);
+    let mut r = Robot::from(&input, 1);
     r.paint_hull();
     Box::new(r.display_hull())
 }

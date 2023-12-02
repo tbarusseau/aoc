@@ -18,7 +18,7 @@ impl TryFrom<&str> for Game {
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let mut subsets = vec![];
 
-        let colon_index = value.find(':').ok_or(anyhow!("colon not found"))?;
+        let colon_index = value.find(':').ok_or_else(|| anyhow!("colon not found"))?;
         let game_index_slice = &value[5..colon_index];
         let game_index: i32 = game_index_slice
             .parse()
@@ -32,7 +32,7 @@ impl TryFrom<&str> for Game {
             let mut green_count = 0;
 
             for cube in subset.split(", ") {
-                let space_index = cube.find(' ').ok_or(anyhow!("no space"))?;
+                let space_index = cube.find(' ').ok_or_else(|| anyhow!("no space"))?;
                 let count: i32 = cube[..space_index]
                     .parse()
                     .map_err(|_| anyhow!("invalid cube count"))?;

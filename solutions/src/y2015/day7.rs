@@ -42,8 +42,11 @@ struct Instruction(Operation, String);
 impl TryFrom<&str> for Instruction {
     type Error = anyhow::Error;
 
+    #[allow(clippy::too_many_lines)]
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        use Operation::{And, Assignment, BitwiseWithOne, LShift, Not, Or, RShift, RegisterAssignment};
+        use Operation::{
+            And, Assignment, BitwiseWithOne, LShift, Not, Or, RShift, RegisterAssignment,
+        };
 
         if let Some(captures) = RE_ASSIGNMENT.captures(value) {
             let value = captures.get(1).and_then(|s| s.as_str().parse().ok());
@@ -213,9 +216,7 @@ impl Instruction {
                 let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
-                    state
-                        .entry(self.1.clone())
-                        .and_modify(|e| *e = Some(!va));
+                    state.entry(self.1.clone()).and_modify(|e| *e = Some(!va));
                 }
             }
             Operation::BitwiseWithOne(a) => {

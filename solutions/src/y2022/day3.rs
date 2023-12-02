@@ -6,11 +6,11 @@ pub struct Day3;
 
 crate::impl_day!("3", true);
 
-fn char_to_prio(c: &char) -> i32 {
+fn char_to_prio(c: char) -> i32 {
     if c.is_lowercase() {
-        *c as i32 - 'a' as i32 + 1
+        c as i32 - 'a' as i32 + 1
     } else {
-        *c as i32 - 'A' as i32 + 27
+        c as i32 - 'A' as i32 + 27
     }
 }
 
@@ -35,7 +35,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         res.push(*s1.intersection(&s2).next().unwrap());
     }
 
-    Box::new(res.iter().map(char_to_prio).sum::<i32>())
+    Box::new(res.iter().map(|c| char_to_prio(*c)).sum::<i32>())
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
@@ -77,7 +77,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         res.push(item);
     }
 
-    Box::new(res.iter().map(char_to_prio).sum::<i32>())
+    Box::new(res.iter().map(|c| char_to_prio(*c)).sum::<i32>())
 }
 
 #[cfg(test)]

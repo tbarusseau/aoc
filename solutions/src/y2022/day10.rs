@@ -1,3 +1,6 @@
+use std::convert::TryFrom;
+
+use anyhow::anyhow;
 use itertools::Itertools;
 use num::abs;
 
@@ -11,14 +14,22 @@ enum Operation {
     Noop,
 }
 
-impl From<&str> for Operation {
-    fn from(value: &str) -> Self {
-        if value == "noop" {
-            Self::Noop
-        } else if value.starts_with("addx") {
-            let v = value.split(' ').nth(1).unwrap();
+impl TryFrom<&str> for Operation {
+    type Error = anyhow::Error;
 
-            Self::Addx(v.parse().unwrap())
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        if value == "noop" {
+            Ok(Self::Noop)
+        } else if value.starts_with("addx") {
+            let v = value
+                .split(' ')
+                .nth(1)
+                .ok_or_else(|| anyhow!("addx operand not found"))?;
+
+            Ok(Self::Addx(
+                v.parse()
+                    .map_err(|_| anyhow!("cannot parse addx operand"))?,
+            ))
         } else {
             panic!("Unknown operation: {}", value);
         }
@@ -35,7 +46,7 @@ impl Operation {
 }
 
 fn process_input(input: &str) -> Vec<Operation> {
-    input.lines().map(Operation::from).collect()
+    input.lines().flat_map(Operation::try_from).collect()
 }
 
 struct State {

@@ -1,5 +1,10 @@
 #![allow(clippy::single_call_fn)]
 #![allow(clippy::missing_const_for_fn)]
+#![allow(clippy::module_name_repetitions)]
+#![allow(clippy::cast_sign_loss)]
+#![allow(clippy::cast_possible_wrap)]
+#![allow(clippy::cast_precision_loss)]
+#![allow(clippy::cast_possible_truncation)]
 
 use crate::solution_runner::run_solution;
 use chrono::Datelike;

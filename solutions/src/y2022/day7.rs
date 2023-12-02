@@ -34,20 +34,17 @@ where
         if line.starts_with("$ cd") {
             let dirname = line.split(' ').nth(2).unwrap();
 
-            match dirname {
-                ".." => {
-                    break;
-                }
-                _ => {
-                    let mut subdir = Directory {
-                        dirs: vec![],
-                        files: vec![],
-                    };
-
-                    parse_lines_rec(&mut subdir, &mut *lines);
-                    parent_dir.dirs.push(subdir);
-                }
+            if dirname == ".." {
+                break;
             }
+
+            let mut subdir = Directory {
+                dirs: vec![],
+                files: vec![],
+            };
+
+            parse_lines_rec(&mut subdir, &mut *lines);
+            parent_dir.dirs.push(subdir);
         } else if line.starts_with("$ ls") || line.starts_with("dir ") {
             /* Nothing to do */
         } else {

@@ -36,7 +36,7 @@ fn process_input(input: &str) -> Vec<VentsLine> {
         .collect()
 }
 
-fn step_towards(pos: &mut (i32, i32), end: &(i32, i32)) {
+fn step_towards(pos: &mut (i32, i32), end: (i32, i32)) {
     let mut multiplier = 1;
 
     if pos.0 == end.0 {
@@ -99,7 +99,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         grid[line.start.1 as usize][line.start.0 as usize] += 1;
         let mut pos = line.start;
         while pos != line.end {
-            step_towards(&mut pos, &line.end);
+            step_towards(&mut pos, line.end);
             grid[pos.1 as usize][pos.0 as usize] += 1;
         }
     }
@@ -120,7 +120,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         grid[line.start.1 as usize][line.start.0 as usize] += 1;
         let mut pos = line.start;
         while pos != line.end {
-            step_towards(&mut pos, &line.end);
+            step_towards(&mut pos, line.end);
             grid[pos.1 as usize][pos.0 as usize] += 1;
         }
     }

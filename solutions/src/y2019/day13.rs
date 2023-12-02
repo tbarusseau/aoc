@@ -24,21 +24,23 @@ impl Game {
         let mut r = Vec::new();
 
         loop {
-            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
+            use crate::y2019::intcode_computer::State::{
+                GaveOutput, Halted, Runnable, WaitingForInput,
+            };
 
             match self.computer.process() {
                 Runnable => {}
                 Halted => break,
                 GaveOutput(o) => {
-                    if r.len() != 2 {
-                        r.push(o);
-                    } else {
+                    if r.len() == 2 {
                         // Ignore positions for now
                         r.clear();
 
                         if o == 2 {
                             count += 1;
                         }
+                    } else {
+                        r.push(o);
                     }
                 }
                 WaitingForInput => panic!("Computer should not need any input"),
@@ -59,15 +61,15 @@ impl Game {
         self.computer.patch_memory(0, 2);
 
         loop {
-            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
+            use crate::y2019::intcode_computer::State::{
+                GaveOutput, Halted, Runnable, WaitingForInput,
+            };
 
             match self.computer.process() {
                 Runnable => {}
                 Halted => break,
                 GaveOutput(o) => {
-                    if r.len() != 2 {
-                        r.push(o);
-                    } else {
+                    if r.len() == 2 {
                         let y = r.pop().unwrap();
                         let x = r.pop().unwrap();
 
@@ -78,6 +80,8 @@ impl Game {
                         } else if o == 4 {
                             ballx = x;
                         }
+                    } else {
+                        r.push(o);
                     }
                 }
                 WaitingForInput => {

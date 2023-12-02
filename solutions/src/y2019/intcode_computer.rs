@@ -69,7 +69,6 @@ impl IntcodeComputer {
 
         (0..len).for_each(|i| {
             r[i] = match get_nth_digit(self.memory[self.instruction_pointer] as u32, i + 2, false) {
-                None | Some(0) => ParameterMode::Position,
                 Some(1) => ParameterMode::Immediate,
                 Some(2) => ParameterMode::Relative,
                 _ => ParameterMode::Position,
@@ -91,7 +90,7 @@ impl IntcodeComputer {
         let addr = match parameter_mode {
             ParameterMode::Position => param as usize,
             ParameterMode::Relative => (param + self.relative_base as i64) as usize,
-            _ => panic!("Unsupported parameter mode: {:?}", parameter_mode),
+            ParameterMode::Immediate => panic!("Unsupported parameter mode: {:?}", parameter_mode),
         };
 
         // TODO: Handle address too big

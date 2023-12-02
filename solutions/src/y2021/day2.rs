@@ -21,9 +21,10 @@ struct Instruction {
 #[grammar = "y2021/grammars/day2.pest"]
 struct InstructionsParser;
 
+#[allow(clippy::unnecessary_wraps)]
 #[pest_consume::parser]
 impl InstructionsParser {
-    fn EOI(_input: Node) -> Result<()> {
+    fn EOI(input: Node) -> Result<()> {
         Ok(())
     }
 

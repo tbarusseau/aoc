@@ -1,4 +1,5 @@
 #![allow(unused)]
+#![allow(clippy::collection_is_never_read)]
 
 use std::{collections::HashMap, fmt::Display};
 
@@ -44,8 +45,6 @@ fn process_input(input: &str) -> Vec<Tile> {
         let mut lines = split.lines();
 
         if let Some(first_line) = lines.next() {
-            let rest: Vec<&str> = lines.collect();
-
             let id_str = re
                 .captures(first_line)
                 .expect("doesn't match regex")
@@ -54,8 +53,7 @@ fn process_input(input: &str) -> Vec<Tile> {
                 .as_str();
             let id = id_str.parse().expect("tile id is not a valid i32");
 
-            let tile: Matrix<bool> = rest
-                .into_iter()
+            let tile: Matrix<bool> = lines
                 .map(|l| l.chars().map(|c| c == '#').collect())
                 .collect::<Vec<Vec<bool>>>()
                 .into();
@@ -75,6 +73,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     for tile in input {
         let key = tile.id;
+
         let mut v: Vec<Vec<bool>> = vec![Vec::with_capacity(10); 4];
 
         v.push(tile.tile.0[0].clone());

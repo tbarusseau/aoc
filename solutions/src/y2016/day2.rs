@@ -53,10 +53,6 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let mut result: String = String::new();
-    let mut pos: (i32, i32) = (-2, 0);
-    let lines = process_input(input);
-
     const VALID_POSITIONS: &[(i32, i32)] = &[
         (0, 2),
         (-1, 1),
@@ -72,6 +68,10 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         (1, -1),
         (0, -2),
     ];
+
+    let mut result: String = String::new();
+    let mut pos: (i32, i32) = (-2, 0);
+    let lines = process_input(input);
 
     for line in lines {
         for dir in line {

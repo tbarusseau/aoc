@@ -67,30 +67,31 @@ mod tests {
     #[test]
     fn test_part1() {
         const S1: &str = r#""""#;
+        const S2: &str = r#""abc""#;
+        const S3: &str = r#""aaa\"aaa""#;
+        const S4: &str = r#""\x27""#;
+        const S5: &str = r#""\\""#;
+        const S6: &str = r#""\\\\""#;
+        const S7: &str = r#""\x27\\\\\\""#;
+
         assert_eq!(count_code_characters(S1), 2);
         assert_eq!(count_string_characters(S1), 0);
 
-        const S2: &str = r#""abc""#;
         assert_eq!(count_code_characters(S2), 5);
         assert_eq!(count_string_characters(S2), 3);
 
-        const S3: &str = r#""aaa\"aaa""#;
         assert_eq!(count_code_characters(S3), 10);
         assert_eq!(count_string_characters(S3), 7);
 
-        const S4: &str = r#""\x27""#;
         assert_eq!(count_code_characters(S4), 6);
         assert_eq!(count_string_characters(S4), 1);
 
-        const S5: &str = r#""\\""#;
         assert_eq!(count_code_characters(S5), 4);
         assert_eq!(count_string_characters(S5), 1);
 
-        const S6: &str = r#""\\\\""#;
         assert_eq!(count_code_characters(S6), 6);
         assert_eq!(count_string_characters(S6), 2);
 
-        const S7: &str = r#""\x27\\\\\\""#;
         assert_eq!(count_code_characters(S7), 12);
         assert_eq!(count_string_characters(S7), 4);
     }

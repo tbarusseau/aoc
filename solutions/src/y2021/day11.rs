@@ -49,7 +49,7 @@ fn step(input: &mut [Vec<u32>]) -> usize {
     }
 
     // Flash octopus
-    let mut flashed: HashSet<(usize, usize)> = HashSet::new();
+    let mut has_been_flashed: HashSet<(usize, usize)> = HashSet::new();
 
     loop {
         let mut mutated = false;
@@ -60,14 +60,14 @@ fn step(input: &mut [Vec<u32>]) -> usize {
                 if v > 9 {
                     let pos = (x, y);
 
-                    if flashed.contains(&pos) {
+                    if has_been_flashed.contains(&pos) {
                         continue;
                     }
 
                     mutated = true;
 
                     // Flash current octopus, increment neighbours
-                    flashed.insert(pos);
+                    has_been_flashed.insert(pos);
                     flashes += 1;
                     modify_neighbours(input, (pos.0 as isize, pos.1 as isize), |e| {
                         *e += 1;
@@ -82,7 +82,7 @@ fn step(input: &mut [Vec<u32>]) -> usize {
     }
 
     // Reset flashed octopus
-    for (x, y) in flashed {
+    for (x, y) in has_been_flashed {
         input[y][x] = 0;
     }
 

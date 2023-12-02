@@ -32,19 +32,19 @@ fn process(line: &str) -> ProcessResult {
             continue;
         }
 
-        if !LEGAL_CLOSINGS.contains(&c) {
+        if LEGAL_CLOSINGS.contains(&c) {
             unreachable!("Non-legal character")
-        } else {
-            let last = v.pop_back();
+        }
 
-            if let Some(last) = last {
-                let index_closing = LEGAL_CLOSINGS.iter().position(|&e| e == c).unwrap();
-                if last != LEGAL_OPENINGS[index_closing] {
-                    return (line, false, Some(c), v);
-                }
-            } else {
-                unreachable!()
+        let last = v.pop_back();
+
+        if let Some(last) = last {
+            let index_closing = LEGAL_CLOSINGS.iter().position(|&e| e == c).unwrap();
+            if last != LEGAL_OPENINGS[index_closing] {
+                return (line, false, Some(c), v);
             }
+        } else {
+            unreachable!()
         }
     }
 

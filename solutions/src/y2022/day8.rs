@@ -7,7 +7,11 @@ const DIRECTIONS: &[(isize, isize)] = &[(-1, 0), (1, 0), (0, 1), (0, -1)];
 fn process_input(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
-        .map(|l| l.chars().filter_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
+        .map(|l| {
+            l.chars()
+                .filter_map(|c| c.to_digit(10))
+                .collect::<Vec<u32>>()
+        })
         .collect::<Vec<Vec<u32>>>()
 }
 

@@ -38,7 +38,7 @@ fn process_input(input: &str) -> (HashSet<(isize, isize)>, Instructions) {
     (set, Instructions(instructions))
 }
 
-fn fold(set: HashSet<(isize, isize)>, index: isize, horizontal: bool) -> HashSet<(isize, isize)> {
+fn fold(set: &HashSet<(isize, isize)>, index: isize, horizontal: bool) -> HashSet<(isize, isize)> {
     set.iter()
         .map(|&(x, y)| {
             if horizontal {
@@ -60,7 +60,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let (set, instructions) = process_input(input);
     let (index, horizontal) = instructions.0[0];
 
-    let set = fold(set, index, horizontal);
+    let set = fold(&set, index, horizontal);
 
     let res = set.len();
     Box::new(res)
@@ -73,7 +73,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     for ins in ins {
         let &(index, horizontal) = ins;
 
-        set = fold(set, index, horizontal);
+        set = fold(&set, index, horizontal);
     }
 
     let mut max_x = 0;
@@ -92,7 +92,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let mut v = vec![format!("{}", " ".repeat(max_x as usize)); max_y as usize];
 
     for &(x, y) in &set {
-        v[y as usize].replace_range((x as usize)..(x as usize + 1), "X");
+        v[y as usize].replace_range((x as usize)..=(x as usize), "X");
     }
 
     Box::new(format!("\n{}", v.join("\n").replace('X', "█")))

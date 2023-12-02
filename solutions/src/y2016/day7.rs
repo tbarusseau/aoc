@@ -52,7 +52,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
                 .iter()
                 .filter_map(|v| match v {
                     IpSequence::Regular(r) => Some(r),
-                    _ => None,
+                    IpSequence::Hypernet(_) => None,
                 })
                 .collect_vec();
 
@@ -60,7 +60,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
                 .iter()
                 .filter_map(|v| match v {
                     IpSequence::Hypernet(h) => Some(h),
-                    _ => None,
+                    IpSequence::Regular(_) => None,
                 })
                 .collect_vec();
 
@@ -76,7 +76,7 @@ fn supports_ssl(sequence: &[IpSequence]) -> bool {
         .iter()
         .filter_map(|v| match v {
             IpSequence::Regular(r) => Some(r),
-            _ => None,
+            IpSequence::Hypernet(_) => None,
         })
         .collect_vec();
 
@@ -84,7 +84,7 @@ fn supports_ssl(sequence: &[IpSequence]) -> bool {
         .iter()
         .filter_map(|v| match v {
             IpSequence::Hypernet(h) => Some(h),
-            _ => None,
+            IpSequence::Regular(_) => None,
         })
         .collect_vec();
 

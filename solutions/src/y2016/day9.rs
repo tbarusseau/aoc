@@ -15,41 +15,38 @@ fn decompress(s: &str) -> usize {
     let mut current_slice = s;
 
     loop {
-        match current_slice.find('(') {
-            Some(pos) => {
-                // Advance to next '('
-                out += pos;
-                current_slice = &current_slice[pos..];
+        if let Some(pos) = current_slice.find('(') {
+            // Advance to next '('
+            out += pos;
+            current_slice = &current_slice[pos..];
 
-                current_slice.find(')').map_or_else(
-                    || unreachable!(),
-                    |pos| {
-                        // Extract the marker slice, i.e. the ({COUNT}x{REPETITIONS})
-                        let marker = &current_slice[1..pos];
+            current_slice.find(')').map_or_else(
+                || unreachable!(),
+                |pos| {
+                    // Extract the marker slice, i.e. the ({COUNT}x{REPETITIONS})
+                    let marker = &current_slice[1..pos];
 
-                        // Advance the current slice to after the marker
-                        current_slice = &current_slice[pos + 1..];
+                    // Advance the current slice to after the marker
+                    current_slice = &current_slice[pos + 1..];
 
-                        // Extract count and repetitions
-                        let x_pos = marker.find('x').expect("couldn't find a 'x'");
-                        let count = parse_usize(&marker[0..x_pos]);
-                        let repetitions = parse_usize(&marker[x_pos + 1..]);
+                    // Extract count and repetitions
+                    let x_pos = marker.find('x').expect("couldn't find a 'x'");
+                    let count = parse_usize(&marker[0..x_pos]);
+                    let repetitions = parse_usize(&marker[x_pos + 1..]);
 
-                        // Recursively decompress the next `count` characters
-                        let repetition_len = decompress(&current_slice[0..count]);
+                    // Recursively decompress the next `count` characters
+                    let repetition_len = decompress(&current_slice[0..count]);
 
-                        // This will account for {REPETITIONS} * {REPETITION_LEN} chars
-                        out += repetitions * repetition_len;
+                    // This will account for {REPETITIONS} * {REPETITION_LEN} chars
+                    out += repetitions * repetition_len;
 
-                        current_slice = &current_slice[count..];
-                    },
-                );
-            }
-            None => {
-                // We reached the end of the input
-                out += current_slice.len();
-                break;
-            }
+                    current_slice = &current_slice[count..];
+                },
+            );
+        } else {
+            // We reached the end of the input
+            out += current_slice.len();
+            break;
         }
     }
 

@@ -27,7 +27,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     solve_p1_with_target(input, (31, 39))
 }
 
-fn compute_valid_successors(pos: &(i32, i32), favorite_number: i32) -> Vec<(i32, i32)> {
+fn compute_valid_successors(pos: (i32, i32), favorite_number: i32) -> Vec<(i32, i32)> {
     let mut v = vec![];
 
     for pos_offset in [
@@ -50,7 +50,7 @@ fn solve_p1_with_target(input: &str, target: (i32, i32)) -> Box<dyn std::fmt::Di
     let result = dijkstra(
         &(1, 1),
         |p| {
-            compute_valid_successors(p, favorite_number)
+            compute_valid_successors(*p, favorite_number)
                 .into_iter()
                 .map(|v| (v, 1))
                 .collect_vec()
@@ -64,7 +64,7 @@ fn solve_p1_with_target(input: &str, target: (i32, i32)) -> Box<dyn std::fmt::Di
 
 fn recursively_visit_valid_neighbours(
     visited_pos: &mut HashMap<(i32, i32), i32>,
-    current_pos: &(i32, i32),
+    current_pos: (i32, i32),
     favorite_number: i32,
     depth: i32,
     max_depth: i32,
@@ -75,7 +75,7 @@ fn recursively_visit_valid_neighbours(
     //     return;
     // }
 
-    visited_pos.insert(*current_pos, depth);
+    visited_pos.insert(current_pos, depth);
 
     let valid_neighbours = compute_valid_successors(current_pos, favorite_number)
         .into_iter()
@@ -92,7 +92,7 @@ fn recursively_visit_valid_neighbours(
         for p in &valid_neighbours {
             recursively_visit_valid_neighbours(
                 visited_pos,
-                p,
+                *p,
                 favorite_number,
                 depth + 1,
                 max_depth,
@@ -125,16 +125,16 @@ fn print_maze(favorite_number: i32, side_length: i32, visited_pos: &HashSet<(i32
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
+    const MAX_DEPTH: i32 = 50;
+
     let mut visited_pos: HashMap<(i32, i32), i32> = HashMap::new();
     let current_pos = (1, 1);
     let favorite_number = process_input(input);
     let depth = 0;
 
-    const MAX_DEPTH: i32 = 50;
-
     recursively_visit_valid_neighbours(
         &mut visited_pos,
-        &current_pos,
+        current_pos,
         favorite_number,
         depth,
         MAX_DEPTH,

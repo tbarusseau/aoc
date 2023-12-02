@@ -11,10 +11,7 @@ pub fn index_from_char(c: char) -> u8 {
 }
 
 pub fn try_index_to_char(index: u8, uppercase: bool) -> Option<char> {
-    let offset = match uppercase {
-        true => b'A',
-        false => b'a',
-    };
+    let offset = if uppercase { b'A' } else { b'a' };
 
     match index {
         0..=25 => Some((index + offset) as char),

@@ -56,6 +56,7 @@ impl System {
         }
     }
 
+    #[allow(clippy::too_many_lines)]
     pub fn timestep(&mut self) -> Option<(u64, u64, u64)> {
         let old_moons = &self.moons;
         let mut new_moons: Vec<Moon> = old_moons.iter().map(Moon::from).collect();
@@ -116,7 +117,7 @@ impl System {
         // - If that's the case, then the "history" will repeat itself at the only step where all of these are possible:
         //   LowestCommonMultiple(x, y, z) == LowestCommonMultiple(x, LowestCommonMultiple(y, z))
         if self.rep_x.is_none() {
-            match self.seen_x.contains(&(
+            if self.seen_x.contains(&(
                 self.moons[0].position.0,
                 self.moons[0].velocity.0,
                 self.moons[1].position.0,
@@ -124,24 +125,21 @@ impl System {
                 self.moons[2].position.0,
                 self.moons[2].velocity.0,
             )) {
-                true => {
-                    self.rep_x = Some(self.cycle);
-                }
-                _ => {
-                    self.seen_x.insert((
-                        self.moons[0].position.0,
-                        self.moons[0].velocity.0,
-                        self.moons[1].position.0,
-                        self.moons[1].velocity.0,
-                        self.moons[2].position.0,
-                        self.moons[2].velocity.0,
-                    ));
-                }
+                self.rep_x = Some(self.cycle);
+            } else {
+                self.seen_x.insert((
+                    self.moons[0].position.0,
+                    self.moons[0].velocity.0,
+                    self.moons[1].position.0,
+                    self.moons[1].velocity.0,
+                    self.moons[2].position.0,
+                    self.moons[2].velocity.0,
+                ));
             }
         }
 
         if self.rep_y.is_none() {
-            match self.seen_y.contains(&(
+            if self.seen_y.contains(&(
                 self.moons[0].position.1,
                 self.moons[0].velocity.1,
                 self.moons[1].position.1,
@@ -149,24 +147,21 @@ impl System {
                 self.moons[2].position.1,
                 self.moons[2].velocity.1,
             )) {
-                true => {
-                    self.rep_y = Some(self.cycle);
-                }
-                _ => {
-                    self.seen_y.insert((
-                        self.moons[0].position.1,
-                        self.moons[0].velocity.1,
-                        self.moons[1].position.1,
-                        self.moons[1].velocity.1,
-                        self.moons[2].position.1,
-                        self.moons[2].velocity.1,
-                    ));
-                }
+                self.rep_y = Some(self.cycle);
+            } else {
+                self.seen_y.insert((
+                    self.moons[0].position.1,
+                    self.moons[0].velocity.1,
+                    self.moons[1].position.1,
+                    self.moons[1].velocity.1,
+                    self.moons[2].position.1,
+                    self.moons[2].velocity.1,
+                ));
             }
         }
 
         if self.rep_z.is_none() {
-            match self.seen_z.contains(&(
+            if self.seen_z.contains(&(
                 self.moons[0].position.2,
                 self.moons[0].velocity.2,
                 self.moons[1].position.2,
@@ -174,19 +169,16 @@ impl System {
                 self.moons[2].position.2,
                 self.moons[2].velocity.2,
             )) {
-                true => {
-                    self.rep_z = Some(self.cycle);
-                }
-                _ => {
-                    self.seen_z.insert((
-                        self.moons[0].position.2,
-                        self.moons[0].velocity.2,
-                        self.moons[1].position.2,
-                        self.moons[1].velocity.2,
-                        self.moons[2].position.2,
-                        self.moons[2].velocity.2,
-                    ));
-                }
+                self.rep_z = Some(self.cycle);
+            } else {
+                self.seen_z.insert((
+                    self.moons[0].position.2,
+                    self.moons[0].velocity.2,
+                    self.moons[1].position.2,
+                    self.moons[1].velocity.2,
+                    self.moons[2].position.2,
+                    self.moons[2].velocity.2,
+                ));
             }
         }
 

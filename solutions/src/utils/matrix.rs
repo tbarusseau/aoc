@@ -48,7 +48,7 @@ where
         }
     }
 
-    pub fn edge_matches(&self, other: &Self, direction: Direction) -> bool {
+    pub fn edge_matches(&self, other: &Self, direction: &Direction) -> bool {
         let len = self.0.len();
 
         let [left, right] = match direction {
@@ -125,13 +125,13 @@ mod tests {
         let a = Matrix::from(vec![vec![1, 2], vec![3, 4]]);
         let b = Matrix::from(vec![vec![2, 1], vec![4, 3]]);
 
-        assert!(a.edge_matches(&b, Direction::Right));
-        assert!(b.edge_matches(&a, Direction::Left));
+        assert!(a.edge_matches(&b, &Direction::Right));
+        assert!(b.edge_matches(&a, &Direction::Left));
 
         let a = Matrix::from(vec![vec![1, 2], vec![3, 4]]);
         let b = Matrix::from(vec![vec![3, 4], vec![1, 2]]);
 
-        assert!(a.edge_matches(&b, Direction::Up));
-        assert!(b.edge_matches(&a, Direction::Down));
+        assert!(a.edge_matches(&b, &Direction::Up));
+        assert!(b.edge_matches(&a, &Direction::Down));
     }
 }
