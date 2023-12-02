@@ -56,7 +56,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     let res = input
         .iter()
-        .flat_map(|&l| process(l).2)
+        .filter_map(|&l| process(l).2)
         .fold(0, |acc, c| acc + illegal_value(c));
     Box::new(res)
 }
@@ -79,7 +79,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         .collect();
 
     let mut scores = vec![];
-    for result in process_results.iter_mut() {
+    for result in &mut process_results {
         let (_, _, _, ref mut v) = result;
         let mut total_score: u64 = 0;
         while let Some(c) = v.pop_back() {
@@ -117,6 +117,6 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        assert_eq!(288957.to_string(), *solve_part2(INPUT).to_string());
+        assert_eq!(288_957.to_string(), *solve_part2(INPUT).to_string());
     }
 }

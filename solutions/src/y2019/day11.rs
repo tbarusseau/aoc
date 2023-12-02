@@ -35,8 +35,8 @@ struct Robot {
 }
 
 impl Robot {
-    pub fn from(input: Vec<i64>, brain_input: i64) -> Robot {
-        Robot {
+    pub fn from(input: Vec<i64>, brain_input: i64) -> Self {
+        Self {
             brain: IntcodeComputer::from(&input, vec![brain_input]),
             pos: Pos { x: 0, y: 0 },
             dir: Direction::U,
@@ -48,7 +48,7 @@ impl Robot {
         let mut r = Vec::new();
 
         loop {
-            use crate::y2019::intcode_computer::State::*;
+            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
 
             match self.brain.process() {
                 Runnable => panic!("Unexpected process result"),
@@ -191,7 +191,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    let mut r = Robot::from(input.to_vec(), 1);
+    let mut r = Robot::from(input, 1);
     r.paint_hull();
     Box::new(r.display_hull())
 }

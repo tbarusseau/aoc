@@ -54,12 +54,10 @@ impl<T> Grid<T> {
     pub fn from_data(width: usize, data: Vec<T>) -> Self {
         let l = data.len();
 
-        if l % width != 0 {
-            panic!(
+        assert!(l % width == 0, 
                 "provided data isn't a multiple of width. Expected width of {:?}",
                 width
             );
-        }
 
         let height = l / width;
 
@@ -78,13 +76,11 @@ impl<T> Grid<T> {
     }
 
     pub fn push_row(&mut self, data: Vec<T>) {
-        if self.width != 0 && data.len() != self.width {
-            panic!(
+        assert!(!(self.width != 0 && data.len() != self.width), 
                 "wrong row length. Expected width of {:?} but got {:?} instead.",
                 self.width,
                 data.len()
             );
-        }
 
         self.width = data.len();
         self.height += 1;
@@ -153,24 +149,20 @@ impl<T> Grid<T> {
     }
 
     pub fn iter_row(&self, index: usize) -> Iter<T> {
-        if index >= self.height {
-            panic!(
+        assert!(index < self.height, 
                 "out of bounds. Row index must be less than {:?}, but is {:?}.",
                 self.height, index
             );
-        }
 
         let start = index * self.width;
         self.data[start..(start + self.width)].iter()
     }
 
     pub fn iter_col(&self, index: usize) -> StepBy<Iter<T>> {
-        if index >= self.width {
-            panic!(
+        assert!(index < self.width, 
                 "out of bounds. Column index must be less than {:?}, but is {:?}.",
                 self.width, index
             );
-        }
 
         let start = index;
         self.data[start..(start * self.height)]

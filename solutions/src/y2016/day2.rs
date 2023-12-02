@@ -114,11 +114,11 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"ULL
+    const INPUT: &str = r"ULL
 RRDDD
 LURDL
 UUUUD
-"#;
+";
 
     #[test]
     fn test_part1() {

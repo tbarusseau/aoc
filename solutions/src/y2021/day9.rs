@@ -13,7 +13,7 @@ fn process_input(input: &str) -> Grid<u32> {
     let lines = input.lines();
 
     for line in lines {
-        grid.push_row(line.chars().flat_map(|c| char::to_digit(c, 10)).collect())
+        grid.push_row(line.chars().filter_map(|c| char::to_digit(c, 10)).collect());
     }
 
     grid

@@ -48,7 +48,7 @@ fn get_valid_digit_and_pos(hash: &[u8; 16]) -> Option<(char, usize)> {
 
     if s.starts_with("00000") {
         let pos = s.chars().nth(5).expect("no char at index 5");
-        let pos = usize::from_str_radix(&format!("{}", pos), 16).expect("invalid pos");
+        let pos = usize::from_str_radix(&format!("{pos}"), 16).expect("invalid pos");
 
         let value = s.chars().nth(6).expect("no chat at index 6");
 
@@ -77,7 +77,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
                 password[pos] = Some(value);
             }
 
-            if password.iter().all(|v| v.is_some()) {
+            if password.iter().all(std::option::Option::is_some) {
                 break;
             }
         }

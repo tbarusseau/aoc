@@ -14,11 +14,11 @@ enum Operation {
 impl From<&str> for Operation {
     fn from(value: &str) -> Self {
         if value == "noop" {
-            Operation::Noop
+            Self::Noop
         } else if value.starts_with("addx") {
             let v = value.split(' ').nth(1).unwrap();
 
-            Operation::Addx(v.parse().unwrap())
+            Self::Addx(v.parse().unwrap())
         } else {
             panic!("Unknown operation: {}", value);
         }
@@ -28,8 +28,8 @@ impl From<&str> for Operation {
 impl Operation {
     pub fn duration(&self) -> i32 {
         match self {
-            Operation::Addx(_) => 2,
-            Operation::Noop => 1,
+            Self::Addx(_) => 2,
+            Self::Noop => 1,
         }
     }
 }
@@ -160,7 +160,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"addx 15
+    const INPUT: &str = r"addx 15
 addx -11
 addx 6
 addx -3
@@ -305,7 +305,7 @@ addx -6
 addx -11
 noop
 noop
-noop"#;
+noop";
 
     #[test]
     fn test_part1() {
@@ -316,14 +316,14 @@ noop"#;
     fn test_part2() {
         assert_eq!(
             String::from(
-                r#"
+                r"
 ##..##..##..##..##..##..##..##..##..##..
 ###...###...###...###...###...###...###.
 ####....####....####....####....####....
 #####.....#####.....#####.....#####.....
 ######......######......######......###.
 #######.......#######.......#######.....
-"#
+"
             ),
             *solve_part2(INPUT).to_string()
         );

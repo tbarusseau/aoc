@@ -10,7 +10,7 @@ fn process_input(input: &str) -> Vec<(i32, i32, i32)> {
     input
         .trim()
         .lines()
-        .flat_map(|l| re.captures(l))
+        .filter_map(|l| re.captures(l))
         .map(|c| {
             let s1 = c.get(1).map(|m| m.as_str().parse()).unwrap().unwrap();
             let s2 = c.get(2).map(|m| m.as_str().parse()).unwrap().unwrap();

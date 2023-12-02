@@ -84,7 +84,7 @@ impl Room {
                 continue;
             }
 
-            decyphered_name.push(((((c as u8 - b'a') + rot as u8) % 26) + b'a') as char)
+            decyphered_name.push(((((c as u8 - b'a') + rot as u8) % 26) + b'a') as char);
         }
 
         decyphered_name
@@ -141,6 +141,6 @@ mod tests {
                 .unwrap()
                 .decypher_name(),
             "very encrypted name"
-        )
+        );
     }
 }

@@ -22,8 +22,8 @@ struct AsteroidsField {
 fn normalize(x: u32, y: u32) -> (i64, i64) {
     let g = gcd(x, y);
     match g {
-        0 => (x as i64, y as i64),
-        _ => ((x / g) as i64, (y / g) as i64),
+        0 => (i64::from(x), i64::from(y)),
+        _ => (i64::from(x / g), i64::from(y / g)),
     }
 }
 
@@ -63,7 +63,7 @@ fn farey_sequence(n: isize) -> Vec<Frac> {
 }
 
 impl AsteroidsField {
-    pub fn from(input: &str) -> AsteroidsField {
+    pub fn from(input: &str) -> Self {
         let mut asteroids: Vec<Option<Asteroid>> = Vec::new();
         let input: Vec<&str> = input.lines().collect();
         let height = input.len();
@@ -81,7 +81,7 @@ impl AsteroidsField {
             }
         });
 
-        AsteroidsField {
+        Self {
             width: width as i32,
             height: height as i32,
             asteroids,

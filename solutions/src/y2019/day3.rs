@@ -25,8 +25,8 @@ struct Movement {
 }
 
 impl Movement {
-    pub fn from(input: &str) -> Movement {
-        Movement {
+    pub fn from(input: &str) -> Self {
+        Self {
             direction: match input.chars().next().unwrap() {
                 'U' => Direction::U,
                 'R' => Direction::R,
@@ -50,8 +50,8 @@ struct Wire {
 }
 
 impl Wire {
-    pub fn from(input: &str, id: usize) -> Wire {
-        Wire {
+    pub fn from(input: &str, id: usize) -> Self {
+        Self {
             id,
             movements: input.split(',').map(Movement::from).collect(),
         }
@@ -65,8 +65,8 @@ struct Board {
 }
 
 impl Board {
-    pub fn from(input: &str) -> Board {
-        Board {
+    pub fn from(input: &str) -> Self {
+        Self {
             wires: input
                 .lines()
                 .enumerate()

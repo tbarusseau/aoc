@@ -72,7 +72,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"
+    const INPUT: &str = r"
 NNCB
 
 CH -> B
@@ -91,7 +91,7 @@ BB -> N
 BC -> B
 CC -> N
 CN -> C
-"#;
+";
 
     #[test]
     fn test_part1() {
@@ -101,7 +101,7 @@ CN -> C
     #[test]
     fn test_part2() {
         assert_eq!(
-            2188189693529_usize.to_string(),
+            2_188_189_693_529_usize.to_string(),
             *solve_part2(INPUT).to_string()
         );
     }

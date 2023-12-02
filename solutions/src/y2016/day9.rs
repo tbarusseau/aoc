@@ -43,7 +43,7 @@ fn decompress(s: &str) -> usize {
 
                         current_slice = &current_slice[count..];
                     },
-                )
+                );
             }
             None => {
                 // We reached the end of the input

@@ -10,8 +10,8 @@ struct Game {
 }
 
 impl Game {
-    pub fn from(input: &[i64]) -> Game {
-        Game {
+    pub fn from(input: &[i64]) -> Self {
+        Self {
             computer: IntcodeComputer::from(input, vec![]),
             score: 0,
         }
@@ -24,7 +24,7 @@ impl Game {
         let mut r = Vec::new();
 
         loop {
-            use crate::y2019::intcode_computer::State::*;
+            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
 
             match self.computer.process() {
                 Runnable => {}
@@ -37,7 +37,7 @@ impl Game {
                         r.clear();
 
                         if o == 2 {
-                            count += 1
+                            count += 1;
                         }
                     }
                 }
@@ -59,7 +59,7 @@ impl Game {
         self.computer.patch_memory(0, 2);
 
         loop {
-            use crate::y2019::intcode_computer::State::*;
+            use crate::y2019::intcode_computer::State::{GaveOutput, Halted, Runnable, WaitingForInput};
 
             match self.computer.process() {
                 Runnable => {}
@@ -82,7 +82,7 @@ impl Game {
                 }
                 WaitingForInput => {
                     // Just follow the ball
-                    use std::cmp::Ordering::*;
+                    use std::cmp::Ordering::{Equal, Greater, Less};
 
                     let joystick = match padx.cmp(&ballx) {
                         Equal => 0,
@@ -100,7 +100,7 @@ impl Game {
 }
 
 fn process_input(input: &str) -> Vec<i64> {
-    input.split(',').flat_map(|i| i.parse::<i64>()).collect()
+    input.split(',').flat_map(str::parse).collect()
 }
 
 #[allow(unused)]

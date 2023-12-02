@@ -142,28 +142,28 @@ fn windows_mut_each<T>(v: &mut [T], n: usize, mut f: impl FnMut(&mut [T])) {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"R 4
+    const INPUT: &str = r"R 4
 U 4
 L 3
 D 1
 R 4
 D 1
 L 5
-R 2"#;
+R 2";
 
     #[test]
     fn test_part1() {
         assert_eq!(13.to_string(), *solve_part1(INPUT).to_string());
     }
 
-    const INPUT2: &str = r#"R 5
+    const INPUT2: &str = r"R 5
 U 8
 L 8
 D 3
 R 17
 D 10
 L 25
-U 20"#;
+U 20";
 
     #[test]
     fn test_part2() {

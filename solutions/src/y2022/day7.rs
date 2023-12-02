@@ -63,7 +63,7 @@ where
 }
 
 fn walk_dir_rec(dir: &Directory, sizes: &mut Vec<usize>) {
-    for subdir in dir.dirs.iter() {
+    for subdir in &dir.dirs {
         sizes.push(get_dir_size_rec(subdir));
         walk_dir_rec(subdir, sizes);
     }
@@ -72,11 +72,11 @@ fn walk_dir_rec(dir: &Directory, sizes: &mut Vec<usize>) {
 fn get_dir_size_rec(dir: &Directory) -> usize {
     let mut result = 0;
 
-    for subdir in dir.dirs.iter() {
+    for subdir in &dir.dirs {
         result += get_dir_size_rec(subdir);
     }
 
-    for file in dir.files.iter() {
+    for file in &dir.files {
         result += file.size;
     }
 
@@ -89,7 +89,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 
     walk_dir_rec(&root_dir, &mut sizes);
 
-    sizes.retain(|s| *s <= 100000);
+    sizes.retain(|s| *s <= 100_000);
     let res: usize = sizes.iter().sum();
     Box::new(res)
 }
@@ -100,7 +100,7 @@ const REQUIRED_UNUSED_SPACE: usize = 30_000_000;
 fn find_smallest_dir_rec(root_dir: &Directory, unused_space: usize) -> usize {
     let mut smallest_valid = usize::MAX;
 
-    for dir in root_dir.dirs.iter() {
+    for dir in &root_dir.dirs {
         let size = get_dir_size_rec(dir);
         if unused_space + size > REQUIRED_UNUSED_SPACE {
             smallest_valid = smallest_valid.min(size);
@@ -117,8 +117,8 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let unused_space = TOTAL_DISK_SPACE - get_dir_size_rec(&root_dir);
 
     let smallest = find_smallest_dir_rec(&root_dir, unused_space);
-    println!("unused_space: {}", unused_space);
-    println!("smallest: {}", smallest);
+    println!("unused_space: {unused_space}");
+    println!("smallest: {smallest}");
 
     Box::new(smallest)
 }
@@ -127,7 +127,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"$ cd /
+    const INPUT: &str = r"$ cd /
 $ ls
 dir a
 14848514 b.txt
@@ -149,7 +149,7 @@ $ ls
 4060174 j
 8033020 d.log
 5626152 d.ext
-7214296 k"#;
+7214296 k";
 
     #[test]
     fn test_part1() {
@@ -158,6 +158,6 @@ $ ls
 
     #[test]
     fn test_part2() {
-        assert_eq!(24933642.to_string(), *solve_part2(INPUT).to_string());
+        assert_eq!(24_933_642.to_string(), *solve_part2(INPUT).to_string());
     }
 }

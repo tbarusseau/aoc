@@ -55,14 +55,14 @@ mod tests {
             vec![109, 1, 204, -1, 1001, 100, 1, 100, 1008, 100, 16, 101, 1006, 101, 0, 99],
             c.into_iter().collect::<Vec<i64>>()
         );
-        let mut c = IntcodeComputer::from(&[1102, 34915192, 34915192, 7, 4, 7, 99, 0], vec![]);
+        let mut c = IntcodeComputer::from(&[1102, 34_915_192, 34_915_192, 7, 4, 7, 99, 0], vec![]);
         match c.process() {
             GaveOutput(r) => assert_eq!(16, r.to_string().chars().as_str().len()),
             _ => panic!("Computer gave no output"),
         }
-        let mut c = IntcodeComputer::from(&[104, 1125899906842624, 99], vec![]);
+        let mut c = IntcodeComputer::from(&[104, 1_125_899_906_842_624, 99], vec![]);
         match c.process() {
-            GaveOutput(r) => assert_eq!(1125899906842624, r),
+            GaveOutput(r) => assert_eq!(1_125_899_906_842_624, r),
             _ => panic!("Computer gave no output"),
         }
     }

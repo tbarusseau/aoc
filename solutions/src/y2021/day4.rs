@@ -19,14 +19,14 @@ impl std::fmt::Display for Board {
                 if *b {
                     out.push_str(&format!("{} ", a.to_string().blue()));
                 } else {
-                    out.push_str(&format!("{} ", a));
+                    out.push_str(&format!("{a} "));
                 }
             });
 
             out.push('\n');
         }
 
-        write!(f, "{}", out)
+        write!(f, "{out}")
     }
 }
 
@@ -77,13 +77,13 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     'outer: for draw in &draw_order.0 {
         last_draw = *draw;
 
-        boards.iter_mut().for_each(|b| {
+        for b in boards.iter_mut() {
             b.0.iter_mut().for_each(|(n, b)| {
                 if n == draw {
                     *b = true;
                 }
-            })
-        });
+            });
+        }
 
         for board in boards.iter() {
             for i in 0..5 {
@@ -115,13 +115,13 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     'outer: for draw in &draw_order.0 {
         last_draw = *draw;
 
-        boards.iter_mut().for_each(|b| {
+        for b in boards.iter_mut() {
             b.0.iter_mut().for_each(|(n, b)| {
                 if n == draw {
                     *b = true;
                 }
-            })
-        });
+            });
+        }
 
         for (index, board) in boards.iter().enumerate() {
             for i in 0..5 {
@@ -153,7 +153,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
+    const INPUT: &str = r"7,4,9,5,11,17,23,2,0,14,21,24,10,16,13,6,15,25,12,22,18,20,8,19,3,26,1
 
 22 13 17 11  0
 8  2 23  4 24
@@ -171,7 +171,7 @@ mod tests {
 10 16 15  9 19
 18  8 23 26 20
 22 11 13  6  5
-2  0 12  3  7"#;
+2  0 12  3  7";
 
     #[test]
     fn test_part1() {

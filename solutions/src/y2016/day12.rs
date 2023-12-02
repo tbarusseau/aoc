@@ -20,7 +20,7 @@ impl TryFrom<&str> for Instruction {
     type Error = ();
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        use Instruction::*;
+        use Instruction::{CopyRegister, CopyValue, Dec, Inc, JnzRegister, JnzValue};
 
         if let Ok((a, b)) = sscanf::sscanf!(value, "cpy {String} {char}") {
             if let Ok(v) = a.parse() {
@@ -136,13 +136,13 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"cpy 41 a
+    const INPUT: &str = r"cpy 41 a
 inc a
 inc a
 dec a
 jnz a 2
 dec a
-"#;
+";
 
     #[test]
     fn test_part1() {

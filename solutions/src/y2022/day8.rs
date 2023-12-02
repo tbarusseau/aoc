@@ -7,7 +7,7 @@ const DIRECTIONS: &[(isize, isize)] = &[(-1, 0), (1, 0), (0, 1), (0, -1)];
 fn process_input(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
-        .map(|l| l.chars().flat_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
+        .map(|l| l.chars().filter_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
         .collect::<Vec<Vec<u32>>>()
 }
 
@@ -119,11 +119,11 @@ fn get_viewing_distance_rec(
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"30373
+    const INPUT: &str = r"30373
 25512
 65332
 33549
-35390"#;
+35390";
 
     #[test]
     fn test_part1() {

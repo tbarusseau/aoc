@@ -30,7 +30,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"1000
+    const INPUT: &str = r"1000
 2000
 3000
 
@@ -43,7 +43,7 @@ mod tests {
 8000
 9000
 
-10000"#;
+10000";
 
     #[test]
     fn test_part1() {

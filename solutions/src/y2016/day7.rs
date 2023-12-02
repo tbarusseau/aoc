@@ -64,11 +64,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
                 })
                 .collect_vec();
 
-            if regulars.iter().any(|r| is_abba(r)) && hypernets.iter().all(|h| !is_abba(h)) {
-                1
-            } else {
-                0
-            }
+            i32::from(regulars.iter().any(|r| is_abba(r)) && hypernets.iter().all(|h| !is_abba(h)))
         })
         .sum();
 
@@ -94,15 +90,15 @@ fn supports_ssl(sequence: &[IpSequence]) -> bool {
 
     let mut aba_collection = HashSet::new();
 
-    regulars.iter().for_each(|r| {
+    for r in &regulars {
         for (a, b, c) in r.chars().tuple_windows() {
             if a != b && a == c && !aba_collection.contains(&(a, b)) {
                 aba_collection.insert((a, b));
             }
         }
-    });
+    }
 
-    for hyper in hypernets.iter() {
+    for hyper in &hypernets {
         for (a, b, c) in hyper.chars().tuple_windows() {
             if a != b && a == c && aba_collection.contains(&(b, a)) {
                 return true;

@@ -101,7 +101,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         }
     }
 
-    println!("Valid velocities: {:?}", starting_velocities);
+    println!("Valid velocities: {starting_velocities:?}");
 
     let res = "Part 1 not done";
     Box::new(res)
@@ -119,7 +119,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"target area: x=20..30, y=-10..-5"#;
+    const INPUT: &str = r"target area: x=20..30, y=-10..-5";
 
     #[test]
     fn test_part1() {

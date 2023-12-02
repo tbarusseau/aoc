@@ -84,12 +84,12 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"vJrwpWtwJgWrhcsFMMfFFhFp
+    const INPUT: &str = r"vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
 PmmdzqPrVvPwwTWBwg
 wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
 ttgJtRGJQctTZtZT
-CrZsJsPPZsGzwwsLwLmpwMDw"#;
+CrZsJsPPZsGzwwsLwLmpwMDw";
 
     #[test]
     fn test_part1() {

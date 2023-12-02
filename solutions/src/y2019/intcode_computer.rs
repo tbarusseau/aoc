@@ -10,7 +10,7 @@ enum ParameterMode {
 }
 
 #[allow(unused)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum State {
     Runnable,
     Halted,
@@ -28,13 +28,13 @@ pub struct IntcodeComputer {
 }
 
 impl IntcodeComputer {
-    pub fn from(data: &[i64], input: Vec<i64>) -> IntcodeComputer {
+    pub fn from(data: &[i64], input: Vec<i64>) -> Self {
         // Extend the program's memory
         let mut memory = data.to_vec();
         memory.extend(vec![0; MEMORY_SIZE - data.len()]);
         let initial_state = memory.clone();
 
-        IntcodeComputer {
+        Self {
             initial_state,
             memory,
             instruction_pointer: 0,
@@ -45,7 +45,7 @@ impl IntcodeComputer {
 
     #[allow(unused)]
     pub fn process_from(data: &[i64], input: Vec<i64>) -> State {
-        let mut c = IntcodeComputer::from(data, input);
+        let mut c = Self::from(data, input);
         c.process()
     }
 
@@ -100,7 +100,7 @@ impl IntcodeComputer {
     }
 
     pub fn process(&mut self) -> State {
-        use State::*;
+        use State::{GaveOutput, Halted, WaitingForInput};
 
         loop {
             let p = self.get_parameter_modes();

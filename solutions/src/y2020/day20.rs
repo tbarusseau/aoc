@@ -20,8 +20,8 @@ impl Display for Tile {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "Tile {}:", self.id)?;
 
-        for l in self.tile.0.iter() {
-            for b in l.iter() {
+        for l in &self.tile.0 {
+            for b in l {
                 if *b {
                     write!(f, "#")?;
                 } else {
@@ -37,7 +37,7 @@ impl Display for Tile {
 }
 
 fn process_input(input: &str) -> Vec<Tile> {
-    let re = Regex::new(r#"^Tile (\d+):$"#).expect("Invalid regex");
+    let re = Regex::new(r"^Tile (\d+):$").expect("Invalid regex");
     let mut tiles = Vec::with_capacity(144);
 
     for split in input.split("\n\n") {
@@ -77,8 +77,8 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         let key = tile.id;
         let mut v: Vec<Vec<bool>> = vec![Vec::with_capacity(10); 4];
 
-        v.push(tile.tile.0[0].to_owned());
-        v.push(tile.tile.0[tile_len - 1].to_owned());
+        v.push(tile.tile.0[0].clone());
+        v.push(tile.tile.0[tile_len - 1].clone());
     }
 
     Box::new("Part 1 not done")
@@ -95,7 +95,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"Tile 2311:
+    const INPUT: &str = r"Tile 2311:
 ..##.#..#.
 ##..#.....
 #...##..#.
@@ -203,12 +203,12 @@ Tile 3079:
 ..#.......
 ..#.###...
 
-"#;
+";
 
     #[test]
     fn test_part1() {
         assert_eq!(
-            20899048083289_i64.to_string(),
+            20_899_048_083_289_i64.to_string(),
             *solve_part1(INPUT).to_string()
         );
     }

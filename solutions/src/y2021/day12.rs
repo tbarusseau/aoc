@@ -14,12 +14,10 @@ enum Node {
 impl From<&str> for Node {
     fn from(s: &str) -> Self {
         match s {
-            "start" => Node::Start,
-            "end" => Node::End,
+            "start" => Self::Start,
+            "end" => Self::End,
             s => {
-                if s.len() != 2 {
-                    panic!("Doesn't have a size of two chars: {}", s);
-                }
+                assert!(s.len() == 2, "Doesn't have a size of two chars: {}", s);
 
                 let mut chars = s.chars();
                 let c0 = chars.next().unwrap();
@@ -32,9 +30,9 @@ impl From<&str> for Node {
                 }
 
                 if c0.is_uppercase() {
-                    Node::Big(s.to_owned())
+                    Self::Big(s.to_owned())
                 } else {
-                    Node::Small(s.to_owned())
+                    Self::Small(s.to_owned())
                 }
             }
         }
@@ -81,7 +79,7 @@ fn count(graph: &UnGraphMap<&str, ()>, small_caves: usize, seen: Vec<&str>, node
 
     graph
         .edges(node)
-        .map(|(_, e, _)| {
+        .map(|(_, e, ())| {
             let mut v = seen.clone();
             v.push(node);
 
@@ -108,7 +106,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT1: &str = r#"
+    const INPUT1: &str = r"
 start-A
 start-b
 A-c
@@ -116,9 +114,9 @@ A-b
 b-d
 A-end
 b-end
-"#;
+";
 
-    const INPUT2: &str = r#"
+    const INPUT2: &str = r"
 dc-end
 HN-start
 start-kj
@@ -129,9 +127,9 @@ HN-end
 kj-sa
 kj-HN
 kj-dc
-"#;
+";
 
-    const INPUT3: &str = r#"
+    const INPUT3: &str = r"
 fs-end
 he-DX
 fs-he
@@ -150,7 +148,7 @@ he-WI
 zg-he
 pj-fs
 start-RW
-"#;
+";
 
     #[test]
     fn test_part1() {

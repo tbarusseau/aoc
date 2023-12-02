@@ -55,12 +55,12 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"2-4,6-8
+    const INPUT: &str = r"2-4,6-8
 2-3,4-5
 5-7,7-9
 2-8,3-7
 6-6,4-6
-2-6,4-8"#;
+2-6,4-8";
 
     #[test]
     fn test_part1() {

@@ -67,6 +67,6 @@ mod tests {
 
     #[test]
     fn test_part2() {
-        assert_eq!(26984457539_u64.to_string(), *solve_part2(INPUT).to_string());
+        assert_eq!(26_984_457_539_u64.to_string(), *solve_part2(INPUT).to_string());
     }
 }

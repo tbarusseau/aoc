@@ -12,15 +12,15 @@ struct Moon {
 }
 
 impl Moon {
-    pub fn from(other: &Moon) -> Moon {
-        Moon {
+    pub fn from(other: &Self) -> Self {
+        Self {
             position: other.position,
             velocity: other.velocity,
         }
     }
 
-    pub fn new(x: i64, y: i64, z: i64) -> Moon {
-        Moon {
+    pub fn new(x: i64, y: i64, z: i64) -> Self {
+        Self {
             position: (x, y, z),
             velocity: (0, 0, 0),
         }
@@ -43,8 +43,8 @@ struct System {
 }
 
 impl System {
-    pub fn from(input: Vec<Moon>) -> System {
-        System {
+    pub fn from(input: Vec<Moon>) -> Self {
+        Self {
             moons: input,
             seen_x: HashSet::new(),
             seen_y: HashSet::new(),

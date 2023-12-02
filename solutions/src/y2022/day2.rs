@@ -110,10 +110,10 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"A Y
+    const INPUT: &str = r"A Y
 B X
 C Z
-"#;
+";
 
     #[test]
     fn test_part1() {

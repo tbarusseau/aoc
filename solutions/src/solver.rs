@@ -7,7 +7,7 @@ pub struct SolverResults {
 
 impl Display for SolverResults {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        use colored::*;
+        use colored::Colorize;
 
         let result = format!("{}", self.result).bold().blue();
 

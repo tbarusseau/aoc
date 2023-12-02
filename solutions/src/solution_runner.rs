@@ -5,9 +5,7 @@ use crate::{cli_app::Opt, solver::Solver};
 fn get_start_index(year: i32) -> usize {
     let mut available_years = 2015..=2023;
     available_years
-        .find(|v| *v == year)
-        .map(|v| ((v - 2015) * 25) as usize)
-        .unwrap_or_else(|| panic!("Year not available: {}", year))
+        .find(|v| *v == year).map_or_else(|| panic!("Year not available: {}", year), |v| ((v - 2015) * 25) as usize)
 }
 
 pub fn run_solution(
@@ -20,21 +18,19 @@ pub fn run_solution(
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
     crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023);
 
-    if day == 0 || day > 25 {
-        panic!("Day must be between 1 and 25");
-    }
+    assert!(!(day == 0 || day > 25), "Day must be between 1 and 25");
 
     let solver = &solvers[get_start_index(year) + day as usize - 1];
 
     if !solver.done() {
-        println!("No solution for year {}, day {}. Exiting.", year, day);
+        println!("No solution for year {year}, day {day}. Exiting.");
 
         return Ok(());
     }
 
     let input = input_fetcher.fetch(year, day, opt.force_fetch)?;
 
-    use colored::*;
+    use colored::Colorize;
 
     if let Some(part) = single_part {
         if part != 1 && part != 2 {
@@ -49,15 +45,15 @@ pub fn run_solution(
 
         println!(
             "{}",
-            format!("Solving year {}, day {}, part {}\n", year, day, part).bold()
+            format!("Solving year {year}, day {day}, part {part}\n").bold()
         );
-        println!("{} {}", &format!("Part {}:", part).green(), r);
+        println!("{} {}", &format!("Part {part}:").green(), r);
 
         return Ok(());
     }
 
     let (s1, s2) = solver.solve(&input);
-    println!("{}", format!("Solving year {}, day {}\n", year, day).bold());
+    println!("{}", format!("Solving year {year}, day {day}\n").bold());
     println!("{} {}", "Part 1:".green(), s1);
     println!("{} {}", "Part 2:".red(), s2);
 
@@ -77,10 +73,10 @@ pub fn run_all_solutions(opt: &Opt, input_fetcher: &InputFetcher, year: i32) -> 
 
         let input = input_fetcher.fetch(year, i, opt.force_fetch)?;
 
-        use colored::*;
+        use colored::Colorize;
 
         let (s1, s2) = solver.solve(&input);
-        println!("{}", format!("Solving year {}, day {}\n", year, i).bold());
+        println!("{}", format!("Solving year {year}, day {i}\n").bold());
         println!("{} {}", "Part 1:".green(), s1);
         println!("{} {}", "Part 2:".red(), s2);
 

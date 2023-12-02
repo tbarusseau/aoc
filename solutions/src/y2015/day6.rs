@@ -125,15 +125,15 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"
+    const INPUT: &str = r"
 turn on 0,0 through 999,999
 toggle 0,0 through 999,0
 turn off 499,499 through 500,500
-"#;
+";
 
     #[test]
     fn test_part1() {
-        assert_eq!((999000 - 4).to_string(), *solve_part1(INPUT).to_string());
+        assert_eq!((999_000 - 4).to_string(), *solve_part1(INPUT).to_string());
     }
 
     #[test]

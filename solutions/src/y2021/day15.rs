@@ -10,23 +10,21 @@ crate::impl_day!("15", true);
 struct Pos(i32, i32);
 
 impl Pos {
-    fn successors(&self, h: &HashMap<Pos, usize>) -> Vec<(Pos, usize)> {
-        let &Pos(x, y) = self;
+    fn successors(&self, h: &HashMap<Self, usize>) -> Vec<(Self, usize)> {
+        let &Self(x, y) = self;
 
         let mut s = Vec::new();
 
-        [(-1, 0), (1, 0), (0, -1), (0, 1)]
-            .iter()
-            .for_each(|&(xi, yi)| {
+        for &(xi, yi) in &[(-1, 0), (1, 0), (0, -1), (0, 1)] {
                 let xf = x + xi;
                 let yf = y + yi;
 
-                let target = Pos(xf, yf);
+                let target = Self(xf, yf);
 
                 if let Some(w) = h.get(&target) {
                     s.push((target, *w));
                 }
-            });
+            }
 
         s
     }
@@ -75,7 +73,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
                 continue;
             }
 
-            for (p, w) in orig.iter() {
+            for (p, w) in &orig {
                 let &Pos(xl, yl) = p;
 
                 let new_pos = Pos(xl + x * offset_x, yl + y * offset_y);
@@ -102,7 +100,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"
+    const INPUT: &str = r"
 1163751742
 1381373672
 2136511328
@@ -113,7 +111,7 @@ mod tests {
 3125421639
 1293138521
 2311944581
-"#;
+";
 
     #[test]
     fn test_part1() {

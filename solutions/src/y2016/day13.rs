@@ -89,15 +89,15 @@ fn recursively_visit_valid_neighbours(
 
     if depth < max_depth {
         // Count current pos + other valid neighbours
-        valid_neighbours.iter().for_each(|p| {
+        for p in &valid_neighbours {
             recursively_visit_valid_neighbours(
                 visited_pos,
                 p,
                 favorite_number,
                 depth + 1,
                 max_depth,
-            )
-        })
+            );
+        }
     }
 }
 
@@ -107,14 +107,14 @@ fn print_maze(favorite_number: i32, side_length: i32, visited_pos: &HashSet<(i32
 
     println!("   {}", (0..=(upper_digit / 10)).join("         "));
     for y in 0..=upper_digit {
-        print!("{: >2} ", y);
+        print!("{y: >2} ");
         for x in 0..=upper_digit {
             if is_wall(x, y, favorite_number) {
                 print!("{}", "#".dimmed());
             } else if x == 1 && y == 1 {
-                print!("{}", "x".bold())
+                print!("{}", "x".bold());
             } else if visited_pos.contains(&(x, y)) {
-                print!("{}", "o".bold().green())
+                print!("{}", "o".bold().green());
             } else {
                 print!("{}", ".".dimmed());
             }
@@ -149,7 +149,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"10"#;
+    const INPUT: &str = r"10";
 
     #[test]
     fn test_part1() {

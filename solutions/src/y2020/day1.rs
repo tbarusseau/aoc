@@ -5,7 +5,7 @@ crate::impl_day!("1", true);
 use itertools::Itertools;
 
 fn process_input(input: &str) -> Vec<i32> {
-    input.lines().flat_map(|s| s.parse::<i32>()).collect()
+    input.lines().flat_map(str::parse).collect()
 }
 
 #[allow(unused)]
@@ -64,7 +64,7 @@ mod tests {
 1456"
             )
             .to_string(),
-            514579.to_string()
+            514_579.to_string()
         );
     }
 
@@ -80,7 +80,7 @@ mod tests {
 1456"
             )
             .to_string(),
-            241861950.to_string()
-        )
+            241_861_950.to_string()
+        );
     }
 }

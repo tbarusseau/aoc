@@ -75,7 +75,7 @@ impl Display for Screen {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         writeln!(f)?;
 
-        for line in self.0.iter() {
+        for line in &self.0 {
             writeln!(
                 f,
                 "{}",
@@ -116,7 +116,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#""#;
+    const INPUT: &str = r"";
 
     #[test]
     fn test_part1() {

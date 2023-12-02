@@ -43,7 +43,7 @@ impl TryFrom<&str> for Instruction {
     type Error = anyhow::Error;
 
     fn try_from(value: &str) -> Result<Self, Self::Error> {
-        use Operation::*;
+        use Operation::{And, Assignment, BitwiseWithOne, LShift, Not, Or, RShift, RegisterAssignment};
 
         if let Some(captures) = RE_ASSIGNMENT.captures(value) {
             let value = captures.get(1).and_then(|s| s.as_str().parse().ok());
@@ -169,7 +169,7 @@ impl Instruction {
     fn execute(&self, state: &mut State) {
         match &self.0 {
             Operation::Assignment(v) => {
-                state.entry(self.1.to_owned()).and_modify(|e| *e = Some(*v));
+                state.entry(self.1.clone()).and_modify(|e| *e = Some(*v));
             }
             Operation::And(a, b) => {
                 let a = *state.get(a).unwrap();
@@ -177,7 +177,7 @@ impl Instruction {
 
                 if let (Some(va), Some(vb)) = (a, b) {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(va & vb));
                 }
             }
@@ -187,7 +187,7 @@ impl Instruction {
 
                 if let (Some(va), Some(vb)) = (a, b) {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(va | vb));
                 }
             }
@@ -196,7 +196,7 @@ impl Instruction {
 
                 if let Some(va) = a {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(va << v));
                 }
             }
@@ -205,7 +205,7 @@ impl Instruction {
 
                 if let Some(va) = a {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(va >> v));
                 }
             }
@@ -214,7 +214,7 @@ impl Instruction {
 
                 if let Some(va) = a {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(!va));
                 }
             }
@@ -223,7 +223,7 @@ impl Instruction {
 
                 if let Some(va) = a {
                     state
-                        .entry(self.1.to_owned())
+                        .entry(self.1.clone())
                         .and_modify(|e| *e = Some(va & 1));
                 }
             }
@@ -231,7 +231,7 @@ impl Instruction {
                 let a = *state.get(a).unwrap();
 
                 if let Some(va) = a {
-                    state.entry(self.1.to_owned()).and_modify(|e| *e = Some(va));
+                    state.entry(self.1.clone()).and_modify(|e| *e = Some(va));
                 }
             }
         }
@@ -242,12 +242,12 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
     let mut state: State = HashMap::new();
 
-    input.iter().for_each(|e| {
+    for e in &input {
         state.insert(e.1.clone(), None);
-    });
+    }
 
     while state.iter().any(|(_, v)| v.is_none()) {
-        for instruction in input.iter() {
+        for instruction in &input {
             instruction.execute(&mut state);
         }
     }
@@ -261,13 +261,13 @@ fn solve_part2(input_orig: &str) -> Box<dyn std::fmt::Display> {
     let mut state: State = HashMap::new();
 
     // Initialize state based on input...
-    input.iter().for_each(|e| {
+    for e in &input {
         state.insert(e.1.clone(), None);
-    });
+    }
 
     // Run the algorithm once
     while state.iter().any(|(_, v)| v.is_none()) {
-        for instruction in input.iter() {
+        for instruction in &input {
             instruction.execute(&mut state);
         }
     }
@@ -287,13 +287,13 @@ fn solve_part2(input_orig: &str) -> Box<dyn std::fmt::Display> {
     state.insert("b".to_owned(), Some(a_final_value));
 
     // Insert default values for all wires except `b`
-    input.iter().for_each(|e| {
+    for e in &input {
         state.insert(e.1.clone(), None);
-    });
+    }
 
     // Run the algorithm once more
     while state.iter().any(|(_, v)| v.is_none()) {
-        for instruction in input.iter() {
+        for instruction in &input {
             instruction.execute(&mut state);
         }
     }
@@ -307,7 +307,7 @@ fn solve_part2(input_orig: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"123 -> x
+    const INPUT: &str = r"123 -> x
 456 -> y
 x AND y -> d
 x OR y -> e
@@ -315,7 +315,7 @@ x LSHIFT 2 -> f
 y RSHIFT 2 -> g
 NOT x -> h
 NOT y -> i
-y AND y -> a"#;
+y AND y -> a";
 
     #[test]
     fn test_part1() {

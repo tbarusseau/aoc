@@ -44,7 +44,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"199
+    const INPUT: &str = r"199
 200
 208
 210
@@ -53,7 +53,7 @@ mod tests {
 240
 269
 260
-263"#;
+263";
 
     #[test]
     fn test_part1() {

@@ -79,7 +79,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let mut max_x = 0;
     let mut max_y = 0;
 
-    for &(x, y) in set.iter() {
+    for &(x, y) in &set {
         if x > max_x {
             max_x = x + 1;
         }
@@ -91,9 +91,9 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 
     let mut v = vec![format!("{}", " ".repeat(max_x as usize)); max_y as usize];
 
-    set.iter().for_each(|&(x, y)| {
+    for &(x, y) in &set {
         v[y as usize].replace_range((x as usize)..(x as usize + 1), "X");
-    });
+    }
 
     Box::new(format!("\n{}", v.join("\n").replace('X', "█")))
 }
@@ -102,7 +102,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"
+    const INPUT: &str = r"
 6,10
 0,14
 9,10
@@ -124,7 +124,7 @@ mod tests {
 
 fold along y=7
 fold along x=5
-"#;
+";
 
     #[test]
     fn test_part1() {

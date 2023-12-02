@@ -62,7 +62,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         }
     }
 
-    let res: String = v.iter().flat_map(|vd| vd.front()).collect();
+    let res: String = v.iter().filter_map(|vd| vd.front()).collect();
     Box::new(res)
 }
 
@@ -85,7 +85,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         }
     }
 
-    let res: String = v.iter().flat_map(|vd| vd.front()).collect();
+    let res: String = v.iter().filter_map(|vd| vd.front()).collect();
     Box::new(res)
 }
 
@@ -93,7 +93,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"    [D]    
+    const INPUT: &str = r"    [D]    
 [N] [C]    
 [Z] [M] [P]
  1   2   3 
@@ -101,7 +101,7 @@ mod tests {
 move 1 from 2 to 1
 move 3 from 1 to 3
 move 2 from 2 to 1
-move 1 from 1 to 2"#;
+move 1 from 1 to 2";
 
     #[test]
     fn test_part1() {

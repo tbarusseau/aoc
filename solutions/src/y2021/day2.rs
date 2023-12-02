@@ -28,7 +28,7 @@ impl InstructionsParser {
     }
 
     fn direction(input: Node) -> Result<Direction> {
-        use Direction::*;
+        use Direction::{Down, Forward, Up};
 
         match input.as_str() {
             "forward" => Ok(Forward),
@@ -50,7 +50,7 @@ impl InstructionsParser {
 
     fn instructions_set(input: Node) -> Result<Vec<Instruction>> {
         Ok(match_nodes!(input.into_children();
-            [instruction(i).., EOI(_)] => i.collect(),
+            [instruction(i).., EOI(())] => i.collect(),
         ))
     }
 }

@@ -11,7 +11,7 @@ fn find_side_digit<'a>(
     let map = digits
         .iter()
         .enumerate()
-        .flat_map(|(i, d)| find_fn(line, d).map(|v| (v, i % 9 + 1)));
+        .filter_map(|(i, d)| find_fn(line, d).map(|v| (v, i % 9 + 1)));
 
     let extreme = if left {
         map.min_by(|(i1, _), (i2, _)| i1.cmp(i2))
@@ -56,24 +56,24 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        const INPUT: &str = r#"1abc2
+        const INPUT: &str = r"1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet
-"#;
+";
 
         assert_eq!(142.to_string(), *solve_part1(INPUT).to_string());
     }
 
     #[test]
     fn test_part2() {
-        const INPUT: &str = r#"two1nine
+        const INPUT: &str = r"two1nine
 eightwothree
 abcone2threexyz
 xtwone3four
 4nineeightseven2
 zoneight234
-7pqrstsixteen"#;
+7pqrstsixteen";
 
         assert_eq!(281.to_string(), *solve_part2(INPUT).to_string());
     }

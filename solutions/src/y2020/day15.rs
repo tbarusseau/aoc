@@ -24,7 +24,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#""#;
+    const INPUT: &str = r"";
 
     #[test]
     fn test_part1() {

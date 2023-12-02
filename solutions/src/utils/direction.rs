@@ -12,7 +12,7 @@ pub enum Direction {
 
 impl Direction {
     pub fn iterator() -> std::slice::Iter<'static, Self> {
-        use Direction::*;
+        use Direction::{Down, Left, Right, Up};
 
         static DIRECTIONS: [Direction; 4] = [Up, Right, Left, Down];
         DIRECTIONS.iter()

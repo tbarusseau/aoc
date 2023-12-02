@@ -72,16 +72,16 @@ impl std::fmt::Display for ResultGrid {
                 if n == 0 {
                     s.push('.');
                 } else if n >= 2 {
-                    s.push_str(&format!("{}", n).blue());
+                    s.push_str(&format!("{n}").blue());
                 } else {
-                    s.push_str(&format!("{}", n));
+                    s.push_str(&format!("{n}"));
                 }
             }
 
             s.push('\n');
         }
 
-        write!(f, "{}", s)
+        write!(f, "{s}")
     }
 }
 

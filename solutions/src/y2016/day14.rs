@@ -17,7 +17,7 @@ fn is_valid_p1(
     threeplets: &mut HashMap<Digest, char>,
     fiveplets: &mut HashMap<Digest, Vec<char>>,
 ) -> Option<(String, String)> {
-    let digest = md5::compute(format!("{}{}", input, index));
+    let digest = md5::compute(format!("{input}{index}"));
 
     if let Some((s, c)) = is_threeplet(&digest, threeplets) {
         has_valid_stream(input, index, c, fiveplets, false)
@@ -135,7 +135,7 @@ fn is_valid_p2(
     threeplets: &mut HashMap<Digest, char>,
     fiveplets: &mut HashMap<Digest, Vec<char>>,
 ) -> Option<(String, String)> {
-    let digest = md5::compute(format!("{}{}", input, index));
+    let digest = md5::compute(format!("{input}{index}"));
     let aged_digest = get_stretched_hash(&digest);
 
     if let Some((s, c)) = is_threeplet(&aged_digest, threeplets) {
@@ -181,7 +181,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"abc"#;
+    const INPUT: &str = r"abc";
 
     #[test]
     fn test_part1() {

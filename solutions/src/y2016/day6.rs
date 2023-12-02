@@ -76,7 +76,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
 mod tests {
     use super::*;
 
-    const INPUT: &str = r#"eedadn
+    const INPUT: &str = r"eedadn
 drvtee
 eandsr
 raavrd
@@ -92,7 +92,7 @@ vntsnd
 vrdear
 dvrsen
 enarar
-"#;
+";
 
     #[test]
     fn test_part1() {
