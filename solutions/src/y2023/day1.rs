@@ -2,27 +2,24 @@ pub struct Day1;
 
 crate::impl_day!("1", true);
 
-fn find_side_digit(digits: &[&str], line: &str, left: bool) -> usize {
+fn find_side_digit<'a>(
+    digits: &'a [&str],
+    line: &'a str,
+    left: bool,
+    find_fn: fn(&'a str, &'a str) -> Option<usize>,
+) -> usize {
     let map = digits.iter().enumerate().flat_map(|(i, d)| {
-        if left {
-            if let Some(min_index) = line.find(d) {
-                Some((min_index, i % 9 + 1))
-            } else {
-                None
-            }
+        if let Some(index) = find_fn(line, *d) {
+            Some((index, i % 9 + 1))
         } else {
-            if let Some(max_index) = line.rfind(d) {
-                Some((max_index, i % 9 + 1))
-            } else {
-                None
-            }
+            None
         }
     });
 
     let extreme = if left {
         map.min_by(|(i1, _), (i2, _)| i1.cmp(i2))
     } else {
-        map.max_by(|(i1, _), (i2, _)| i1.cmp(i2))
+        map.min_by(|(i1, _), (i2, _)| i2.cmp(i1))
     };
 
     extreme.map(|(_, v)| v).unwrap()
@@ -33,8 +30,8 @@ fn compute_solution(input: &str, digits: &[&str]) -> usize {
         .trim_end()
         .lines()
         .map(|line| {
-            let min = find_side_digit(digits, line, true);
-            let max = find_side_digit(digits, line, false);
+            let min = find_side_digit(digits, line, true, str::find);
+            let max = find_side_digit(digits, line, false, str::rfind);
 
             min * 10 + max
         })
