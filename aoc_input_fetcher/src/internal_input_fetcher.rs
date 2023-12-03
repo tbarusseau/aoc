@@ -8,10 +8,10 @@ pub struct InternalInputFetcher {
 }
 
 impl InternalInputFetcher {
-    pub fn new() -> InternalInputFetcher {
+    pub fn new() -> Self {
         dotenv().ok();
 
-        InternalInputFetcher {
+        Self {
             api_base_url: "https://adventofcode.com".to_string(),
             session_cookie: env::var("AOC_SESSION_COOKIE")
                 .expect("No AOC_SESSION_COOKIE found in environment variables"),
@@ -31,7 +31,7 @@ impl InternalInputFetcher {
     pub fn get_input(&self, year: i32, day: u32) -> anyhow::Result<String> {
         let request_url = format!("{}/{}/day/{}/input", &self.api_base_url, year, day);
 
-        let resp = attohttpc::get(&request_url)
+        let resp = attohttpc::get(request_url)
             .header("Cookie", format!("session={}", &self.session_cookie))
             .send()
             .map_err(|e| anyhow::anyhow!("attohttpc error: {:?}", e.kind()))?;
@@ -42,10 +42,11 @@ impl InternalInputFetcher {
                 .map_err(|e| anyhow::anyhow!("attohttpc error: {:?}", e.kind()))?)
         } else {
             Err(anyhow::anyhow!(
-                "Bad response from server while fetching input y{}, d{}: {:?}",
+                "Bad response from server while fetching input y{}, d{}: {:?}\n{:?}",
                 year,
                 day,
-                resp.status()
+                resp.status(),
+                resp.text().map_err(|e| anyhow::anyhow!(e))?,
             ))
         }
     }

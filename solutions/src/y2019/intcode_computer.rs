@@ -155,11 +155,11 @@ impl IntcodeComputer {
                     // Jump if true
                     debug!("[{0:4}] JUMP IF TRUE", self.instruction_pointer);
 
-                    if self.read(self.memory[self.instruction_pointer + 1], p[0]) != 0 {
+                    if self.read(self.memory[self.instruction_pointer + 1], p[0]) == 0 {
+                        self.instruction_pointer += 3;
+                    } else {
                         self.instruction_pointer =
                             self.read(self.memory[self.instruction_pointer + 2], p[1]) as usize;
-                    } else {
-                        self.instruction_pointer += 3;
                     }
                 }
                 6 => {
