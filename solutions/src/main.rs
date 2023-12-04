@@ -5,6 +5,7 @@
 #![allow(clippy::cast_possible_wrap)]
 #![allow(clippy::cast_precision_loss)]
 #![allow(clippy::cast_possible_truncation)]
+#![allow(clippy::fallible_impl_from)]
 
 use crate::solution_runner::run_solution;
 use chrono::Datelike;
