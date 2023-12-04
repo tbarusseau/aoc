@@ -21,7 +21,7 @@ impl From<&str> for Game {
 
         let mut map = value[colon_index + 1..].split(" | ").map(|s| {
             re.captures_iter(s)
-                .map(|v| v.get(1).unwrap().as_str().to_owned())
+                .filter_map(|v| v.get(1).map(|s| s.as_str().to_owned()))
                 .collect_vec()
         });
 
