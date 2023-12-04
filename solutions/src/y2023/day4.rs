@@ -1,27 +1,27 @@
+use std::sync::OnceLock;
+
 use itertools::Itertools;
+use regex::Regex;
 
 pub struct Day4;
 
 crate::impl_day!("4", true);
 
-#[derive(Debug)]
 struct Game {
     winning: Vec<String>,
     rolled: Vec<String>,
 }
 
+static RE: OnceLock<Regex> = OnceLock::new();
+
 impl From<&str> for Game {
     fn from(value: &str) -> Self {
+        let re = RE.get_or_init(|| Regex::new(r"(\d+)\s*").unwrap());
         let colon_index = value.find(':').unwrap();
 
         let mut map = value[colon_index + 1..].split(" | ").map(|s| {
-            s.trim()
-                .chars()
-                .filter(|c| c.is_numeric() || c.is_whitespace())
-                .collect::<String>()
-                .split(' ')
-                .filter(|s| !s.is_empty())
-                .map(std::borrow::ToOwned::to_owned)
+            re.captures_iter(s)
+                .map(|v| v.get(1).unwrap().as_str().to_owned())
                 .collect_vec()
         });
 
@@ -51,14 +51,9 @@ fn process_input(input: &str) -> Vec<Game> {
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    let res = input.iter().fold(0, |acc, g| {
-        let wins = g.count_wins();
-
-        if wins == 0 {
-            return acc;
-        }
-
-        acc + 2_i32.pow((wins - 1) as u32)
+    let res = input.iter().fold(0, |acc, g| match g.count_wins() {
+        0 => acc,
+        v => acc + 2_i32.pow((v - 1) as u32),
     });
 
     Box::new(res)
