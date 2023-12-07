@@ -78,7 +78,6 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
         .seeds
         .iter()
         .map(|n| input.compute_final_location(*n))
-        .inspect(|n| println!("{n}"))
         .min()
         .unwrap();
 
