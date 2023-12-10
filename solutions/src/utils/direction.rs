@@ -2,12 +2,23 @@
 
 use std::convert::TryFrom;
 
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone, PartialEq, PartialOrd, Eq, Ord)]
 pub enum Direction {
     Up,
     Right,
     Left,
     Down,
+}
+
+impl From<Direction> for (isize, isize) {
+    fn from(value: Direction) -> Self {
+        match value {
+            Direction::Up => (0, -1),
+            Direction::Right => (1, 0),
+            Direction::Left => (-1, 0),
+            Direction::Down => (0, 1),
+        }
+    }
 }
 
 impl Direction {
@@ -36,7 +47,7 @@ impl Direction {
         }
     }
 
-    pub fn get_delta(&self) -> (i32, i32) {
+    pub fn get_delta(self) -> (i32, i32) {
         match self {
             Self::Up => (0, 1),
             Self::Right => (1, 0),

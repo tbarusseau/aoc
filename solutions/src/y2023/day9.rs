@@ -37,7 +37,7 @@ fn compute_value(input: &[i32], previous: bool) -> i32 {
 
     sequences.iter().rev().fold(0, |acc, s| {
         if previous {
-            s.first().expect("no last element") - acc
+            s.first().expect("no first element") - acc
         } else {
             acc + s.last().expect("no last element")
         }
