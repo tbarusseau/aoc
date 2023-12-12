@@ -33,10 +33,10 @@ fn get_valid_directions(input: &[Vec<char>], pos: (usize, usize)) -> Vec<Directi
     let mut valid_directions = vec![];
 
     for dir in Direction::iterator() {
-        let ipos = (pos.0 as isize, pos.1 as isize);
+        let pos_isize = (pos.0 as isize, pos.1 as isize);
         let dir_ipos: (isize, isize) = (*dir).into();
 
-        let neighbour_pos = (ipos.0 + dir_ipos.0, ipos.1 + dir_ipos.1);
+        let neighbour_pos = (pos_isize.0 + dir_ipos.0, pos_isize.1 + dir_ipos.1);
 
         let (nx, ny) = neighbour_pos;
 
@@ -100,70 +100,55 @@ fn get_connected_pipes(
             let mut v = false;
 
             if current_pipe == '|' {
-                if (*off_x, *off_y) == Direction::Up.into() {
-                    if c == '7' || c == 'F' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Up.into() && (c == '7' || c == 'F' || c == '|') {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Down.into() {
-                    if c == 'J' || c == 'L' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Down.into() && (c == 'J' || c == 'L' || c == '|')
+                {
+                    v = true;
                 }
             } else if current_pipe == '-' {
-                if (*off_x, *off_y) == Direction::Left.into() {
-                    if c == 'L' || c == 'F' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Left.into() && (c == 'L' || c == 'F' || c == '-')
+                {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Right.into() {
-                    if c == 'J' || c == '7' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Right.into() && (c == 'J' || c == '7' || c == '-')
+                {
+                    v = true;
                 }
             } else if current_pipe == 'L' {
-                if (*off_x, *off_y) == Direction::Right.into() {
-                    if c == 'J' || c == '7' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Right.into() && (c == 'J' || c == '7' || c == '-')
+                {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Up.into() {
-                    if c == 'F' || c == '7' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Up.into() && (c == 'F' || c == '7' || c == '|') {
+                    v = true;
                 }
             } else if current_pipe == 'J' {
-                if (*off_x, *off_y) == Direction::Left.into() {
-                    if c == 'L' || c == 'F' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Left.into() && (c == 'L' || c == 'F' || c == '-')
+                {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Up.into() {
-                    if c == 'F' || c == '7' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Up.into() && (c == 'F' || c == '7' || c == '|') {
+                    v = true;
                 }
             } else if current_pipe == '7' {
-                if (*off_x, *off_y) == Direction::Left.into() {
-                    if c == 'F' || c == 'L' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Left.into() && (c == 'F' || c == 'L' || c == '-')
+                {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Down.into() {
-                    if c == 'L' || c == 'J' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Down.into() && (c == 'L' || c == 'J' || c == '|')
+                {
+                    v = true;
                 }
             } else if current_pipe == 'F' {
-                if (*off_x, *off_y) == Direction::Right.into() {
-                    if c == '7' || c == 'J' || c == '-' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Right.into() && (c == '7' || c == 'J' || c == '-')
+                {
+                    v = true;
                 }
-                if (*off_x, *off_y) == Direction::Down.into() {
-                    if c == 'L' || c == 'J' || c == '|' {
-                        v = true;
-                    }
+                if (*off_x, *off_y) == Direction::Down.into() && (c == 'L' || c == 'J' || c == '|')
+                {
+                    v = true;
                 }
             }
 
