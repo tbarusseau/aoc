@@ -8,6 +8,7 @@ edition = "2018"
 [dependencies]
 anyhow = "1.0.51"
 aoc_input_fetcher = { path = "../aoc_input_fetcher", version = "0.1.0" }
+cached = "0.46.1"
 chrono = { version = "0.4.19" }
 colored = "2.0.0"
 easy-cast = "0.5.2"

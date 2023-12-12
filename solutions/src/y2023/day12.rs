@@ -1,5 +1,4 @@
-use std::collections::HashMap;
-
+use cached::proc_macro::cached;
 use itertools::Itertools;
 
 pub struct Day12;
@@ -19,22 +18,15 @@ fn process_input(input: &str) -> Vec<(&str, Vec<i32>)> {
         .collect_vec()
 }
 
-fn count_valid_permutations(
-    arrangement: &str,
-    damaged_springs: &[i32],
-    hashmap: &mut HashMap<(String, Vec<i32>), usize>,
-) -> usize {
-    if let Some(v) = hashmap.get(&(arrangement.to_owned(), damaged_springs.to_owned())) {
-        return *v;
-    }
-
-    let result = if arrangement.is_empty() {
+#[cached]
+fn count_valid_permutations(arrangement: String, damaged_springs: Vec<i32>) -> usize {
+    if arrangement.is_empty() {
         usize::from(damaged_springs.is_empty())
     } else if let Some(stripped) = arrangement.strip_prefix('.') {
-        count_valid_permutations(stripped, damaged_springs, hashmap)
+        count_valid_permutations(stripped.to_owned(), damaged_springs)
     } else if arrangement.starts_with('?') {
-        count_valid_permutations(&arrangement.replacen('?', ".", 1), damaged_springs, hashmap)
-            + count_valid_permutations(&arrangement.replacen('?', "#", 1), damaged_springs, hashmap)
+        count_valid_permutations(arrangement.replacen('?', ".", 1), damaged_springs.clone())
+            + count_valid_permutations(arrangement.replacen('?', "#", 1), damaged_springs)
     } else if arrangement.starts_with('#') {
         if damaged_springs.is_empty() {
             0
@@ -54,36 +46,28 @@ fn count_valid_permutations(
                     0
                 } else {
                     count_valid_permutations(
-                        &arrangement[next_damaged_group_size + 1..],
-                        &damaged_springs[1..],
-                        hashmap,
+                        arrangement[next_damaged_group_size + 1..].to_owned(),
+                        damaged_springs[1..].to_owned(),
                     )
                 }
             } else {
                 count_valid_permutations(
-                    &arrangement[next_damaged_group_size..],
-                    &damaged_springs[1..],
-                    hashmap,
+                    arrangement[next_damaged_group_size..].to_owned(),
+                    damaged_springs[1..].to_owned(),
                 )
             }
         }
     } else {
         unreachable!()
-    };
-
-    hashmap.insert((arrangement.to_owned(), damaged_springs.to_owned()), result);
-
-    result
+    }
 }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
-    let mut h = HashMap::new();
-
     let res: usize = input
-        .iter()
-        .map(|v| count_valid_permutations(v.0, &v.1, &mut h))
+        .into_iter()
+        .map(|v| count_valid_permutations(v.0.to_string(), v.1))
         .sum();
 
     Box::new(res)
@@ -96,11 +80,9 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
         .map(|(a, b)| (format!("{a}?{a}?{a}?{a}?{a}"), b.repeat(5)))
         .collect_vec();
 
-    let mut h = HashMap::new();
-
     let res: usize = input
-        .iter()
-        .map(|v| count_valid_permutations(&v.0, &v.1, &mut h))
+        .into_iter()
+        .map(|v| count_valid_permutations(v.0.to_string(), v.1))
         .sum();
 
     Box::new(res)
