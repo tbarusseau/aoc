@@ -43,12 +43,14 @@ impl InstructionsParser {
         input.as_str().parse::<i32>().map_err(|e| input.error(e))
     }
 
+    #[allow(clippy::ignored_unit_patterns)]
     fn instruction(input: Node) -> Result<Instruction> {
         Ok(match_nodes!(input.into_children();
             [direction(d), value(v)] => Instruction { direction: d, value: v },
         ))
     }
 
+    #[allow(clippy::ignored_unit_patterns)]
     fn instructions_set(input: Node) -> Result<Vec<Instruction>> {
         Ok(match_nodes!(input.into_children();
             [instruction(i).., EOI(())] => i.collect(),

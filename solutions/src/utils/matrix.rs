@@ -1,9 +1,28 @@
 #![allow(unused)]
 
+use std::fmt::Display;
+
 use super::direction::Direction;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct Matrix<T>(pub Vec<Vec<T>>);
+
+impl<T> Display for Matrix<T>
+where
+    T: Display,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        for row in &self.0 {
+            for c in row {
+                write!(f, "{c}")?;
+            }
+
+            writeln!(f)?;
+        }
+
+        Ok(())
+    }
+}
 
 impl<T> From<Vec<Vec<T>>> for Matrix<T> {
     fn from(value: Vec<Vec<T>>) -> Self {
@@ -32,6 +51,16 @@ where
         for i in 0..self.0.len() {
             self.0[i].reverse();
         }
+    }
+
+    pub fn rotate_left(&mut self) {
+        if self.0.is_empty() || self.0.len() == 1 {
+            return;
+        }
+
+        self.rotate_right();
+        self.rotate_right();
+        self.rotate_right();
     }
 
     pub fn transpose(&mut self) {
