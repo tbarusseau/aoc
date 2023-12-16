@@ -31,4 +31,4 @@ seq-macro = "0.2.2"
 sscanf = "0.4.1"
 structopt = { version = "0.3.25", default-features = false }
 thiserror = { version = "1.0.30", default-features = false }
-tuple = "0.5.1"
+tuple = "0.5.2"

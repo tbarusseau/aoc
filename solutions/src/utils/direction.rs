@@ -2,7 +2,9 @@
 
 use std::convert::TryFrom;
 
-#[derive(Debug, Copy, Clone, PartialEq, PartialOrd, Eq, Ord)]
+use tuple::T2;
+
+#[derive(Debug, Copy, Clone, PartialEq, PartialOrd, Eq, Ord, Hash)]
 pub enum Direction {
     Up,
     Right,
@@ -17,6 +19,17 @@ impl From<Direction> for (isize, isize) {
             Direction::Right => (1, 0),
             Direction::Left => (-1, 0),
             Direction::Down => (0, 1),
+        }
+    }
+}
+
+impl From<Direction> for T2<isize, isize> {
+    fn from(value: Direction) -> Self {
+        match value {
+            Direction::Up => (0, -1).into(),
+            Direction::Right => (1, 0).into(),
+            Direction::Left => (-1, 0).into(),
+            Direction::Down => (0, 1).into(),
         }
     }
 }
