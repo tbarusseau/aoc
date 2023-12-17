@@ -68,6 +68,24 @@ impl Direction {
             Self::Down => (0, -1),
         }
     }
+
+    pub fn get_left(&self) -> Self {
+        match self {
+            Self::Up => Self::Left,
+            Self::Left => Self::Down,
+            Self::Down => Self::Right,
+            Self::Right => Self::Up,
+        }
+    }
+
+    pub fn get_right(&self) -> Self {
+        match self {
+            Self::Up => Self::Right,
+            Self::Right => Self::Down,
+            Self::Down => Self::Left,
+            Self::Left => Self::Up,
+        }
+    }
 }
 
 impl TryFrom<char> for Direction {
