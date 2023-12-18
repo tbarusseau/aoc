@@ -81,7 +81,7 @@ impl Direction {
         }
     }
 
-    pub fn get_left(&self) -> Self {
+    pub fn get_left(self) -> Self {
         match self {
             Self::Up => Self::Left,
             Self::Left => Self::Down,
@@ -90,7 +90,7 @@ impl Direction {
         }
     }
 
-    pub fn get_right(&self) -> Self {
+    pub fn get_right(self) -> Self {
         match self {
             Self::Up => Self::Right,
             Self::Right => Self::Down,

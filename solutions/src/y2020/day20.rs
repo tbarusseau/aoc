@@ -74,7 +74,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     for tile in input {
         let key = tile.id;
 
-        let mut v: Vec<Vec<bool>> = vec![Vec::with_capacity(10); 4];
+        let mut v: Vec<Vec<bool>> = (0..4).map(|_| Vec::with_capacity(10)).collect::<Vec<_>>();
 
         v.push(tile.tile.0[0].clone());
         v.push(tile.tile.0[tile_len - 1].clone());

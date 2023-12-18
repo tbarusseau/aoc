@@ -68,7 +68,7 @@ impl std::fmt::Display for ResultGrid {
 
         for y in 0..self.0.rows() {
             for x in 0..self.0.cols() {
-                let n = self.0[x][y];
+                let n = self.0[(y, x)];
                 if n == 0 {
                     s.push('.');
                 } else if n >= 2 {
@@ -85,7 +85,6 @@ impl std::fmt::Display for ResultGrid {
     }
 }
 
-#[allow(unused)]
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
@@ -96,11 +95,11 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
             continue;
         }
 
-        grid[line.start.1 as usize][line.start.0 as usize] += 1;
+        grid[(line.start.0 as usize, line.start.1 as usize)] += 1;
         let mut pos = line.start;
         while pos != line.end {
             step_towards(&mut pos, line.end);
-            grid[pos.1 as usize][pos.0 as usize] += 1;
+            grid[(pos.0 as usize, pos.1 as usize)] += 1;
         }
     }
 
@@ -110,18 +109,17 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     Box::new(res)
 }
 
-#[allow(unused)]
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);
 
     let mut grid: Grid<i32> = Grid::new(1000, 1000);
 
     for line in input {
-        grid[line.start.1 as usize][line.start.0 as usize] += 1;
+        grid[(line.start.0 as usize, line.start.1 as usize)] += 1;
         let mut pos = line.start;
         while pos != line.end {
             step_towards(&mut pos, line.end);
-            grid[pos.1 as usize][pos.0 as usize] += 1;
+            grid[(pos.0 as usize, pos.1 as usize)] += 1;
         }
     }
 

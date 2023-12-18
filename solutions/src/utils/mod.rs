@@ -7,3 +7,4 @@ pub mod grid;
 pub mod iterator_index;
 pub mod manhattan;
 pub mod matrix;
+pub mod to_usize_tuple;
