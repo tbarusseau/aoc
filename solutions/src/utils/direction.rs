@@ -12,6 +12,18 @@ pub enum Direction {
     Down,
 }
 
+impl Direction {
+    pub fn from_char(value: char) -> Self {
+        match value {
+            'U' | 'u' => Self::Up,
+            'D' | 'd' => Self::Down,
+            'R' | 'r' => Self::Right,
+            'L' | 'l' => Self::Left,
+            _ => panic!("invalid char for Direction: {}", value),
+        }
+    }
+}
+
 impl From<Direction> for (isize, isize) {
     fn from(value: Direction) -> Self {
         match value {
