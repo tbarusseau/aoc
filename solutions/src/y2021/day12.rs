@@ -10,7 +10,9 @@ crate::impl_day!("12", true);
 enum Node {
     Start,
     End,
+    #[allow(unused)]
     Small(String),
+    #[allow(unused)]
     Big(String),
 }
 

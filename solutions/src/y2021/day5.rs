@@ -60,6 +60,7 @@ fn step_towards(pos: &mut (i32, i32), end: (i32, i32)) {
     }
 }
 
+#[allow(unused)]
 struct ResultGrid(Grid<i32>);
 
 impl std::fmt::Display for ResultGrid {

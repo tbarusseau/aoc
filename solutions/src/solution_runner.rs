@@ -3,7 +3,7 @@ use aoc_input_fetcher::input_fetcher::InputFetcher;
 use crate::{cli_app::Opt, solver::Solver};
 
 fn get_start_index(year: i32) -> usize {
-    let mut available_years = 2015..=2023;
+    let mut available_years = 2015..=2024;
     available_years.find(|v| *v == year).map_or_else(
         || panic!("Year not available: {}", year),
         |v| ((v - 2015) * 25) as usize,
@@ -18,7 +18,7 @@ pub fn run_solution(
     single_part: Option<u32>,
 ) -> anyhow::Result<()> {
     let mut solvers: Vec<Box<dyn Solver + Send + Sync>> = vec![];
-    crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023);
+    crate::solvers_gen!(solvers, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024);
 
     assert!(!(day == 0 || day > 25), "Day must be between 1 and 25");
 

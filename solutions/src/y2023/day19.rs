@@ -127,7 +127,7 @@ fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
 }
 
 fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
-    let (workflows, _) = process_input(input);
+    let (_, _) = process_input(input);
 
     Box::new(0)
 }

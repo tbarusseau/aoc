@@ -1,0 +1,1 @@
+crate::days_gen!();

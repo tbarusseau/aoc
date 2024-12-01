@@ -11,6 +11,7 @@ crate::impl_day!("10", false);
 
 enum Instruction {
     Value(i32, i32),
+    #[allow(unused)]
     Give(i32, String, i32, String, i32),
 }
 
