@@ -111,9 +111,7 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
                 .get(n)
                 .map_or(Cow::Owned(vec![]), Cow::Borrowed);
 
-            let filtered_deps: Vec<&i32> = deps.iter().filter(|n| update.contains(n)).collect();
-
-            filtered_deps.len()
+            deps.iter().filter(|n| update.contains(n)).count()
         });
 
         res += sorted_update[sorted_update.len() / 2];
