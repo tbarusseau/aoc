@@ -60,7 +60,7 @@ fn process_input(input: &str) -> UnGraphMap<&str, ()> {
 }
 
 fn is_small_cave(s: &str) -> bool {
-    return s.chars().next().unwrap().is_lowercase();
+    s.chars().next().unwrap().is_lowercase()
 }
 
 fn count(graph: &UnGraphMap<&str, ()>, small_caves: usize, seen: &[&str], node: &str) -> usize {

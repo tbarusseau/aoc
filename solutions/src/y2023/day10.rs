@@ -166,10 +166,10 @@ fn solve_part2(input: &str) -> Box<dyn std::fmt::Display> {
     let mut cells_count = 0;
 
     for y in min_y..=max_y {
-        let mut is_in_loop = h.get(&(0, y)).is_some();
+        let mut is_in_loop = h.contains_key(&(0, y));
         for x in min_x..=max_x {
             let current = input[(y, x)];
-            let current_is_on_loop = h.get(&(x, y)).is_some();
+            let current_is_on_loop = h.contains_key(&(x, y));
 
             if current == '.' {
                 if is_in_loop {

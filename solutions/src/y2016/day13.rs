@@ -79,7 +79,7 @@ fn recursively_visit_valid_neighbours(
 
     let valid_neighbours = compute_valid_successors(current_pos, favorite_number)
         .into_iter()
-        .filter(|p| visited_pos.get(p).map_or(true, |v| depth < *v))
+        .filter(|p| visited_pos.get(p).is_none_or(|v| depth < *v))
         .collect_vec();
 
     // println!(

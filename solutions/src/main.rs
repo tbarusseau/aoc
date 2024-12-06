@@ -6,6 +6,7 @@
 #![allow(clippy::cast_precision_loss)]
 #![allow(clippy::cast_possible_truncation)]
 #![allow(clippy::fallible_impl_from)]
+#![allow(clippy::needless_range_loop)]
 #![feature(ascii_char)]
 
 use crate::solution_runner::run_solution;
