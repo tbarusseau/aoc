@@ -12,16 +12,16 @@ fn process_input(input: &str) -> Vec<i64> {
         .collect_vec()
 }
 
-fn debug_print(disk_map: &[Option<i64>]) {
-    for e in disk_map {
-        if let Some(v) = e {
-            print!("{v}");
-        } else {
-            print!(".");
-        }
-    }
-    println!();
-}
+// fn debug_print(disk_map: &[Option<i64>]) {
+//     for e in disk_map {
+//         if let Some(v) = e {
+//             print!("{v}");
+//         } else {
+//             print!(".");
+//         }
+//     }
+//     println!();
+// }
 
 fn solve_part1(input: &str) -> Box<dyn std::fmt::Display> {
     let input = process_input(input);

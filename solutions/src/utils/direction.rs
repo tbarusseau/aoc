@@ -98,6 +98,17 @@ impl Direction {
             Self::Left => Self::Up,
         }
     }
+
+    pub fn checked_offset(self, (x, y): (usize, usize)) -> Option<(usize, usize)> {
+        let (dx, dy) = self.get_delta();
+        let (x, y) = (x as i32 + dx, y as i32 + dy);
+
+        if x >= 0 && y >= 0 {
+            Some((x as usize, y as usize))
+        } else {
+            None
+        }
+    }
 }
 
 impl TryFrom<char> for Direction {
