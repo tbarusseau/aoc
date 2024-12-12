@@ -50,7 +50,7 @@ impl Direction {
     pub fn iterator() -> std::slice::Iter<'static, Self> {
         use Direction::{Down, Left, Right, Up};
 
-        static DIRECTIONS: [Direction; 4] = [Up, Right, Left, Down];
+        static DIRECTIONS: [Direction; 4] = [Up, Right, Down, Left];
         DIRECTIONS.iter()
     }
 
@@ -104,6 +104,21 @@ impl Direction {
         let (x, y) = (x as i32 + dx, y as i32 + dy);
 
         if x >= 0 && y >= 0 {
+            Some((x as usize, y as usize))
+        } else {
+            None
+        }
+    }
+
+    pub fn checked_offset_with_dimensions(
+        self,
+        (x, y): (usize, usize),
+        (width, height): (usize, usize),
+    ) -> Option<(usize, usize)> {
+        let (dx, dy) = self.get_delta();
+        let (x, y) = (x as i32 + dx, y as i32 + dy);
+
+        if x >= 0 && y >= 0 && x < width as i32 && y < height as i32 {
             Some((x as usize, y as usize))
         } else {
             None
